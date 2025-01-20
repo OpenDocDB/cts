@@ -1,0 +1,176 @@
+---
+linters:
+  disable-all: true
+  enable:
+    # sorted alphabetically
+    - asciicheck
+    - exhaustive
+    - forbidigo
+    - gci
+    - gochecksumtype
+    - goconst
+    - godot
+    - godox
+    - goheader
+    - goimports
+    - gomodguard
+    - gosimple
+    - govet
+    - importas
+    - ineffassign
+    - lll
+    - misspell
+    - nolintlint
+    - revive
+    - sloglint
+    - staticcheck
+    - tagalign
+    - unparam
+    - unused
+    - whitespace
+
+    # TODO enable more of `go tool golangci-lint linters`
+
+# in order of linters.enabled
+linters-settings:
+  # asciicheck
+  exhaustive:
+    check: [switch, map]
+    default-signifies-exhaustive: false
+    default-case-required: true
+  forbidigo:
+    forbid:
+      - ^print(ln)?$
+    analyze-types: true
+  gci:
+    sections:
+      - standard
+      - default
+      - prefix(github.com/OpenDocDB/cts/opendocdb-cts)
+    skip-generated: false
+  gochecksumtype:
+    default-signifies-exhaustive: false
+  goconst:
+    min-occurrences: 5
+    ignore-tests: true
+  godot:
+    scope: toplevel
+    exclude:
+      - check interfaces
+    capital: true
+  godox:
+    keywords:
+      - BUG
+      - FIXME
+      - HACK
+      - lala
+      - lalala
+  goheader:
+    template: |-
+      Copyright 2025 Peter Farkas, Alexey Palazhchenko
+
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License.
+  goimports:
+    local-prefixes: github.com/OpenDocDB/cts/opendocdb-cts
+  gomodguard: {}
+  gosimple:
+    checks: [all]
+  govet:
+    enable-all: true
+    settings:
+      shadow:
+        strict: false
+  importas:
+    # https://github.com/julz/importas/issues/15
+    no-unaliased: true
+    no-extra-aliases: false
+    alias: []
+  # ineffassign
+  lll:
+    line-length: 120
+    tab-width: 4
+  misspell:
+    locale: US
+    extra-words: # https://github.com/golangci/misspell/issues/11
+      - typo: iff
+        correction: if
+      - typo: cancelation
+        correction: cancellation
+  nolintlint:
+    require-explanation: true
+    require-specific: true
+  revive:
+    ignore-generated-header: true
+    severity: error
+    enable-all-rules: true
+    rules:
+      - name: add-constant
+        disabled: true # use common sense during review
+      - name: cognitive-complexity
+        arguments: [25]
+      - name: cyclomatic
+        arguments: [25]
+      - name: function-length
+        arguments: [50, 100]
+      - name: line-length-limit
+        arguments: [120]
+      - name: nested-structs
+        exclude: ['**/main.go']
+      - name: unhandled-error
+        arguments:
+          - \Qstrings.Builder.WriteRune
+          - \Qstrings.Builder.WriteString
+  sloglint:
+    no-mixed-args: true
+    kv-only: false
+    attr-only: true
+    no-global: all
+    context: scope
+    static-msg: false
+    no-raw-keys: true
+    key-naming-case: snake
+    forbidden-keys: [time, level, msg, source]
+    args-on-sep-lines: false
+  staticcheck:
+    checks: [all]
+  tagalign:
+    order:
+      - name
+      - type
+      - cmd
+      - arg
+      - default
+      - help
+    strict: true
+  unparam:
+    check-exported: true
+  unused:
+    field-writes-are-uses: false
+    post-statements-are-reads: false
+    exported-fields-are-used: false
+    parameters-are-used: false
+    local-variables-are-used: false
+    generated-is-used: false
+  whitespace:
+    multi-if: false
+    multi-func: false
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+  exclude-use-default: false
+  exclude-rules: []
+
+run:
+  timeout: 3m

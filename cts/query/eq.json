@@ -1,0 +1,69 @@
+{
+  "double": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": {
+          "$eq": {
+            "$numberDouble": "0.0"
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            }
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            }
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "0"
+            }
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "0"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+---
+# https://github.com/repository-settings/app
+
+repository:
+  allow_squash_merge: true
+  allow_merge_commit: false
+  allow_rebase_merge: false
+  allow_auto_merge: true
+  allow_update_branch: true
+  delete_branch_on_merge: true
+  enable_automated_security_fixes: true
+  enable_vulnerability_alerts: true
+
+# https://docs.github.com/en/rest/issues/labels
+labels:
+  - name: deps
+    color: "#D4C5F9"
+    description: PRs that update dependencies

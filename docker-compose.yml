@@ -1,0 +1,17 @@
+---
+services:
+  cts:
+    build: {}
+
+  mongodb:
+    build:
+      context: ./build/deps
+      dockerfile: mongodb.Dockerfile
+    command: --config /etc/mongodb.conf
+    ports:
+      - 27001:27001
+    environment:
+      # Always UTC+05:45. Set to catch timezone problems.
+      - TZ=Asia/Kathmandu
+    volumes:
+      - ./build/mongodb.conf:/etc/mongodb.conf

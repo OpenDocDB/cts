@@ -1,0 +1,42 @@
+---
+version: 2
+
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    labels: ["deps"]
+    assignees: [AlekSi]
+    open-pull-requests-limit: 20
+    groups:
+      github-actions:
+        patterns: ["*"]
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "01:42"
+
+  - package-ecosystem: "docker"
+    directory: "/build/deps"
+    labels: ["deps"]
+    assignees: [AlekSi]
+    open-pull-requests-limit: 20
+    groups:
+      build-deps:
+        patterns: ["*"]
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "01:42"
+
+  - package-ecosystem: "gomod"
+    directory: "/opendocdb-cts"
+    labels: ["deps"]
+    assignees: [AlekSi]
+    open-pull-requests-limit: 20
+    groups:
+      ferretdb:
+        patterns: ["*"]
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "01:42"
