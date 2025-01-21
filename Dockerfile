@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM ghcr.io/aleksi/golang-tip:release-branch.go1.24 AS build
+FROM --platform=$BUILDPLATFORM golang:1.23.5 AS build
 
 ENV GOPATH=/cache/gopath
 ENV GOCACHE=/cache/gocache
