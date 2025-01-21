@@ -93,8 +93,7 @@ func SaveTestSuite(ts TestSuite, file string, vars map[string]string) error {
 	return nil
 }
 
-// LoadTestSuites parses JSON-encoded test suites from the given directory
-// (recursively, skipping _fixtures directory).
+// LoadTestSuites parses JSON-encoded test suites from the given directory (recursively).
 func LoadTestSuites(dir string, vars map[string]string) (TestSuites, error) {
 	var paths []string
 	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
@@ -102,11 +101,11 @@ func LoadTestSuites(dir string, vars map[string]string) (TestSuites, error) {
 			return err
 		}
 
-		if filepath.Base(path) == "_fixtures" {
-			return fs.SkipDir
+		if d.IsDir() {
+			return nil
 		}
 
-		if d.IsDir() || filepath.Ext(path) != ".json" {
+		if !strings.HasSuffix(path, ".json") || strings.HasSuffix(path, ".fixture.json") {
 			return nil
 		}
 

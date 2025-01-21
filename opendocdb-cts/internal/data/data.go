@@ -15,15 +15,9 @@
 // Package data provides access to loading and saving CTS data.
 package data
 
-import (
-	"path/filepath"
-)
-
 // Load parses JSON-encoded fixtures and test suites from the given directory (recursively).
-//
-// Fixtures are expected to be in the "_fixtures" subdirectory.
 func Load(dir string, vars map[string]string) (Fixtures, TestSuites, error) {
-	fixtures, err := LoadFixtures(filepath.Join(dir, "_fixtures"))
+	fixtures, err := LoadFixtures(dir)
 	if err != nil {
 		return nil, nil, err
 	}
