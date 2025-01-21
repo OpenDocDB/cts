@@ -9,7 +9,7 @@ WORKDIR /src/opendocdb-cts
 RUN --mount=target=/src --mount=type=cache,target=/cache <<EOF
 set -ex
 
-go mod download -x
+go mod download
 go mod verify
 EOF
 
