@@ -15,45 +15,14 @@
 package data
 
 import (
-	"io/fs"
+	"maps"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
-
-func TestLoadSaveTestSuite(t *testing.T) {
-	dir := filepath.Join("..", "..", "..", "cts")
-
-	var paths []string
-	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
-		require.NoError(t, err)
-
-		if filepath.Base(path) == "_fixtures" {
-			return fs.SkipDir
-		}
-
-		if d.IsDir() || filepath.Ext(path) != ".json" {
-			return nil
-		}
-
-		paths = append(paths, path)
-		return nil
-	})
-	require.NoError(t, err)
-	assert.NotEmpty(t, paths)
-
-	for _, path := range paths {
-		t.Run(path, func(t *testing.T) {
-			ts, err := LoadTestSuite(path, nil)
-			require.NoError(t, err)
-
-			err = SaveTestSuite(ts, path, nil)
-			require.NoError(t, err)
-		})
-	}
-}
 
 func TestLoadSaveTestSuites(t *testing.T) {
 	dir := filepath.Join("..", "..", "..", "cts")
@@ -63,7 +32,7 @@ func TestLoadSaveTestSuites(t *testing.T) {
 
 	tss, err := LoadTestSuites(dir, vars)
 	require.NoError(t, err)
-	assert.Contains(t, tss, "query/eq")
+	assert.Contains(t, tss, "query/eq", slices.Collect(maps.Keys(tss)))
 
 	err = SaveTestSuites(tss, dir, vars)
 	require.NoError(t, err)

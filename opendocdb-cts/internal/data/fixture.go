@@ -66,7 +66,7 @@ func SaveFixture(fixture Fixture, file string) error {
 
 // LoadFixtures parses JSON-encoded fixtures from the given directory.
 func LoadFixtures(dir string) (Fixtures, error) {
-	matches, err := filepath.Glob(filepath.Join(dir, "*.json"))
+	matches, err := filepath.Glob(filepath.Join(dir, "*.fixture.json"))
 	if err != nil {
 		return nil, fmt.Errorf("LoadFixtures: %w", err)
 	}
@@ -80,7 +80,7 @@ func LoadFixtures(dir string) (Fixtures, error) {
 		}
 
 		name := filepath.Base(m)
-		res[strings.TrimSuffix(name, ".json")] = f
+		res[strings.TrimSuffix(name, ".fixture.json")] = f
 	}
 
 	return res, nil
@@ -89,7 +89,7 @@ func LoadFixtures(dir string) (Fixtures, error) {
 // SaveFixtures writes the JSON encoding of fixtures to the given directory.
 func SaveFixtures(fixtures Fixtures, dir string) error {
 	for name, f := range fixtures {
-		if err := SaveFixture(f, filepath.Join(dir, name+".json")); err != nil {
+		if err := SaveFixture(f, filepath.Join(dir, name+".fixture.json")); err != nil {
 			return fmt.Errorf("SaveFixtures: %w", err)
 		}
 	}

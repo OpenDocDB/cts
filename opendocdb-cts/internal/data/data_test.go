@@ -15,7 +15,9 @@
 package data
 
 import (
+	"maps"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,8 +30,8 @@ func TestLoad(t *testing.T) {
 	f, tss, err := Load(dir, nil)
 	require.NoError(t, err)
 
-	require.Contains(t, f, "values")
+	require.Contains(t, f, "values", slices.Collect(maps.Keys(f)))
 	assert.NotEmpty(t, f["values"])
 
-	assert.Contains(t, tss, "query/eq")
+	assert.Contains(t, tss, "query/eq", slices.Collect(maps.Keys(tss)))
 }

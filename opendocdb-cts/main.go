@@ -51,7 +51,7 @@ func fmtCommand() error {
 		return err
 	}
 
-	if err = data.SaveFixtures(f, filepath.Join(cli.Dir, "_fixtures")); err != nil {
+	if err = data.SaveFixtures(f, cli.Dir); err != nil {
 		return err
 	}
 

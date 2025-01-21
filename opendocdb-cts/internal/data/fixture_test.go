@@ -15,7 +15,9 @@
 package data
 
 import (
+	"maps"
 	"path/filepath"
+	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,11 +25,12 @@ import (
 )
 
 func TestLoadSaveFixtures(t *testing.T) {
-	dir := filepath.Join("..", "..", "..", "cts", "_fixtures")
+	dir := filepath.Join("..", "..", "..", "cts")
 
 	f, err := LoadFixtures(dir)
 	require.NoError(t, err)
-	require.Contains(t, f, "values")
+
+	require.Contains(t, f, "values", slices.Collect(maps.Keys(f)))
 	assert.NotEmpty(t, f["values"])
 
 	err = SaveFixtures(f, dir)
