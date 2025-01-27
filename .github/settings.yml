@@ -16,3 +16,7 @@ labels:
   - name: deps
     color: "#D4C5F9"
     description: PRs that update dependencies
+
+  - name: not ready
+    color: "#000000"
+    description: PRs that should skip CI
