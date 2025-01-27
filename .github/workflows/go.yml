@@ -37,7 +37,12 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version-file: opendocdb-cts/go.mod
+          cache-dependency-path: opendocdb-cts/go.sum
 
       - name: Install dependencies
         working-directory: opendocdb-cts
         run: make init
+
+      - name: Lint
+        working-directory: opendocdb-cts
+        run: make lint
