@@ -22,8 +22,8 @@ env:
   GOTOOLCHAIN: local
 
 jobs:
-  lint:
-    name: Lint
+  test:
+    name: Test
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -43,6 +43,14 @@ jobs:
         working-directory: opendocdb-cts
         run: make init
 
-      - name: Lint
+      - name: Build
+        working-directory: opendocdb-cts
+        run: make build
+
+      - name: Test
+        working-directory: opendocdb-cts
+        run: make test
+
+      - name: Test
         working-directory: opendocdb-cts
         run: make lint
