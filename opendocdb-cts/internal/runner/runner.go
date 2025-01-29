@@ -24,6 +24,7 @@ import (
 	"log/slog"
 	"math/rand/v2"
 	"net/url"
+	"slices"
 	"strings"
 
 	"github.com/FerretDB/wire"
@@ -74,7 +75,11 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 		return err
 	}
 
-	if _, _, err = conn.Request(ctx, wire.MustOpMsg("dropDatabase", int32(1), "$db", r.db)); err != nil {
+	_, _, err = conn.Request(ctx, wire.MustOpMsg(
+		"dropDatabase", int32(1),
+		"$db", r.db,
+	))
+	if err != nil {
 		return err
 	}
 
@@ -120,6 +125,137 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 	return nil
 }
 
+// prepareDocument returns document with multiple changes applied recursively:
+//   - empty or duplicate field names are disallowed;
+//   - fields are sorted by name.
+func prepareDocument(doc *wirebson.Document) (*wirebson.Document, error) {
+	res := wirebson.MakeDocument(doc.Len())
+
+	names := slices.Compact(slices.Sorted(doc.Fields()))
+	if doc.Len() != len(names) {
+		return nil, errors.New("document contains duplicate fields")
+	}
+
+	for _, n := range names {
+		if n == "" {
+			return nil, errors.New("empty field names are not allowed")
+		}
+
+		v := doc.Get(n)
+		if v == nil {
+			return nil, errors.New("document is missing a field")
+		}
+
+		var fv any
+		var err error
+
+		switch v := v.(type) {
+		case *wirebson.Document:
+			fv, err = prepareDocument(v)
+		case *wirebson.Array:
+			fv, err = prepareArray(v)
+		default:
+			fv = v
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		if err := res.Add(n, fv); err != nil {
+			return nil, err
+		}
+	}
+
+	return res, nil
+}
+
+// prepareArray returns array with multiple changes applied recursively.
+// This function does not change anything, but calls [prepareDocument] for nested arrays.
+func prepareArray(arr *wirebson.Array) (*wirebson.Array, error) {
+	res := wirebson.MakeArray(arr.Len())
+
+	for v := range res.Values() {
+		var fv any
+		var err error
+
+		switch v := v.(type) {
+		case *wirebson.Document:
+			fv, err = prepareDocument(v)
+		case *wirebson.Array:
+			fv, err = prepareArray(v)
+		default:
+			fv = v
+		}
+
+		if err != nil {
+			return nil, err
+		}
+		if err = res.Add(fv); err != nil {
+			return nil, err
+		}
+	}
+
+	return res, nil
+}
+
+// runTestCase runs a single test cases with fixes.
+func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.TestCase) error {
+	resp, err := prepareDocument(tc.Response)
+	if err != nil {
+		return err
+	}
+
+	expected, err := json.MarshalIndent(resp, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	req, err := wire.NewOpMsg(tc.Request)
+	if err != nil {
+		return err
+	}
+
+	_, body, err := conn.Request(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	resp, err = body.(*wire.OpMsg).DecodeDeepDocument()
+	if err != nil {
+		return err
+	}
+
+	resp, err = prepareDocument(resp)
+	if err != nil {
+		return err
+	}
+
+	actual, err := json.MarshalIndent(resp, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	if !bytes.Equal(expected, actual) {
+		diff, err := difflib.GetUnifiedDiffString(difflib.UnifiedDiff{
+			A:        difflib.SplitLines(string(expected)),
+			FromFile: "expected",
+			B:        difflib.SplitLines(string(actual)),
+			ToFile:   "actual",
+			Context:  1,
+		})
+		if err != nil {
+			return err
+		}
+
+		return fmt.Errorf(
+			"expected != actual\n\nExpected:\n%s\n\nActual:\n%s\n\nDiff:\n%s",
+			expected, actual, diff,
+		)
+	}
+
+	return nil
+}
+
 // Run executes the given test suite.
 func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
@@ -130,55 +266,8 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 
 	var errs []error
 	for name, tc := range ts {
-		req, err := wire.NewOpMsg(tc.Request)
-		if err != nil {
+		if err := r.runTestCase(ctx, conn, tc); err != nil {
 			errs = append(errs, fmt.Errorf("%s: %w", name, err))
-			continue
-		}
-
-		_, body, err := conn.Request(ctx, req)
-		if err != nil {
-			errs = append(errs, fmt.Errorf("%s: %w", name, err))
-			continue
-		}
-
-		resp, err := body.(*wire.OpMsg).DecodeDeepDocument()
-		if err != nil {
-			errs = append(errs, fmt.Errorf("%s: %w", name, err))
-			continue
-		}
-
-		expected, err := json.MarshalIndent(tc.Response, "", "  ")
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
-
-		actual, err := json.MarshalIndent(resp, "", "  ")
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
-
-		if !bytes.Equal(expected, actual) {
-			diff, err := difflib.GetUnifiedDiffString(difflib.UnifiedDiff{
-				A:        difflib.SplitLines(string(expected)),
-				FromFile: "expected",
-				B:        difflib.SplitLines(string(actual)),
-				ToFile:   "actual",
-				Context:  1,
-			})
-			if err != nil {
-				errs = append(errs, err)
-				continue
-			}
-
-			err = fmt.Errorf(
-				"%s: expected != actual\n\nExpected:\n%s\n\nActual:\n%s\n\nDiff:\n%s",
-				name, expected, actual, diff,
-			)
-			errs = append(errs, err)
-			continue
 		}
 	}
 
