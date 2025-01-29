@@ -41,7 +41,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: ${{ steps.toolchain.outputs.version }}
+          go-version: ${{ steps.toolchain.outputs.version }}
           cache-dependency-path: opendocdb-cts/go.sum
 
       - name: Install dependencies
