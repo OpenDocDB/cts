@@ -33,10 +33,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # https://github.com/actions/setup-go/issues/457#issuecomment-2480536859
+      - name: Get Go version
+        id: toolchain
+        run: echo "version=$(sed -ne '/^toolchain /s/^toolchain go//p' opendocdb-cts/go.mod)" >> "$GITHUB_OUTPUT"
+
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: opendocdb-cts/go.mod
+          go-version-file: ${{ steps.toolchain.outputs.version }}
           cache-dependency-path: opendocdb-cts/go.sum
 
       - name: Install dependencies
