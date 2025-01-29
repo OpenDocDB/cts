@@ -20,6 +20,9 @@ run:
 	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27001/qklck6njgh9o --golden
 	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27001/cts
 
+	# go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27002/qklck6njgh9o --golden
+	# go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
+
 lint: fmt
 	../bin/go-consistent -pedantic ./internal/...
 	../bin/golangci-lint run
