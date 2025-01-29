@@ -29,6 +29,7 @@ import (
 	"github.com/FerretDB/wire"
 	"github.com/FerretDB/wire/wirebson"
 	"github.com/FerretDB/wire/wireclient"
+	"github.com/pmezard/go-difflib/difflib"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 )
@@ -160,8 +161,24 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 		}
 
 		if !bytes.Equal(expected, actual) {
-			err = fmt.Errorf("%s: expected != actual\n\nExpected:\n%s\n\nActual:\n%s", name, expected, actual)
+			diff, err := difflib.GetUnifiedDiffString(difflib.UnifiedDiff{
+				A:        difflib.SplitLines(string(expected)),
+				FromFile: "expected",
+				B:        difflib.SplitLines(string(actual)),
+				ToFile:   "actual",
+				Context:  1,
+			})
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			err = fmt.Errorf(
+				"%s: expected != actual\n\nExpected:\n%s\n\nActual:\n%s\n\nDiff:\n%s",
+				name, expected, actual, diff,
+			)
 			errs = append(errs, err)
+			continue
 		}
 	}
 
