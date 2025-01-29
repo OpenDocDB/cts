@@ -25,9 +25,15 @@ lint: fmt
 	../bin/golangci-lint run
 	../bin/govulncheck -test -show=verbose,color ./...
 
-env-up:
-	docker compose up --always-recreate-deps --force-recreate --remove-orphans --renew-anon-volumes \
-		-t 0 --build --pull=always
+env-up-detach:
+	docker compose up --always-recreate-deps --build --force-recreate --pull=always \
+		--remove-orphans --renew-anon-volumes --timeout=0 \
+		--detach
+
+env-logs:
+	docker compose logs --follow
+
+env-up: env-up-detach env-logs
 
 env-down:
 	docker compose down --remove-orphans -t 0 --volumes

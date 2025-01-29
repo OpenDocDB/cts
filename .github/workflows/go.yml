@@ -33,6 +33,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Start environment
+        working-directory: opendocdb-cts
+        run: make env-up-detach
+
       # https://github.com/actions/setup-go/issues/457#issuecomment-2480536859
       - name: Get Go version
         id: toolchain
@@ -52,10 +56,26 @@ jobs:
         working-directory: opendocdb-cts
         run: make build
 
+      - name: Lint
+        working-directory: opendocdb-cts
+        run: make lint
+
       - name: Test
         working-directory: opendocdb-cts
         run: make test
 
-      - name: Test
+      - name: Run
         working-directory: opendocdb-cts
-        run: make lint
+        run: make run
+
+      # we don't want it on CI
+      - name: Clean test caches
+        if: always()
+        run: go clean -testcache
+
+      - name: Check dirty
+        if: always()
+        run: |
+          git status --untracked-files --ignored
+          git status
+          git diff --exit-code
