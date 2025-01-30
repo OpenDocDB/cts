@@ -174,7 +174,7 @@ func prepareDocument(doc *wirebson.Document) (*wirebson.Document, error) {
 func prepareArray(arr *wirebson.Array) (*wirebson.Array, error) {
 	res := wirebson.MakeArray(arr.Len())
 
-	for v := range res.Values() {
+	for v := range arr.Values() {
 		var fv any
 		var err error
 
@@ -190,7 +190,7 @@ func prepareArray(arr *wirebson.Array) (*wirebson.Array, error) {
 		if err != nil {
 			return nil, err
 		}
-		if err = res.Add(fv); err != nil {
+		if err = arr.Add(fv); err != nil {
 			return nil, err
 		}
 	}
