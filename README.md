@@ -4,6 +4,7 @@ This repository contains a Compatibility Test Suite (CTS) for OpenDocDB-compatib
 and a `opendocdb-cts` tool for managing CTS.
 
 See [this blog post](https://opendocdb.org/steps-to-consider-when-standardizing-a-json-like-query-language) for some background information.
+See also a [list of our industry supporters](https://opendocdb.org/supporters).
 
 ## CTS
 
