@@ -66,14 +66,22 @@ func fmtCommand() error {
 
 // runCommand implements the "convert" command.
 func convertCommand(ctx context.Context) error {
-	f, err := data.LoadFixtures(cli.Dir)
+	fxs, err := data.LoadFixtures(cli.Dir)
 	if err != nil {
 		return err
 	}
 
-	b, err := mongosh.ConvertFixtures(f)
+	b, err := mongosh.ConvertFixtures(fxs)
 
-	return os.WriteFile(filepath.Join(cli.Convert.OutDir, "convert.json"), []byte(b), 0o666)
+	f, err := os.OpenFile(filepath.Join(cli.Convert.OutDir, "convert.js"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	_, err = f.WriteString(b)
+	return err
 }
 
 // runCommand implements the "run" command.
