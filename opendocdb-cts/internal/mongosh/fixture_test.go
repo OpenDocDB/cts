@@ -15,6 +15,7 @@
 package mongosh
 
 import (
+	"math"
 	"testing"
 	"time"
 
@@ -140,6 +141,24 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			},
 			expected: `
 			db.c.insertMany([{"_id": "decimal128", "v": Decimal128("42.13")}]);`,
+		},
+		"Infinity": {
+			fixtures: data.Fixtures{
+				"c": []*wirebson.Document{
+					wirebson.MustDocument("_id", "double-inf", "v", math.Inf(1)),
+				},
+			},
+			expected: `
+			db.c.insertMany([{"_id": "double-inf", "v": Double(+Infinity)}]);`,
+		},
+		"NegativeInfinity": {
+			fixtures: data.Fixtures{
+				"c": []*wirebson.Document{
+					wirebson.MustDocument("_id", "double-neg-inf", "v", math.Inf(-1)),
+				},
+			},
+			expected: `
+			db.c.insertMany([{"_id": "double-neg-inf", "v": Double(-Infinity)}]);`,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
