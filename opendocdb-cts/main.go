@@ -38,6 +38,10 @@ var cli struct {
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
+	Convert struct {
+		OutDir string `arg:"" type:"path" help:"Output directory."`
+	} `cmd:"" help:"Convert CTS files."`
+
 	Run struct {
 		URI    *url.URL `default:"mongodb://127.0.0.1:27017/cts" help:"Database URI."`
 		Golden bool     `                                        help:"Update CTS files instead if failing tests."`
@@ -56,6 +60,11 @@ func fmtCommand() error {
 	}
 
 	return data.SaveTestSuites(tss, cli.Dir, nil)
+}
+
+// runCommand implements the "convert" command.
+func convertCommand(ctx context.Context) error {
+	return nil
 }
 
 // runCommand implements the "run" command.
@@ -117,6 +126,8 @@ func main() {
 		err = fmtCommand()
 	case "run":
 		err = runCommand(ctx, slog.Default())
+	case "convert <out-dir>":
+		err = convertCommand(ctx)
 	default:
 		panic("unknown command")
 	}
