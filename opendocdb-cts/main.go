@@ -20,12 +20,14 @@ import (
 	"fmt"
 	"log/slog"
 	"net/url"
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/alecthomas/kong"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
+	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/runner"
 )
 
@@ -64,7 +66,14 @@ func fmtCommand() error {
 
 // runCommand implements the "convert" command.
 func convertCommand(ctx context.Context) error {
-	return nil
+	f, err := data.LoadFixtures(cli.Dir)
+	if err != nil {
+		return err
+	}
+
+	b, err := mongosh.ConvertFixtures(f)
+
+	return os.WriteFile(filepath.Join(cli.Convert.OutDir, "convert.json"), []byte(b), 0o666)
 }
 
 // runCommand implements the "run" command.
