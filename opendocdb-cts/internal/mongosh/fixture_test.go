@@ -16,14 +16,32 @@ package mongosh
 
 import (
 	"math"
+	"math/big"
+	"sync"
 	"testing"
 	"time"
 
 	"github.com/FerretDB/wire/wirebson"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
+)
+
+var (
+	// 9999999999999999999999999999999999: the largest value which can be stored as Decimal128 significand (34 digits).
+	decimal128MaxSig = sync.OnceValue(func() *big.Int {
+		i := new(big.Int)
+		var ok bool
+
+		i, ok = i.SetString("9999999999999999999999999999999999", 10)
+		if !ok {
+			panic("must be true")
+		}
+
+		return i
+	})()
 )
 
 func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of lines for readability
@@ -160,6 +178,17 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			expected: `
 			db.c.insertMany([{"_id": "double-neg-inf", "v": Double(-Infinity)}]);`,
 		},
+
+		"DoubleMax": {
+			fixtures: data.Fixtures{
+				"c": []*wirebson.Document{
+					wirebson.MustDocument(
+						"_id", "decimal128-max",
+						"v", mustParseDecimal128FromBigInt(decimal128MaxSig, primitive.MaxDecimal128Exp),
+					),
+				},
+			},
+		},
 	} {
 		t.Run(name, func(t *testing.T) {
 			actual, err := ConvertFixtures(tc.fixtures)
@@ -167,4 +196,15 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			assert.Equal(t, unindent(tc.expected)+"\n", actual)
 		})
 	}
+}
+
+// mustParseDecimal128FromBigInt parses the significand and exponent into a Decimal128 value.
+// It panics on failure.
+func mustParseDecimal128FromBigInt(sig *big.Int, exp int) primitive.Decimal128 {
+	res, ok := primitive.ParseDecimal128FromBigInt(sig, exp)
+	if !ok {
+		panic("must be true")
+	}
+
+	return res
 }
