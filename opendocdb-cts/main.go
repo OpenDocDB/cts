@@ -17,7 +17,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"log/slog"
 	"net/url"
 	"path/filepath"
@@ -96,7 +96,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	if failed {
-		return fmt.Errorf("some tests failed")
+		return errors.New("some tests failed")
 	}
 
 	return nil
