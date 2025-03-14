@@ -50,7 +50,7 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 	}
 
 	if u.Path == "" || u.Path == "/" {
-		return nil, fmt.Errorf("MongoDB URI's path can't be empty")
+		return nil, errors.New("MongoDB URI's path can't be empty")
 	}
 
 	db := strings.TrimPrefix(u.Path, "/")
