@@ -20,12 +20,14 @@ import (
 	"fmt"
 	"log/slog"
 	"net/url"
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/alecthomas/kong"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
+	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/runner"
 )
 
@@ -37,6 +39,10 @@ var cli struct {
 	Dir string `type:"path" default:"cts" help:"CTS directory."`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
+
+	Convert struct {
+		OutDir string `arg:"" type:"path" help:"Output directory."`
+	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {
 		URI    *url.URL `default:"mongodb://127.0.0.1:27017/cts" help:"Database URI."`
@@ -56,6 +62,26 @@ func fmtCommand() error {
 	}
 
 	return data.SaveTestSuites(tss, cli.Dir, nil)
+}
+
+// runCommand implements the "convert" command.
+func convertCommand(ctx context.Context) error {
+	fxs, err := data.LoadFixtures(cli.Dir)
+	if err != nil {
+		return err
+	}
+
+	b, err := mongosh.ConvertFixtures(fxs)
+
+	f, err := os.OpenFile(filepath.Join(cli.Convert.OutDir, "convert.js"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	_, err = f.WriteString(b)
+	return err
 }
 
 // runCommand implements the "run" command.
@@ -117,6 +143,8 @@ func main() {
 		err = fmtCommand()
 	case "run":
 		err = runCommand(ctx, slog.Default())
+	case "convert <out-dir>":
+		err = convertCommand(ctx)
 	default:
 		panic("unknown command")
 	}

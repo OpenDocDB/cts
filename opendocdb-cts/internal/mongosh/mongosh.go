@@ -18,6 +18,7 @@ package mongosh
 import (
 	"encoding/base64"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 	"time"
@@ -81,7 +82,14 @@ func convert(v any) (string, error) {
 	// scalar types
 
 	case float64:
-		return fmt.Sprintf("Double(%f)", v), nil
+		switch {
+		case math.IsInf(v, -1):
+			return "Double(-Infinity)", nil
+		case math.IsInf(v, 1):
+			return "Double(+Infinity)", nil
+		default:
+			return fmt.Sprintf("Double(%f)", v), nil
+		}
 	case string:
 		return fmt.Sprintf("%q", v), nil
 	case wirebson.Binary:
