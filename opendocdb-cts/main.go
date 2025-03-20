@@ -65,7 +65,7 @@ func fmtCommand() error {
 }
 
 // runCommand implements the "convert" command.
-func convertCommand(ctx context.Context) error {
+func convertCommand() error {
 	fxs, err := data.LoadFixtures(cli.Dir)
 	if err != nil {
 		return err
@@ -73,7 +73,7 @@ func convertCommand(ctx context.Context) error {
 
 	b, err := mongosh.ConvertFixtures(fxs)
 
-	f, err := os.OpenFile(filepath.Join(cli.Convert.OutDir, "convert.js"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0666)
+	f, err := os.Create(filepath.Join(cli.Convert.OutDir, "convert.js"))
 	if err != nil {
 		return err
 	}
@@ -144,7 +144,7 @@ func main() {
 	case "run":
 		err = runCommand(ctx, slog.Default())
 	case "convert <out-dir>":
-		err = convertCommand(ctx)
+		err = convertCommand()
 	default:
 		panic("unknown command")
 	}
