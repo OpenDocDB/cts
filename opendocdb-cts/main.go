@@ -41,7 +41,7 @@ var cli struct {
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
 	Convert struct {
-		OutDir string `arg:"" type:"path" help:"Output directory."`
+		OutDir string `type:"path" arg:"" help:"Output directory."`
 	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {
@@ -71,14 +71,17 @@ func convertCommand() error {
 		return err
 	}
 
-	b, err := mongosh.ConvertFixtures(fxs)
-
 	f, err := os.Create(filepath.Join(cli.Convert.OutDir, "convert.js"))
 	if err != nil {
 		return err
 	}
 
 	defer f.Close()
+
+	b, err := mongosh.ConvertFixtures(fxs)
+	if err != nil {
+		return err
+	}
 
 	_, err = f.WriteString(b)
 	return err
