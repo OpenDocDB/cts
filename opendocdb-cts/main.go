@@ -72,6 +72,11 @@ func convertCommand() error {
 	}
 
 	for name, fx := range fxs {
+		err := os.MkdirAll(cli.Convert.OutDir, 0766)
+		if err != nil {
+			return err
+		}
+
 		f, err := os.Create(filepath.Join(cli.Convert.OutDir, name+".js"))
 		if err != nil {
 			return err
