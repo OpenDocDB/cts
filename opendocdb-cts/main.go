@@ -72,29 +72,31 @@ func convertCommand() error {
 	}
 
 	for name, fx := range fxs {
-		err := os.MkdirAll(cli.Convert.OutDir, 0766)
+		err = os.MkdirAll(cli.Convert.OutDir, 0o766)
 		if err != nil {
 			return err
 		}
 
-		f, err := os.Create(filepath.Join(cli.Convert.OutDir, name+".js"))
+		var f *os.File
+		f, err = os.Create(filepath.Join(cli.Convert.OutDir, name+".js"))
 		if err != nil {
 			return err
 		}
 
-		defer f.Close()
-
-		b, err := mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
+		var res string
+		res, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
+			_ = f.Close()
 			return err
 		}
 
-		_, err = f.WriteString(b)
+		_, err = f.WriteString(res)
 		if err != nil {
+			_ = f.Close()
 			return err
 		}
 
-		f.Close()
+		_ = f.Close()
 	}
 
 	return err
