@@ -65,7 +65,9 @@ func fmtCommand() error {
 	return data.SaveTestSuites(tss, cli.Dir, nil)
 }
 
-func createFile(path string, data string) (err error) {
+// writeFile creates a file under the path, and writes provided data to it.
+// If the file already exists, it is truncated.
+func writeFile(path string, data string) (err error) {
 	f, err := os.Create(path)
 	if err != nil {
 		return
@@ -101,7 +103,7 @@ func convertCommand() error {
 			return err
 		}
 
-		if err = createFile(filepath.Join(dir, name+".js"), fxs); err != nil {
+		if err = writeFile(filepath.Join(dir, name+".js"), fxs); err != nil {
 			return err
 		}
 	}
@@ -126,7 +128,7 @@ func convertCommand() error {
 				return err
 			}
 
-			if err = createFile(filepath.Join(reqDir, filename), req); err != nil {
+			if err = writeFile(filepath.Join(reqDir, filename), req); err != nil {
 				return err
 			}
 
@@ -135,7 +137,7 @@ func convertCommand() error {
 				return err
 			}
 
-			if err = createFile(filepath.Join(resDir, filename), res); err != nil {
+			if err = writeFile(filepath.Join(resDir, filename), res); err != nil {
 				return err
 			}
 		}
