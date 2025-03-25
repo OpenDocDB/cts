@@ -92,8 +92,7 @@ func convertCommand() error {
 	for name, fx := range fxs {
 		dir := filepath.Join(cli.Convert.OutDir, "fixtures")
 
-		err = os.MkdirAll(dir, 0o766)
-		if err != nil {
+		if err = os.MkdirAll(dir, 0o766); err != nil {
 			return err
 		}
 
@@ -103,8 +102,7 @@ func convertCommand() error {
 			return err
 		}
 
-		err = createFile(filepath.Join(dir, name+".js"), res)
-		if err != nil {
+		if err = createFile(filepath.Join(dir, name+".js"), res); err != nil {
 			return err
 		}
 	}
@@ -113,24 +111,23 @@ func convertCommand() error {
 		reqDir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
 		resDir := filepath.Join(cli.Convert.OutDir, "responses", tsName)
 
-		err = os.MkdirAll(reqDir, 0o766)
-		if err != nil {
+		if err = os.MkdirAll(reqDir, 0o766); err != nil {
 			return err
 		}
 
-		err = os.MkdirAll(resDir, 0o766)
-		if err != nil {
+		if err = os.MkdirAll(resDir, 0o766); err != nil {
 			return err
 		}
 
 		for tcName, tc := range ts {
+			filename := fmt.Sprintf("%s.js", tcName)
+
 			res, err := mongosh.ConvertRequest(tc.Request)
 			if err != nil {
 				return err
 			}
 
-			err = createFile(filepath.Join(reqDir, fmt.Sprintf("%s.js", tcName)), res)
-			if err != nil {
+			if err = createFile(filepath.Join(reqDir, filename), res); err != nil {
 				return err
 			}
 
@@ -139,14 +136,13 @@ func convertCommand() error {
 				return err
 			}
 
-			err = createFile(filepath.Join(resDir, fmt.Sprintf("%s.js", tcName)), res)
-			if err != nil {
+			if err = createFile(filepath.Join(resDir, filename), res); err != nil {
 				return err
 			}
 		}
 	}
 
-	return err
+	return nil
 }
 
 // runCommand implements the "run" command.
