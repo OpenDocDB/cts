@@ -65,12 +65,12 @@ func fmtCommand() error {
 	return data.SaveTestSuites(tss, cli.Dir, nil)
 }
 
-// writeFile creates a file under the path, and writes provided data to it.
+// writeFile creates a file under the path, and writes provided d data to it.
 // If the file already exists, it is truncated.
-func writeFile(path string, data string) (err error) {
+func writeFile(path string, d string) (err error) {
 	f, err := os.Create(path)
 	if err != nil {
-		return
+		return err
 	}
 
 	defer func() {
@@ -80,8 +80,8 @@ func writeFile(path string, data string) (err error) {
 		}
 	}()
 
-	_, err = f.WriteString(data)
-	return
+	_, err = f.WriteString(d)
+	return err
 }
 
 // runCommand implements the "convert" command.
@@ -91,19 +91,20 @@ func convertCommand() error {
 		return err
 	}
 
+	fixtureDir := filepath.Join(cli.Convert.OutDir, "fixtures")
+	if err = os.MkdirAll(fixtureDir, 0o766); err != nil {
+		return err
+	}
+
 	for name, fx := range fixtures {
-		dir := filepath.Join(cli.Convert.OutDir, "fixtures")
+		var fxs string
 
-		if err = os.MkdirAll(dir, 0o766); err != nil {
-			return err
-		}
-
-		fxs, err := mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
+		fxs, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
 			return err
 		}
 
-		if err = writeFile(filepath.Join(dir, name+".js"), fxs); err != nil {
+		if err = writeFile(filepath.Join(fixtureDir, name+".js"), fxs); err != nil {
 			return err
 		}
 	}
