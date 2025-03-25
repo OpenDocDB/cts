@@ -84,12 +84,12 @@ func createFile(path string, data string) (err error) {
 
 // runCommand implements the "convert" command.
 func convertCommand() error {
-	fxs, tss, err := data.Load(cli.Dir, nil)
+	fixtures, testSuites, err := data.Load(cli.Dir, nil)
 	if err != nil {
 		return err
 	}
 
-	for name, fx := range fxs {
+	for name, fx := range fixtures {
 		dir := filepath.Join(cli.Convert.OutDir, "fixtures")
 
 		if err = os.MkdirAll(dir, 0o766); err != nil {
@@ -107,7 +107,7 @@ func convertCommand() error {
 		}
 	}
 
-	for tsName, ts := range tss {
+	for tsName, ts := range testSuites {
 		reqDir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
 		resDir := filepath.Join(cli.Convert.OutDir, "responses", tsName)
 
