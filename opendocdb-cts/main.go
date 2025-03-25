@@ -66,19 +66,21 @@ func fmtCommand() error {
 
 // runCommand implements the "convert" command.
 func convertCommand() error {
-	fxs, err := data.LoadFixtures(cli.Dir)
+	fxs, tss, err := data.Load(cli.Dir, nil)
 	if err != nil {
 		return err
 	}
 
 	for name, fx := range fxs {
-		err = os.MkdirAll(cli.Convert.OutDir, 0o766)
+		dir := filepath.Join(cli.Convert.OutDir, "fixtures")
+
+		err = os.MkdirAll(dir, 0o766)
 		if err != nil {
 			return err
 		}
 
 		var f *os.File
-		f, err = os.Create(filepath.Join(cli.Convert.OutDir, name+".js"))
+		f, err = os.Create(filepath.Join(dir, name+".js"))
 		if err != nil {
 			return err
 		}
@@ -97,6 +99,22 @@ func convertCommand() error {
 		}
 
 		_ = f.Close()
+	}
+
+	for name, ts := range tss {
+		dir := filepath.Join(cli.Convert.OutDir, "requests")
+
+		err = os.MkdirAll(dir, 0o766)
+		if err != nil {
+			return err
+		}
+
+		var f *os.File
+		f, err = os.Create(filepath.Join(dir, name+".js"))
+		if err != nil {
+			return err
+		}
+
 	}
 
 	return err
