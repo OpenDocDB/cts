@@ -127,7 +127,26 @@ func convertCommand() error {
 			var f *os.File
 			path := filepath.Join(reqDir, fmt.Sprintf("%s.js", tcName))
 
+			f, err = os.Create(path)
+			if err != nil {
+				return err
+			}
+
 			res, err := mongosh.ConvertRequest(tc.Request)
+			if err != nil {
+				_ = f.Close()
+				return err
+			}
+
+			_, err = f.WriteString(res)
+			if err != nil {
+				_ = f.Close()
+				return err
+			}
+
+			_ = f.Close()
+
+			f, err = os.Create(filepath.Join(resDir, fmt.Sprintf("%s.js", tcName)))
 			if err != nil {
 				return err
 			}
@@ -135,6 +154,7 @@ func convertCommand() error {
 			res, err = mongosh.ConvertResponse(tc.Response)
 			_, err = f.WriteString(res)
 			if err != nil {
+				_ = f.Close()
 				return err
 			}
 
