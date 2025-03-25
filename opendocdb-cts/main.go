@@ -65,6 +65,23 @@ func fmtCommand() error {
 	return data.SaveTestSuites(tss, cli.Dir, nil)
 }
 
+func createFile(path string, data string) (err error) {
+	f, err := os.Create(path)
+	if err != nil {
+		return
+	}
+
+	defer func() {
+		ferr := f.Close()
+		if err == nil {
+			err = ferr
+		}
+	}()
+
+	_, err = f.WriteString(data)
+	return
+}
+
 // runCommand implements the "convert" command.
 func convertCommand() error {
 	fxs, tss, err := data.Load(cli.Dir, nil)
@@ -80,26 +97,16 @@ func convertCommand() error {
 			return err
 		}
 
-		var f *os.File
-		f, err = os.Create(filepath.Join(dir, name+".js"))
-		if err != nil {
-			return err
-		}
-
 		var res string
 		res, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
-			_ = f.Close()
 			return err
 		}
 
-		_, err = f.WriteString(res)
+		err = createFile(filepath.Join(dir, name+".js"), res)
 		if err != nil {
-			_ = f.Close()
 			return err
 		}
-
-		_ = f.Close()
 	}
 
 	for tsName, ts := range tss {
@@ -120,26 +127,7 @@ func convertCommand() error {
 			var f *os.File
 			path := filepath.Join(reqDir, fmt.Sprintf("%s.js", tcName))
 
-			f, err = os.Create(path)
-			if err != nil {
-				return err
-			}
-
 			res, err := mongosh.ConvertRequest(tc.Request)
-			if err != nil {
-				_ = f.Close()
-				return err
-			}
-
-			_, err = f.WriteString(res)
-			if err != nil {
-				_ = f.Close()
-				return err
-			}
-
-			_ = f.Close()
-
-			f, err = os.Create(filepath.Join(resDir, fmt.Sprintf("%s.js", tcName)))
 			if err != nil {
 				return err
 			}
@@ -147,7 +135,6 @@ func convertCommand() error {
 			res, err = mongosh.ConvertResponse(tc.Response)
 			_, err = f.WriteString(res)
 			if err != nil {
-				_ = f.Close()
 				return err
 			}
 
