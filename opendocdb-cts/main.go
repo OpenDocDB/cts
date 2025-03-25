@@ -18,6 +18,8 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
+	"log"
 	"log/slog"
 	"net/url"
 	"os"
@@ -101,18 +103,37 @@ func convertCommand() error {
 		_ = f.Close()
 	}
 
-	for name, ts := range tss {
-		dir := filepath.Join(cli.Convert.OutDir, "requests")
+	for tsName, ts := range tss {
+		dir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
 
 		err = os.MkdirAll(dir, 0o766)
 		if err != nil {
 			return err
 		}
 
-		var f *os.File
-		f, err = os.Create(filepath.Join(dir, name+".js"))
-		if err != nil {
-			return err
+		for tcName, tc := range ts {
+			var f *os.File
+			path := filepath.Join(dir, fmt.Sprintf("%s.js", tcName))
+			log.Print(path)
+			f, err = os.Create(path)
+			if err != nil {
+				return err
+			}
+
+			res, err := mongosh.ConvertRequest(tc.Request)
+			if err != nil {
+				_ = f.Close()
+				return err
+			}
+
+			_, err = f.WriteString(res)
+			if err != nil {
+				_ = f.Close()
+				return err
+			}
+
+			_ = f.Close()
+
 		}
 
 	}
