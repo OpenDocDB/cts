@@ -96,13 +96,12 @@ func convertCommand() error {
 			return err
 		}
 
-		var res string
-		res, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
+		fxs, err := mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
 			return err
 		}
 
-		if err = createFile(filepath.Join(dir, name+".js"), res); err != nil {
+		if err = createFile(filepath.Join(dir, name+".js"), fxs); err != nil {
 			return err
 		}
 	}
@@ -122,16 +121,16 @@ func convertCommand() error {
 		for tcName, tc := range ts {
 			filename := fmt.Sprintf("%s.js", tcName)
 
-			res, err := mongosh.ConvertRequest(tc.Request)
+			req, err := mongosh.ConvertRequest(tc.Request)
 			if err != nil {
 				return err
 			}
 
-			if err = createFile(filepath.Join(reqDir, filename), res); err != nil {
+			if err = createFile(filepath.Join(reqDir, filename), req); err != nil {
 				return err
 			}
 
-			res, err = mongosh.ConvertResponse(tc.Response)
+			res, err := mongosh.ConvertResponse(tc.Response)
 			if err != nil {
 				return err
 			}
