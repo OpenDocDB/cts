@@ -16,7 +16,6 @@ package mongosh
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/FerretDB/wire/wirebson"
 )
@@ -37,5 +36,5 @@ func ConvertResponse(res *wirebson.Document) (string, error) {
 		return "", fmt.Errorf("mongosh.ConvertResponse: %w", err)
 	}
 
-	return strings.Join([]string{"response = {", s, "}\n"}, "\n"), nil
+	return "response = {" + s + "}\n", nil
 }
