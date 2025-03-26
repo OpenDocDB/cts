@@ -86,7 +86,7 @@ func convertCommand() error {
 			return err
 		}
 
-		if err = os.WriteFile(filepath.Join(fixtureDir, name+".js"), []byte(fxs), 0666); err != nil {
+		if err = os.WriteFile(filepath.Join(fixtureDir, name+".js"), []byte(fxs), 0o666); err != nil {
 			return err
 		}
 	}
@@ -111,11 +111,11 @@ func convertCommand() error {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0666); err != nil {
+			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0o666); err != nil {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0666); err != nil {
+			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
 				return err
 			}
 		}
