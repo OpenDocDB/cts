@@ -29,3 +29,13 @@ func ConvertRequest(req *wirebson.Document) (string, error) {
 
 	return "db.runCommand(" + s + ");\n", nil
 }
+
+// ConvertResponse converts wirebson's response Document to a mongosh's JavaScript `response` variable.
+func ConvertResponse(res *wirebson.Document) (string, error) {
+	s, err := convert(res)
+	if err != nil {
+		return "", fmt.Errorf("mongosh.ConvertResponse: %w", err)
+	}
+
+	return "response = {" + s + "}\n", nil
+}

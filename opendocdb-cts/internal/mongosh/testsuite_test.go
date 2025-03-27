@@ -39,3 +39,27 @@ func TestConvertRequest(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, expected, actual)
 }
+
+func TestConvertResponse(t *testing.T) {
+	res := wirebson.MustDocument(
+		"cursor", wirebson.MustDocument(
+			"firstBatch", wirebson.MustArray(
+				wirebson.MustDocument("_id", "int32-zero", "v", int32(0)),
+				wirebson.MustDocument("_id", "int64-zero", "v", int64(0)),
+			),
+			"id", int64(0),
+			"ns", "test.values",
+		),
+	)
+
+	expected := `response = {` +
+		`{"cursor": {"firstBatch": [` +
+		`{"_id": "int32-zero", "v": Int32(0)}, ` +
+		`{"_id": "int64-zero", "v": Long(0)` +
+		`}], "id": Long(0), "ns": "test.values"}}` +
+		`}` + "\n"
+
+	actual, err := ConvertResponse(res)
+	require.NoError(t, err)
+	assert.Equal(t, expected, actual)
+}
