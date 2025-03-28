@@ -31,11 +31,15 @@ func ConvertRequest(req *wirebson.Document) (string, error) {
 }
 
 // ConvertResponse converts wirebson's response Document to a mongosh's JavaScript `response` variable.
+// If the document is empty, it returns empty string.
 func ConvertResponse(res *wirebson.Document) (string, error) {
+	if res.Len() == 0 {
+		return "", nil
+	}
 	s, err := convert(res)
 	if err != nil {
 		return "", fmt.Errorf("mongosh.ConvertResponse: %w", err)
 	}
 
-	return "response = {" + s + "}\n", nil
+	return "response = " + s + "\n", nil
 }
