@@ -115,6 +115,10 @@ func convertCommand() error {
 				return err
 			}
 
+			if res == "" {
+				continue
+			}
+
 			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
 				return err
 			}
