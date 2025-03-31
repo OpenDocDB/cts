@@ -115,7 +115,7 @@ func convertCommand() error {
 				return err
 			}
 
-			if res == "" {
+			if tc.Response.Len() == 0 {
 				continue
 			}
 
