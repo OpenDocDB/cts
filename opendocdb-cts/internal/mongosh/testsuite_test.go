@@ -52,11 +52,10 @@ func TestConvertResponse(t *testing.T) {
 		),
 	)
 
-	expected := `response = {` +
-		`{"cursor": {"firstBatch": [` +
+	expected := `response = {"cursor": {"firstBatch": [` +
 		`{"_id": "int32-zero", "v": Int32(0)}, ` +
 		`{"_id": "int64-zero", "v": Long(0)` +
-		`}], "id": Long(0), "ns": "test.values"}}` +
+		`}], "id": Long(0), "ns": "test.values"}` +
 		`}` + "\n"
 
 	actual, err := ConvertResponse(res)
