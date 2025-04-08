@@ -129,7 +129,8 @@ func convertCommand() error {
 // prepareOutDir creates subdirectory inside the output directory specified by flag.
 // It returns the created path if succeeded.
 func prepareOutDir(relpath ...string) (string, error) {
-	pathElems := make([]string, len(relpath)+1)
+	var pathElems []string
+
 	pathElems = append(pathElems, cli.Convert.OutDir)
 	pathElems = append(pathElems, relpath...)
 
