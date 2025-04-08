@@ -72,8 +72,9 @@ func convertCommand() error {
 		return err
 	}
 
-	fixtureDir, err := prepareOutDir("fixtures")
-	if err != nil {
+	fixtureDir := filepath.Join(cli.Convert.OutDir, "fixtures")
+
+	if err = os.MkdirAll(fixtureDir, 0o766); err != nil {
 		return err
 	}
 
@@ -91,13 +92,14 @@ func convertCommand() error {
 	}
 
 	for tsName, ts := range testSuites {
-		reqDir, err := prepareOutDir("requests", tsName)
-		if err != nil {
+		reqDir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
+		resDir := filepath.Join(cli.Convert.OutDir, "responses", tsName)
+
+		if err = os.MkdirAll(reqDir, 0o766); err != nil {
 			return err
 		}
 
-		resDir, err := prepareOutDir("responses", tsName)
-		if err != nil {
+		if err = os.MkdirAll(resDir, 0o766); err != nil {
 			return err
 		}
 
@@ -124,20 +126,6 @@ func convertCommand() error {
 	}
 
 	return nil
-}
-
-// prepareOutDir creates subdirectory inside the output directory specified by flag.
-// It returns the created path if succeeded.
-func prepareOutDir(relpath ...string) (string, error) {
-	pathElems := append([]string{cli.Convert.OutDir}, relpath...)
-
-	path := filepath.Join(pathElems...)
-
-	if err := os.MkdirAll(path, 0o766); err != nil {
-		return "", err
-	}
-
-	return path, nil
 }
 
 // convertTestCase returns request and response from provided tc,
