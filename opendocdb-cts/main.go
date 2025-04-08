@@ -90,16 +90,6 @@ func convertCommand() error {
 		}
 	}
 
-	err = processTestSuites(testSuites)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// processTestSuites converts provided tests suites, and writes them to the out dir.
-func processTestSuites(testSuites data.TestSuites) error {
 	for tsName, ts := range testSuites {
 		reqDir, err := prepareOutDir("requests", tsName)
 		if err != nil {
