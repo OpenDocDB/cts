@@ -1,1 +1,1 @@
-FROM ghcr.io/ferretdb/ferretdb-eval:2.0.0
+FROM ghcr.io/ferretdb/ferretdb-eval:2.1.0
