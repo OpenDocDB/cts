@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/FerretDB/wire v0.0.18
-	github.com/alecthomas/kong v1.9.0
+	github.com/alecthomas/kong v1.10.0
 	github.com/neilotoole/slogt v1.1.0
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.10.0
