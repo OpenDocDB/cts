@@ -37,5 +37,5 @@ func ConvertResponse(res *wirebson.Document) (string, error) {
 		return "", fmt.Errorf("mongosh.ConvertResponse: %w", err)
 	}
 
-	return "response = {" + s + "}\n", nil
+	return "response = " + s + "\n", nil
 }
