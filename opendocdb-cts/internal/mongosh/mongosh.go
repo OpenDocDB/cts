@@ -88,7 +88,11 @@ func convert(v any) (string, error) {
 		case math.IsInf(v, 1):
 			return "Double(+Infinity)", nil
 		default:
-			return fmt.Sprintf("Double(%f)", v), nil
+			res := strconv.FormatFloat(v, 'f', -1, 64)
+			if !strings.Contains(res, ".") {
+				res += ".0"
+			}
+			return res, nil
 		}
 	case string:
 		return fmt.Sprintf("%q", v), nil
