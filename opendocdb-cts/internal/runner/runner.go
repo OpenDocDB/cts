@@ -113,7 +113,7 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 			return err
 		}
 
-		d, err := body.(*wire.OpMsg).DecodeDeepDocument()
+		d, err := body.(*wire.OpMsg).DocumentDeep()
 		if err != nil {
 			return err
 		}
@@ -220,7 +220,7 @@ func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.T
 		return err
 	}
 
-	resp, err = body.(*wire.OpMsg).DecodeDeepDocument()
+	resp, err = body.(*wire.OpMsg).DocumentDeep()
 	if err != nil {
 		return err
 	}
@@ -293,7 +293,7 @@ func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, 
 			return fmt.Errorf("%s: %w", name, err)
 		}
 
-		resp, err := body.(*wire.OpMsg).DecodeDeepDocument()
+		resp, err := body.(*wire.OpMsg).DocumentDeep()
 		if err != nil {
 			return fmt.Errorf("%s: %w", name, err)
 		}
@@ -307,4 +307,8 @@ func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, 
 	}
 
 	return nil
+}
+
+func init() {
+	wire.Debug = true
 }
