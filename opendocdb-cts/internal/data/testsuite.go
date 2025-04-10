@@ -92,7 +92,7 @@ func LoadTestSuite(file string, vars map[string]string) (TestSuite, error) {
 func SaveTestSuite(ts TestSuite, file string, vars map[string]string) error {
 	b, err := json.MarshalIndent(ts, "", "  ")
 	if err != nil {
-		return fmt.Errorf("SaveTestSuite: %w", err)
+		return fmt.Errorf("SaveTestSuite: %s: %w", file, err)
 	}
 
 	for k, v := range vars {

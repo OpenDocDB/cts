@@ -46,6 +46,8 @@ func LoadFixture(file string) (Fixture, error) {
 		return nil, fmt.Errorf("LoadFixture: %s: %w", file, err)
 	}
 
+	// fixture may be empty to create an empty collection
+
 	return f, nil
 }
 
@@ -53,7 +55,7 @@ func LoadFixture(file string) (Fixture, error) {
 func SaveFixture(fixture Fixture, file string) error {
 	b, err := json.MarshalIndent(fixture, "", "  ")
 	if err != nil {
-		return fmt.Errorf("SaveFixture: %w", err)
+		return fmt.Errorf("SaveFixture: %s: %w", file, err)
 	}
 
 	b = append(b, '\n')

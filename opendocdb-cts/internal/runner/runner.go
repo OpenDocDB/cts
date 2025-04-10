@@ -308,3 +308,7 @@ func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, 
 
 	return nil
 }
+
+func init() {
+	wire.Debug = true
+}
