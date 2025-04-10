@@ -2,7 +2,10 @@ module github.com/OpenDocDB/cts/opendocdb-cts
 
 go 1.24
 
-toolchain go1.24.1
+toolchain go1.24.2
+
+// FIXME
+replace github.com/FerretDB/wire => ../../wire
 
 require (
 	github.com/FerretDB/wire v0.0.18
@@ -17,7 +20,7 @@ require (
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
-	go.mongodb.org/mongo-driver/v2 v2.0.0 // indirect
+	go.mongodb.org/mongo-driver/v2 v2.1.1-0.20250407150314-cd295b66f41d // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
