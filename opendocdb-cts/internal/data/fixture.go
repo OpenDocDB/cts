@@ -43,7 +43,7 @@ func LoadFixture(file string) (Fixture, error) {
 
 	var f Fixture
 	if err = d.Decode(&f); err != nil {
-		return nil, fmt.Errorf("LoadFixture: %w", err)
+		return nil, fmt.Errorf("LoadFixture: %s: %w", file, err)
 	}
 
 	return f, nil

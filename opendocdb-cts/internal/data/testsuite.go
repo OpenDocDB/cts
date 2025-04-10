@@ -52,12 +52,12 @@ func LoadTestSuite(file string, vars map[string]string) (TestSuite, error) {
 	if vars != nil {
 		t, err := template.New("").Option("missingkey=error").Parse(string(b))
 		if err != nil {
-			return nil, fmt.Errorf("LoadTestSuite: %w", err)
+			return nil, fmt.Errorf("LoadTestSuite: %s: %w", file, err)
 		}
 
 		var buf bytes.Buffer
 		if err = t.Execute(&buf, vars); err != nil {
-			return nil, fmt.Errorf("LoadTestSuite: %w", err)
+			return nil, fmt.Errorf("LoadTestSuite: %s: %w", file, err)
 		}
 
 		r = &buf
@@ -68,7 +68,21 @@ func LoadTestSuite(file string, vars map[string]string) (TestSuite, error) {
 
 	var res TestSuite
 	if err := d.Decode(&res); err != nil {
-		return nil, fmt.Errorf("LoadTestSuite: %w", err)
+		return nil, fmt.Errorf("LoadTestSuite: %s: %w", file, err)
+	}
+
+	if len(res) == 0 {
+		return nil, fmt.Errorf("LoadTestSuite: %s: empty test suite", file)
+	}
+
+	for name, tc := range res {
+		if tc.Request == nil {
+			return nil, fmt.Errorf("LoadTestSuite: %s: %s: missing request", file, name)
+		}
+
+		if tc.Response == nil {
+			return nil, fmt.Errorf("LoadTestSuite: %s: %s: missing response", file, name)
+		}
 	}
 
 	return res, nil
