@@ -1,3 +1,5 @@
+github.com/FerretDB/wire v0.0.19 h1:zhmX7U4KOz/+xPx1lSKVyqpapkkAUSj3NDPQcl46ZhU=
+github.com/FerretDB/wire v0.0.19/go.mod h1:jyb85na7ybSWVi8C0tIRkzioy1SpDgOLfvNcaq488M8=
 github.com/alecthomas/assert/v2 v2.11.0 h1:2Q9r3ki8+JYXvGsDyBXwH3LcJ+WK5D0gc5E8vS6K3D0=
 github.com/alecthomas/assert/v2 v2.11.0/go.mod h1:Bze95FyfUr7x34QZrjL+XP+0qgp/zg8yS+TtBj1WA3k=
 github.com/alecthomas/kong v1.9.0 h1:Wgg0ll5Ys7xDnpgYBuBn/wPeLGAuK0NvYmEcisJgrIs=
