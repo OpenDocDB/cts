@@ -34,10 +34,13 @@ type TestCase struct {
 	Response *wirebson.Document `json:"response"`
 }
 
-// TestSuite is a collection of named test cases.
+// TestSuite is an ordered set of named test cases.
+// They are sorted by their names.
+// Test cases may depend on previous ones.
 type TestSuite map[string]TestCase
 
-// TestSuites is a collection of named suites.
+// TestSuites is an unordered set of named suites.
+// They should be independent from each other.
 type TestSuites map[string]TestSuite
 
 // LoadTestSuite parses a JSON-encoded test suite from the given file.

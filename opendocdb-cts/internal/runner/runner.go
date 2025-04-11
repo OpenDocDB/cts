@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"maps"
 	"math/rand/v2"
 	"net/url"
 	"slices"
@@ -63,7 +64,7 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 	}, nil
 }
 
-// Setup sets up the test environment.
+// Setup sets up the test environment, recreating the database and fixtures.
 func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
 	if err != nil {
@@ -91,7 +92,7 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 			}
 		}
 
-		rand.Shuffle(len(docs), func(i, j int) {
+		rand.Shuffle(documents.Len(), func(i, j int) {
 			d := documents.Get(i)
 			if err == nil {
 				err = documents.Replace(i, documents.Get(j))
@@ -257,6 +258,7 @@ func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.T
 }
 
 // Run executes the given test suite.
+// Test cases are sorted by their names.
 func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
 	if err != nil {
@@ -265,7 +267,9 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 	defer conn.Close()
 
 	var errs []error
-	for name, tc := range ts {
+	for _, name := range slices.Sorted(maps.Keys(ts)) {
+		tc := ts[name]
+
 		if err := r.runTestCase(ctx, conn, tc); err != nil {
 			errs = append(errs, fmt.Errorf("%s: %w", name, err))
 		}
@@ -275,6 +279,7 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 }
 
 // RunGolden executes the given test suite and updates its file with actual results.
+// Test cases are sorted by their names.
 func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, vars map[string]string) error {
 	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
 	if err != nil {
@@ -282,7 +287,9 @@ func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, 
 	}
 	defer conn.Close()
 
-	for name, tc := range ts {
+	for _, name := range slices.Sorted(maps.Keys(ts)) {
+		tc := ts[name]
+
 		req, err := wire.NewOpMsg(tc.Request)
 		if err != nil {
 			return fmt.Errorf("%s: %w", name, err)

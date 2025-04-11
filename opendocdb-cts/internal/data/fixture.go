@@ -25,10 +25,10 @@ import (
 	"github.com/FerretDB/wire/wirebson"
 )
 
-// Fixture represents a collection of documents in a single collection.
+// Fixture represents a set of documents in a single collection.
 type Fixture []*wirebson.Document
 
-// Fixtures is a collection of named fixtures.
+// Fixtures is an unordered set of collection names and their documents.
 type Fixtures map[string]Fixture
 
 // LoadFixture parses a JSON-encoded fixture from the given file.
