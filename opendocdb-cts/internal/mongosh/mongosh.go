@@ -84,37 +84,40 @@ func convert(v any) (string, error) {
 	case float64:
 		switch {
 		case math.IsInf(v, -1):
-			return "Double(-Infinity)", nil
+			return `Double(-Infinity)`, nil
 		case math.IsInf(v, 1):
-			return "Double(+Infinity)", nil
+			return `Double(+Infinity)`, nil
 		default:
 			res := strconv.FormatFloat(v, 'f', -1, 64)
 			if !strings.Contains(res, ".") {
-				res += ".0"
+				// otherwise, it will be converted to int32 by mongosh
+				res = "Double(" + res + ")"
 			}
 			return res, nil
 		}
 	case string:
-		return fmt.Sprintf("%q", v), nil
+		return fmt.Sprintf(`%q`, v), nil
 	case wirebson.Binary:
 		s := base64.RawStdEncoding.EncodeToString(v.B)
 		return fmt.Sprintf(`BinData(%d, "%s")`, v.Subtype, s), nil
 	case wirebson.ObjectID:
 		return fmt.Sprintf(`ObjectId("%x")`, v), nil
 	case bool:
-		return fmt.Sprintf("%t", v), nil
+		return fmt.Sprintf(`%t`, v), nil
 	case time.Time:
 		return fmt.Sprintf(`ISODate("%s")`, v.Format(time.RFC3339Nano)), nil
 	case wirebson.NullType, nil:
-		return "null", nil
+		return `null`, nil
 	case wirebson.Regex:
 		return fmt.Sprintf(`RegExp("%s", "%s")`, v.Pattern, v.Options), nil
 	case int32:
-		return fmt.Sprintf("Int32(%d)", v), nil
+		// it will be stored as double by the legacy shell, but we don't care about it there
+		return fmt.Sprintf(`%d`, v), nil
 	case wirebson.Timestamp:
-		return fmt.Sprintf("Timestamp({t: %d, i: %d})", v>>32, v&0xffffffff), nil
+		return fmt.Sprintf(`Timestamp({t: %d, i: %d})`, v.T(), v.I()), nil
 	case int64:
-		return fmt.Sprintf(`Long(%d)`, v), nil // both Long("0") and Long(0) are accepted
+		// the legacy shell handles Long() / NumberLong() differently
+		return fmt.Sprintf(`Long(%d)`, v), nil
 	case wirebson.Decimal128:
 		return fmt.Sprintf(`Decimal128("%d.%d")`, v.H, v.L), nil
 	default:
