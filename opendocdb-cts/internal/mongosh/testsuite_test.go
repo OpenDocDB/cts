@@ -32,8 +32,8 @@ func TestConvertRequest(t *testing.T) {
 		"$db", "test",
 	)
 
-	expected := `db.runCommand({"find": "values", "filter": {"v": {"$eq": Int32(42)}}, ` +
-		`"sort": {"_id": Int32(1)}, "$db": "test"});` + "\n"
+	expected := `db.runCommand({"find": "values", "filter": {"v": {"$eq": 42}}, ` +
+		`"sort": {"_id": 1}, "$db": "test"});` + "\n"
 
 	actual, err := ConvertRequest(req)
 	require.NoError(t, err)
@@ -53,7 +53,7 @@ func TestConvertResponse(t *testing.T) {
 	)
 
 	expected := `response = {"cursor": {"firstBatch": [` +
-		`{"_id": "int32-zero", "v": Int32(0)}, ` +
+		`{"_id": "int32-zero", "v": 0}, ` +
 		`{"_id": "int64-zero", "v": Long(0)` +
 		`}], "id": Long(0), "ns": "test.values"}` +
 		`}` + "\n"

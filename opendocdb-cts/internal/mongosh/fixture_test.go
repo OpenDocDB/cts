@@ -38,7 +38,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int32", "v": Int32(42)}]);`,
+			db.c.insertMany([{"_id": "int32", "v": 42}]);`,
 		},
 		"Binary": {
 			fixtures: data.Fixtures{
