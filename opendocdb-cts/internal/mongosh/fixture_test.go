@@ -194,6 +194,8 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			// TODO: use cli flag
 			dbName := "test"
 
+			collName := "c"
+
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
@@ -216,6 +218,22 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, err)
 
 			// fetch data from collection with wireclient from database
+
+			// TODO fetch all of the cursor data
+			_, res, err := conn.Request(ctx, wire.MustOpMsg(
+				"find", collName,
+				"$db", dbName,
+			))
+			require.NoError(t, err)
+
+			var b wirebson.RawDocument
+			b, err = res.MarshalBinary()
+			require.NoError(t, err)
+
+			doc, err := b.Decode()
+			require.NoError(t, err)
+
+			assert.Equal(t, tc.fixtures["c"][0], doc)
 
 			// compare fetched data with inserted from fixtures
 		})
