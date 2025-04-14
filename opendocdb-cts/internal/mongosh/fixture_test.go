@@ -18,6 +18,7 @@ import (
 	"context"
 	"log/slog"
 	"math"
+	"os"
 	"testing"
 	"time"
 
@@ -170,6 +171,9 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, err)
 			assert.Equal(t, unindent(tc.expected)+"\n", actual)
 
+			f, err := os.CreateTemp("", name+".js")
+			require.NoError(t, err)
+
 			ctx := context.TODO()
 
 			// cleanup database
@@ -181,6 +185,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			t.Cleanup(func() {
 				require.NoError(t, conn.Close())
+				f.Close()
 			})
 
 			require.NoError(t, conn.Ping(ctx))
