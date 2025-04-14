@@ -16,10 +16,14 @@ package mongosh
 
 import (
 	"context"
+	"fmt"
+	"io"
 	"log/slog"
 	"math"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -184,12 +188,13 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, f.Close())
 
 			ctx := context.TODO()
+			l := slog.Default()
 
 			// cleanup database
 			// TODO: use cli flag
 			dbName := "test"
 
-			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", slog.Default())
+			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
 			t.Cleanup(func() {
@@ -207,11 +212,27 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			// run command against database
 
-			// TODO mongosh -f path...
+			err = runMongosh(l, path, os.Stderr)
+			require.NoError(t, err)
 
 			// fetch data from collection with wireclient from database
 
 			// compare fetched data with inserted from fixtures
 		})
 	}
+}
+
+// TODO run in docker exec
+func runMongosh(l *slog.Logger, path string, stdout io.Writer) error {
+	cmd := exec.Command("mongosh", "--f", path, "mongodb://127.0.0.1:27001/")
+	l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
+
+	cmd.Stdout = stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("%s failed: %s", strings.Join(cmd.Args, " "), err)
+	}
+
+	return nil
 }
