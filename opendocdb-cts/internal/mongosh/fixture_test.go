@@ -165,6 +165,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			actual, err := ConvertFixtures(tc.fixtures)
 			require.NoError(t, err)
 			assert.Equal(t, unindent(tc.expected)+"\n", actual)
+
+			// cleanup database
+
+			// run command against database
+
+			// fetch data from collection with wireclient from database
+
+			// compare fetched data with inserted from fixtures
 		})
 	}
 }
