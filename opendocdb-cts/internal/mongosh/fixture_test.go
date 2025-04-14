@@ -15,11 +15,15 @@
 package mongosh
 
 import (
+	"context"
+	"log/slog"
 	"math"
 	"testing"
 	"time"
 
+	"github.com/FerretDB/wire"
 	"github.com/FerretDB/wire/wirebson"
+	"github.com/FerretDB/wire/wireclient"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -166,7 +170,26 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, err)
 			assert.Equal(t, unindent(tc.expected)+"\n", actual)
 
+			ctx := context.TODO()
+
 			// cleanup database
+			// TODO: use cli flag
+			dbName := "test"
+
+			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", slog.Default())
+			require.NoError(t, err)
+
+			t.Cleanup(func() {
+				require.NoError(t, conn.Close())
+			})
+
+			require.NoError(t, conn.Ping(ctx))
+
+			_, _, err = conn.Request(ctx, wire.MustOpMsg(
+				"dropDatabase", int32(1),
+				"$db", dbName,
+			))
+			require.NoError(t, err)
 
 			// run command against database
 
