@@ -228,10 +228,11 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			doc, err := body.(*wire.OpMsg).DocumentDeep()
 			require.NoError(t, err)
 
+			// compare fetched data with inserted from fixtures
+
 			// TODO fetch all of the cursor data
 			assert.Equal(t, tc.fixtures["c"][0], doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array).Get(0))
 
-			// compare fetched data with inserted from fixtures
 		})
 	}
 }
