@@ -219,7 +219,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			// fetch data from collection with wireclient from database
 
-			// TODO fetch all of the cursor data
 			_, body, err := conn.Request(ctx, wire.MustOpMsg(
 				"find", collName,
 				"$db", dbName,
@@ -229,7 +228,8 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			doc, err := body.(*wire.OpMsg).DocumentDeep()
 			require.NoError(t, err)
 
-			assert.Equal(t, tc.fixtures["c"][0], doc)
+			// TODO fetch all of the cursor data
+			assert.Equal(t, tc.fixtures["c"][0], doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array).Get(0))
 
 			// compare fetched data with inserted from fixtures
 		})
