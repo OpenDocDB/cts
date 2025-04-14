@@ -19,6 +19,7 @@ import (
 	"log/slog"
 	"math"
 	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
@@ -174,6 +175,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			f, err := os.CreateTemp("", name+".js")
 			require.NoError(t, err)
 
+			_, err = f.WriteString(actual)
+			require.NoError(t, err)
+
+			path, err := filepath.Abs(f.Name())
+			require.NoError(t, err)
+
+			require.NoError(t, f.Close())
+
 			ctx := context.TODO()
 
 			// cleanup database
@@ -197,6 +206,8 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, err)
 
 			// run command against database
+
+			// TODO mongosh -f path...
 
 			// fetch data from collection with wireclient from database
 
