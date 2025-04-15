@@ -38,6 +38,9 @@ import (
 )
 
 func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of lines for readability
+	mountDir := "/tmp/mongosh-scripts"
+	require.NoError(t, os.MkdirAll(mountDir, 0755))
+
 	for name, tc := range map[string]struct {
 		fixtures data.Fixtures
 		expected string
@@ -177,15 +180,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			require.NoError(t, err)
 			assert.Equal(t, unindent(tc.expected)+"\n", actualJS)
 
-			f, err := os.CreateTemp("", name+".js")
+			path := filepath.Join(mountDir, name+".js")
+			f, err := os.Create(path)
 			require.NoError(t, err)
 
 			_, err = f.WriteString(actualJS)
 			require.NoError(t, err)
-
-			path, err := filepath.Abs(f.Name())
-			require.NoError(t, err)
-
 			require.NoError(t, f.Close())
 
 			ctx := context.Background()
@@ -193,13 +193,13 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			dbName := "test"
 
-			// TODO: use cli flag
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
 			t.Cleanup(func() {
 				require.NoError(t, conn.Close())
 				_ = f.Close()
+				_ = os.Remove(path)
 			})
 
 			require.NoError(t, conn.Ping(ctx))
@@ -238,9 +238,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 	}
 }
 
-// TODO run in docker exec
 func runMongosh(l *slog.Logger, path string, stdout io.Writer) error {
-	cmd := exec.Command("mongosh", "--f", path, "mongodb://127.0.0.1:27001/")
+	cmd := exec.Command(
+		"docker", "compose", "exec", "-T",
+		"-v", "/tmp/mongosh-scripts:/tmp/mongosh-scripts",
+		"mongodb", "mongosh", "--file", path, "mongodb://127.0.0.1:27001/",
+	)
 	l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
 
 	cmd.Stdout = stdout
