@@ -30,6 +30,7 @@ import (
 	"github.com/FerretDB/wire"
 	"github.com/FerretDB/wire/wirebson"
 	"github.com/FerretDB/wire/wireclient"
+	"github.com/neilotoole/slogt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -177,14 +178,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			actual, err := ConvertFixtures(tc.fixtures)
+			actualJS, err := ConvertFixtures(tc.fixtures)
 			require.NoError(t, err)
-			assert.Equal(t, unindent(tc.expected)+"\n", actual)
+			assert.Equal(t, unindent(tc.expected)+"\n", actualJS)
 
 			f, err := os.CreateTemp("", name+".js")
 			require.NoError(t, err)
 
-			_, err = f.WriteString(actual)
+			_, err = f.WriteString(actualJS)
 			require.NoError(t, err)
 
 			path, err := filepath.Abs(f.Name())
@@ -192,19 +193,18 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			require.NoError(t, f.Close())
 
-			ctx := context.TODO()
-			l := slog.Default()
+			ctx := context.Background()
+			l := slogt.New(t)
 
-			// cleanup database
-			// TODO: use cli flag
 			dbName := "test"
 
+			// TODO: use cli flag
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
 			t.Cleanup(func() {
 				require.NoError(t, conn.Close())
-				f.Close()
+				_ = f.Close()
 			})
 
 			require.NoError(t, conn.Ping(ctx))
@@ -214,8 +214,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				"$db", dbName,
 			))
 			require.NoError(t, err)
-
-			// run command against database
 
 			err = runMongosh(l, path, os.Stderr)
 			require.NoError(t, err)
@@ -235,15 +233,11 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
 
 				var actual []*wirebson.Document
-
 				for v := range fixtures.Values() {
 					actual = append(actual, v.(*wirebson.Document))
 				}
 
-				expected := tc.fixtures[collName]
-
-				// TODO fetch all of the cursor data
-				assert.Equal(t, []*wirebson.Document(expected), actual)
+				assert.Equal(t, []*wirebson.Document(tc.fixtures[collName]), actual)
 			}
 		})
 	}
