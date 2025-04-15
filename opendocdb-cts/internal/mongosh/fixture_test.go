@@ -46,9 +46,13 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				"c": []*wirebson.Document{
 					wirebson.MustDocument("_id", "int32", "v", int32(42)),
 				},
+				"c2": []*wirebson.Document{
+					wirebson.MustDocument("_id", "int32", "v", int32(43)),
+				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int32", "v": 42}]);`,
+			db.c.insertMany([{"_id": "int32", "v": 42}]);
+			db.c2.insertMany([{"_id": "int32", "v": 43}]);`,
 		},
 		"Binary": {
 			fixtures: data.Fixtures{
@@ -194,8 +198,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			// TODO: use cli flag
 			dbName := "test"
 
-			collName := "c"
-
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
@@ -219,20 +221,21 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			// fetch data from collection with wireclient from database
 
-			_, body, err := conn.Request(ctx, wire.MustOpMsg(
-				"find", collName,
-				"$db", dbName,
-			))
-			require.NoError(t, err)
+			for collName := range tc.fixtures {
+				_, body, err := conn.Request(ctx, wire.MustOpMsg(
+					"find", collName,
+					"$db", dbName,
+				))
+				require.NoError(t, err)
 
-			doc, err := body.(*wire.OpMsg).DocumentDeep()
-			require.NoError(t, err)
+				doc, err := body.(*wire.OpMsg).DocumentDeep()
+				require.NoError(t, err)
 
-			// compare fetched data with inserted from fixtures
+				// compare fetched data with inserted from fixtures
 
-			// TODO fetch all of the cursor data
-			assert.Equal(t, tc.fixtures["c"][0], doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array).Get(0))
-
+				// TODO fetch all of the cursor data
+				assert.Equal(t, tc.fixtures[collName][0], doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array).Get(0))
+			}
 		})
 	}
 }
