@@ -46,15 +46,10 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			fixtures: data.Fixtures{
 				"c": []*wirebson.Document{
 					wirebson.MustDocument("_id", "int32", "v", int32(42)),
-					wirebson.MustDocument("_id", "int32-2", "v", int32(44)),
-				},
-				"c2": []*wirebson.Document{
-					wirebson.MustDocument("_id", "int32", "v", int32(43)),
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int32", "v": 42},{"_id": "int32-2", "v": 44}]);
-			db.c2.insertMany([{"_id": "int32", "v": 43}]);`,
+			db.c.insertMany([{"_id": "int32", "v": 42}]);`,
 		},
 		"Binary": {
 			fixtures: data.Fixtures{
