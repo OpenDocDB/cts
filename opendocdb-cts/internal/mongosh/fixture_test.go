@@ -45,13 +45,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			fixtures: data.Fixtures{
 				"c": []*wirebson.Document{
 					wirebson.MustDocument("_id", "int32", "v", int32(42)),
+					wirebson.MustDocument("_id", "int32-2", "v", int32(44)),
 				},
 				"c2": []*wirebson.Document{
 					wirebson.MustDocument("_id", "int32", "v", int32(43)),
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int32", "v": 42}]);
+			db.c.insertMany([{"_id": "int32", "v": 42},{"_id": "int32-2", "v": 44}]);
 			db.c2.insertMany([{"_id": "int32", "v": 43}]);`,
 		},
 		"Binary": {
@@ -233,8 +234,18 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 				// compare fetched data with inserted from fixtures
 
+				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
+
+				var actual []*wirebson.Document
+
+				for v := range fixtures.Values() {
+					actual = append(actual, v.(*wirebson.Document))
+				}
+
+				expected := tc.fixtures[collName]
+
 				// TODO fetch all of the cursor data
-				assert.Equal(t, tc.fixtures[collName][0], doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array).Get(0))
+				assert.Equal(t, []*wirebson.Document(expected), actual)
 			}
 		})
 	}
