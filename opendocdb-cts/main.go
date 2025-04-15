@@ -43,6 +43,7 @@ var cli struct {
 
 	Convert struct {
 		OutDir string `type:"path" arg:"" help:"Output directory."`
+		DB     string `default:"db" help:"Database name to be used in CTS files."`
 	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {
@@ -67,7 +68,11 @@ func fmtCommand() error {
 
 // runCommand implements the "convert" command.
 func convertCommand() error {
-	fixtures, testSuites, err := data.Load(cli.Dir, nil)
+	vars := map[string]string{
+		"Database": cli.Convert.DB,
+	}
+
+	fixtures, testSuites, err := data.Load(cli.Dir, vars)
 	if err != nil {
 		return err
 	}
