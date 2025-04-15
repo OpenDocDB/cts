@@ -220,19 +220,17 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			err = runMongosh(l, path, os.Stderr)
 			require.NoError(t, err)
 
-			// fetch data from collection with wireclient from database
-
 			for collName := range tc.fixtures {
 				_, body, err := conn.Request(ctx, wire.MustOpMsg(
 					"find", collName,
 					"$db", dbName,
+					// we don't expect large batch here
+					"singleBatch", true,
 				))
 				require.NoError(t, err)
 
 				doc, err := body.(*wire.OpMsg).DocumentDeep()
 				require.NoError(t, err)
-
-				// compare fetched data with inserted from fixtures
 
 				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
 
