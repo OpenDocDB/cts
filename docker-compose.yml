@@ -15,7 +15,6 @@ services:
       - TZ=Asia/Kathmandu
     volumes:
       - ./build/mongodb.conf:/etc/mongodb.conf
-      - /tmp/mongosh-scripts:/tmp/mongosh-scripts
       - ./tmp/testscripts:/testscripts
 
 
