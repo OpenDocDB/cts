@@ -156,7 +156,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			},
 			expected: `
 			db.c.insertMany([{"_id": "decimal128", "v": Decimal128("42.13")}]);`,
-			skip: "TODO fix decimal128 comparison",
+			skip: "https://github.com/OpenDocDB/cts/issues/34",
 		},
 		"Infinity": {
 			fixtures: data.Fixtures{
