@@ -18,6 +18,7 @@ import (
 	"fmt"
 
 	"github.com/FerretDB/wire/wirebson"
+	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 )
 
 // ConvertRequest converts wirebson's request Document to a mongosh's JavaScript `runCommand`.
@@ -38,4 +39,20 @@ func ConvertResponse(res *wirebson.Document) (string, error) {
 	}
 
 	return "response = " + s + "\n", nil
+}
+
+// ConvertTestCase converts request and response from provided tc,
+// to a mongosh's JavaScript format.
+func ConvertTestCase(tc data.TestCase) (req string, res string, err error) {
+	req, err = ConvertRequest(tc.Request)
+	if err != nil {
+		return "", "", err
+	}
+
+	res, err = ConvertResponse(tc.Response)
+	if err != nil {
+		return "", "", err
+	}
+
+	return req, res, err
 }

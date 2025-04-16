@@ -85,7 +85,6 @@ func convertCommand() error {
 
 	for name, fx := range fixtures {
 		var fxs string
-
 		fxs, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
 			return err
@@ -111,7 +110,7 @@ func convertCommand() error {
 		for tcName, tc := range ts {
 			filename := fmt.Sprintf("%s.js", tcName)
 
-			req, res, err := convertTestCase(tc)
+			req, res, err := mongosh.ConvertTestCase(tc)
 			if err != nil {
 				return err
 			}
@@ -127,22 +126,6 @@ func convertCommand() error {
 	}
 
 	return nil
-}
-
-// convertTestCase returns request and response from provided tc,
-// converted to JavaScript format.
-func convertTestCase(tc data.TestCase) (req string, res string, err error) {
-	req, err = mongosh.ConvertRequest(tc.Request)
-	if err != nil {
-		return "", "", err
-	}
-
-	res, err = mongosh.ConvertResponse(tc.Response)
-	if err != nil {
-		return "", "", err
-	}
-
-	return req, res, err
 }
 
 // runCommand implements the "run" command.
