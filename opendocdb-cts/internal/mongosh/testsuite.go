@@ -18,6 +18,7 @@ import (
 	"fmt"
 
 	"github.com/FerretDB/wire/wirebson"
+
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 )
 

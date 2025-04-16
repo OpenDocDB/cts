@@ -43,7 +43,8 @@ var cli struct {
 
 	Convert struct {
 		OutDir string `type:"path" arg:"" help:"Output directory."`
-		DB     string `default:"db" help:"Database name to be used in CTS files."`
+
+		DB string `default:"db" help:"Database name to be used in CTS files."`
 	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {

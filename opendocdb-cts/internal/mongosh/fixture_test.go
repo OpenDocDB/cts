@@ -237,6 +237,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				doc, err := body.(*wire.OpMsg).DocumentDeep()
 				require.NoError(t, err)
 
+				//nolint:revive // don't need to check type cast
 				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
 
 				var actual []*wirebson.Document
