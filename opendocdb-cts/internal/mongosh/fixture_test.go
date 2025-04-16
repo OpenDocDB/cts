@@ -38,8 +38,8 @@ import (
 )
 
 func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of lines for readability
-	mountDir := "/tmp/mongosh-scripts"
-	containerDir := "/tmp/mongosh-scripts"
+	mountDir := filepath.Join("..", "..", "..", "tmp", "testscripts")
+	containerDir := "/testscripts"
 
 	require.NoError(t, os.MkdirAll(mountDir, 0o755))
 
@@ -184,6 +184,10 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				t.Skip(tc.skip)
 			}
 
+			ctx := context.Background()
+			l := slogt.New(t)
+			dbName := "test"
+
 			actualJS, err := ConvertFixtures(tc.fixtures)
 			require.NoError(t, err)
 			assert.Equal(t, unindent(tc.expected)+"\n", actualJS)
@@ -195,11 +199,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			_, err = f.WriteString(actualJS)
 			require.NoError(t, err)
 			require.NoError(t, f.Close())
-
-			ctx := context.Background()
-			l := slogt.New(t)
-
-			dbName := "test"
 
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
