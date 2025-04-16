@@ -17,8 +17,6 @@ package mongosh
 import (
 	"context"
 	"fmt"
-	"io"
-	"log/slog"
 	"math"
 	"os"
 	"os/exec"
@@ -198,6 +196,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			_, err = f.WriteString(actualJS)
 			require.NoError(t, err)
+
 			require.NoError(t, f.Close())
 
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
@@ -217,8 +216,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			))
 			require.NoError(t, err)
 
-			err = runMongosh(l, filepath.Join(containerDir, name+".js"), os.Stderr)
-			require.NoError(t, err)
+			cmd := exec.Command(
+				"docker", "compose", "exec", "-T", "mongodb",
+				"mongosh", "--file", filepath.Join(containerDir, name+".js"), "mongodb://127.0.0.1:27001/",
+			)
+			l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
+
+			err = cmd.Run()
+			require.NoError(t, err, "%s failed: %s", strings.Join(cmd.Args, " "), err)
 
 			for collName := range tc.fixtures {
 				_, body, err := conn.Request(ctx, wire.MustOpMsg(
@@ -243,21 +248,4 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			}
 		})
 	}
-}
-
-func runMongosh(l *slog.Logger, path string, stdout io.Writer) error {
-	cmd := exec.Command(
-		"docker", "compose", "exec", "-T",
-		"mongodb", "mongosh", "--file", path, "mongodb://127.0.0.1:27001/",
-	)
-	l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
-
-	cmd.Stdout = stdout
-	cmd.Stderr = os.Stderr
-
-	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("%s failed: %s", strings.Join(cmd.Args, " "), err)
-	}
-
-	return nil
 }
