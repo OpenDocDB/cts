@@ -28,6 +28,7 @@ import (
 	"github.com/FerretDB/wire"
 	"github.com/FerretDB/wire/wirebson"
 	"github.com/FerretDB/wire/wireclient"
+	"github.com/FerretDB/wire/wiretest"
 	"github.com/neilotoole/slogt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -242,12 +243,17 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				//nolint:revive // don't need to check type cast
 				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
 
-				var actual []*wirebson.Document
+				var actual []any
 				for v := range fixtures.Values() {
 					actual = append(actual, v.(*wirebson.Document))
 				}
 
-				assert.Equal(t, []*wirebson.Document(tc.fixtures[collName]), actual)
+				var expected []any
+				for _, v := range tc.fixtures[collName] {
+					expected = append(expected, v)
+				}
+
+				wiretest.AssertEqualSlices(t, expected, actual)
 			}
 		})
 	}
