@@ -191,23 +191,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			assert.Equal(t, unindent(tc.expected)+"\n", actualJS)
 
 			mountPath := filepath.Join(mountDir, name+".js")
-			f, err := os.Create(mountPath)
+			err = os.WriteFile(mountPath, []byte(actualJS), 0o666)
 			require.NoError(t, err)
-
-			t.Cleanup(func() {
-				_ = f.Close()
-				_ = os.Remove(mountPath)
-			})
-
-			_, err = f.WriteString(actualJS)
-			require.NoError(t, err)
-
-			require.NoError(t, f.Close())
 
 			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
 			require.NoError(t, err)
 
 			t.Cleanup(func() {
+				_ = os.Remove(mountPath)
 				require.NoError(t, conn.Close())
 			})
 
