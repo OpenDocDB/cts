@@ -119,6 +119,7 @@ func convert(v any) (string, error) {
 		// the legacy shell handles Long() / NumberLong() differently
 		return fmt.Sprintf(`Long(%d)`, v), nil
 	case wirebson.Decimal128:
+		// TODO https://github.com/OpenDocDB/cts/issues/34
 		return fmt.Sprintf(`Decimal128("%d.%d")`, v.H, v.L), nil
 	default:
 		return "", fmt.Errorf("mongosh.convert: invalid BSON type %T", v)
