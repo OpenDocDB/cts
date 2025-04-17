@@ -178,13 +178,14 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			if tc.skip != "" {
 				t.Skip(tc.skip)
 			}
 
 			ctx := context.Background()
 			l := slogt.New(t)
-			dbName := "test"
+			dbName := strings.ReplaceAll(t.Name(), "/", "-")
 
 			actualJS, err := ConvertFixtures(tc.fixtures)
 			require.NoError(t, err)
@@ -218,7 +219,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			cmd := exec.Command(
 				"docker", "compose", "exec", "-T", "mongodb",
-				"mongosh", "--file", filepath.Join(containerDir, name+".js"), "mongodb://127.0.0.1:27001/",
+				"mongosh", "--file", filepath.Join(containerDir, name+".js"), "mongodb://127.0.0.1:27001/"+dbName,
 			)
 			l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
 
