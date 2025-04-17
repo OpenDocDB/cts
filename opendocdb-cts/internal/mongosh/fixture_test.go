@@ -39,8 +39,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 	mountDir := filepath.Join("..", "..", "..", "tmp", "testscripts")
 	containerDir := "/testscripts"
 
-	require.NoError(t, os.MkdirAll(mountDir, 0o755))
-
 	for name, tc := range map[string]struct {
 		fixtures data.Fixtures
 		expected string
@@ -195,6 +193,11 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 			f, err := os.Create(mountPath)
 			require.NoError(t, err)
 
+			t.Cleanup(func() {
+				_ = f.Close()
+				_ = os.Remove(mountPath)
+			})
+
 			_, err = f.WriteString(actualJS)
 			require.NoError(t, err)
 
@@ -205,8 +208,6 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 
 			t.Cleanup(func() {
 				require.NoError(t, conn.Close())
-				_ = f.Close()
-				_ = os.Remove(mountPath)
 			})
 
 			require.NoError(t, conn.Ping(ctx))
