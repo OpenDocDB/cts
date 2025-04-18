@@ -16,6 +16,8 @@ package mongosh
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/FerretDB/wire/wirebson"
 
@@ -56,4 +58,38 @@ func ConvertTestCase(tc data.TestCase) (req string, res string, err error) {
 	}
 
 	return req, res, err
+}
+
+func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
+	for tsName, ts := range testSuites {
+		reqDir := filepath.Join(outDir, "requests", tsName)
+		resDir := filepath.Join(outDir, "responses", tsName)
+
+		if err := os.MkdirAll(reqDir, 0o766); err != nil {
+			return err
+		}
+
+		if err := os.MkdirAll(resDir, 0o766); err != nil {
+			return err
+		}
+
+		for tcName, tc := range ts {
+			filename := fmt.Sprintf("%s.js", tcName)
+
+			req, res, err := ConvertTestCase(tc)
+			if err != nil {
+				return err
+			}
+
+			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0o666); err != nil {
+				return err
+			}
+
+			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }

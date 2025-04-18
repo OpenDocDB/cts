@@ -18,7 +18,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
@@ -96,37 +95,7 @@ func convertCommand() error {
 		}
 	}
 
-	for tsName, ts := range testSuites {
-		reqDir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
-		resDir := filepath.Join(cli.Convert.OutDir, "responses", tsName)
-
-		if err = os.MkdirAll(reqDir, 0o766); err != nil {
-			return err
-		}
-
-		if err = os.MkdirAll(resDir, 0o766); err != nil {
-			return err
-		}
-
-		for tcName, tc := range ts {
-			filename := fmt.Sprintf("%s.js", tcName)
-
-			req, res, err := mongosh.ConvertTestCase(tc)
-			if err != nil {
-				return err
-			}
-
-			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0o666); err != nil {
-				return err
-			}
-
-			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
+	return mongosh.ConvertTestSuites(testSuites, cli.Convert.OutDir)
 }
 
 // runCommand implements the "run" command.
