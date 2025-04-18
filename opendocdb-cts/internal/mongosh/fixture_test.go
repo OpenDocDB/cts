@@ -37,6 +37,8 @@ import (
 )
 
 func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of lines for readability
+	t.Parallel()
+
 	mountDir := filepath.Join("..", "..", "..", "tmp", "testscripts")
 	containerDir := "/testscripts"
 
