@@ -44,22 +44,9 @@ func ConvertResponse(res *wirebson.Document) (string, error) {
 	return "response = " + s + "\n", nil
 }
 
-// ConvertTestCase converts request and response from provided tc,
-// to a mongosh's JavaScript format.
-func ConvertTestCase(tc data.TestCase) (req string, res string, err error) {
-	req, err = ConvertRequest(tc.Request)
-	if err != nil {
-		return "", "", err
-	}
-
-	res, err = ConvertResponse(tc.Response)
-	if err != nil {
-		return "", "", err
-	}
-
-	return req, res, err
-}
-
+// ConvertTestSuites converts request and response from each testsuite
+// to a mongosh's JavaScript format, and writes them to files in specified
+// directory.
 func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 	for tsName, ts := range testSuites {
 		reqDir := filepath.Join(outDir, "requests", tsName)
@@ -76,7 +63,12 @@ func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 		for tcName, tc := range ts {
 			filename := fmt.Sprintf("%s.js", tcName)
 
-			req, res, err := ConvertTestCase(tc)
+			req, err := ConvertRequest(tc.Request)
+			if err != nil {
+				return err
+			}
+
+			res, err := ConvertResponse(tc.Response)
 			if err != nil {
 				return err
 			}
