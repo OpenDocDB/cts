@@ -15,6 +15,7 @@ services:
       - TZ=Asia/Kathmandu
     volumes:
       - ./build/mongodb.conf:/etc/mongodb.conf
+      - ./tmp/testscripts:/testscripts
 
   ferretdb:
     build:
