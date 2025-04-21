@@ -152,7 +152,7 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 		"Decimal": {
 			fixtures: data.Fixtures{
 				"c": []*wirebson.Document{
-					wirebson.MustDocument("_id", "decimal128", "v", wirebson.Decimal128{H: 42, L: 13}),
+					wirebson.MustDocument("_id", "decimal128", "v", wirebson.Decimal128{H: 3475653012423180288, L: 4213}),
 				},
 			},
 			expected: `
