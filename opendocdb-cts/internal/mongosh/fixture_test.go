@@ -239,17 +239,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				//nolint:revive // don't need to check type cast
 				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
 
-				var actual []any
+				var actual []*wirebson.Document
 				for v := range fixtures.Values() {
 					actual = append(actual, v.(*wirebson.Document))
 				}
 
-				var expected []any
-				for _, v := range tc.fixtures[collName] {
-					expected = append(expected, v)
-				}
-
-				wiretest.AssertEqualSlices(t, expected, actual)
+				wiretest.AssertEqualSlices(t, tc.fixtures[collName], actual)
 			}
 		})
 	}
