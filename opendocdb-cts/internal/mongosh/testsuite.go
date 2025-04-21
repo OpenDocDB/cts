@@ -66,11 +66,13 @@ func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(tsDir, fmt.Sprintf("%s.request.js", tcName)), []byte(req), 0o666); err != nil {
+			reqFile := fmt.Sprintf("%s.request.js", tcName)
+			if err = os.WriteFile(filepath.Join(tsDir, reqFile), []byte(req), 0o666); err != nil {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(tsDir, fmt.Sprintf("%s.response.js", tcName)), []byte(res), 0o666); err != nil {
+			resFile := fmt.Sprintf("%s.response.js", tcName)
+			if err = os.WriteFile(filepath.Join(tsDir, resFile), []byte(res), 0o666); err != nil {
 				return err
 			}
 		}
