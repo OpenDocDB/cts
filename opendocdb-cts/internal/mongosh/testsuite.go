@@ -49,20 +49,13 @@ func ConvertResponse(res *wirebson.Document) (string, error) {
 // directory.
 func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 	for tsName, ts := range testSuites {
-		reqDir := filepath.Join(outDir, "requests", tsName)
-		resDir := filepath.Join(outDir, "responses", tsName)
+		tsDir := filepath.Join(outDir, tsName)
 
-		if err := os.MkdirAll(reqDir, 0o777); err != nil {
-			return err
-		}
-
-		if err := os.MkdirAll(resDir, 0o777); err != nil {
+		if err := os.MkdirAll(tsDir, 0o777); err != nil {
 			return err
 		}
 
 		for tcName, tc := range ts {
-			filename := fmt.Sprintf("%s.js", tcName)
-
 			req, err := ConvertRequest(tc.Request)
 			if err != nil {
 				return err
@@ -73,11 +66,11 @@ func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0o666); err != nil {
+			if err = os.WriteFile(filepath.Join(tsDir, fmt.Sprintf("%s.request.js", tcName)), []byte(req), 0o666); err != nil {
 				return err
 			}
 
-			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
+			if err = os.WriteFile(filepath.Join(tsDir, fmt.Sprintf("%s.response.js", tcName)), []byte(res), 0o666); err != nil {
 				return err
 			}
 		}
