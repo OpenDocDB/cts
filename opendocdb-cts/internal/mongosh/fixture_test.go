@@ -15,11 +15,21 @@
 package mongosh
 
 import (
+	"context"
+	"fmt"
 	"math"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
+	"github.com/FerretDB/wire"
 	"github.com/FerretDB/wire/wirebson"
+	"github.com/FerretDB/wire/wireclient"
+	"github.com/FerretDB/wire/wiretest"
+	"github.com/neilotoole/slogt"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -27,9 +37,15 @@ import (
 )
 
 func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of lines for readability
+	t.Parallel()
+
+	mountDir := filepath.Join("..", "..", "..", "tmp", "testscripts")
+	containerDir := "/testscripts"
+
 	for name, tc := range map[string]struct {
 		fixtures data.Fixtures
 		expected string
+		skip     string
 	}{
 		"simple": {
 			fixtures: data.Fixtures{
@@ -136,11 +152,15 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 		"Decimal": {
 			fixtures: data.Fixtures{
 				"c": []*wirebson.Document{
-					wirebson.MustDocument("_id", "decimal128", "v", wirebson.Decimal128{H: 42, L: 13}),
+					wirebson.MustDocument(
+						"_id", "decimal128",
+						"v", wirebson.Decimal128{H: 3475653012423180288, L: 4213},
+					),
 				},
 			},
 			expected: `
 			db.c.insertMany([{"_id": "decimal128", "v": Decimal128("42.13")}]);`,
+			skip: "https://github.com/OpenDocDB/cts/issues/34",
 		},
 		"Infinity": {
 			fixtures: data.Fixtures{
@@ -162,9 +182,73 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
-			actual, err := ConvertFixtures(tc.fixtures)
+			t.Parallel()
+			if tc.skip != "" {
+				t.Skip(tc.skip)
+			}
+
+			ctx := context.Background()
+			l := slogt.New(t)
+			dbName := strings.ReplaceAll(t.Name(), "/", "-")
+
+			actualJS, err := ConvertFixtures(tc.fixtures)
 			require.NoError(t, err)
-			assert.Equal(t, unindent(tc.expected)+"\n", actual)
+			assert.Equal(t, unindent(tc.expected)+"\n", actualJS)
+
+			mountPath := filepath.Join(mountDir, name+".js")
+			err = os.WriteFile(mountPath, []byte(actualJS), 0o666)
+			require.NoError(t, err)
+
+			t.Cleanup(func() {
+				require.NoError(t, os.Remove(mountPath))
+			})
+
+			conn, err := wireclient.Connect(ctx, "mongodb://127.0.0.1:27001/", l)
+			require.NoError(t, err)
+
+			t.Cleanup(func() {
+				require.NoError(t, conn.Close())
+			})
+
+			require.NoError(t, conn.Ping(ctx))
+
+			_, _, err = conn.Request(ctx, wire.MustOpMsg(
+				"dropDatabase", int32(1),
+				"$db", dbName,
+			))
+			require.NoError(t, err)
+
+			cmd := exec.Command(
+				"docker", "compose", "exec", "-T", "mongodb",
+				"mongosh", "--file", filepath.Join(containerDir, name+".js"), "mongodb://127.0.0.1:27001/"+dbName,
+			)
+			l.Debug(fmt.Sprintf("Running %s", strings.Join(cmd.Args, " ")))
+
+			err = cmd.Run()
+			require.NoError(t, err, "%s failed: %s", strings.Join(cmd.Args, " "), err)
+
+			for collName := range tc.fixtures {
+				_, body, err := conn.Request(ctx, wire.MustOpMsg(
+					"find", collName,
+					"$db", dbName,
+					// we don't expect large batch here
+					"singleBatch", true,
+				))
+				require.NoError(t, err)
+
+				doc, err := body.(*wire.OpMsg).DocumentDeep()
+				require.NoError(t, err)
+
+				//nolint:revive // don't need to check type cast
+				fixtures := doc.Get("cursor").(*wirebson.Document).Get("firstBatch").(*wirebson.Array)
+
+				var actual []*wirebson.Document
+				for v := range fixtures.Values() {
+					actual = append(actual, v.(*wirebson.Document))
+				}
+
+				wiretest.AssertEqualSlices(t, tc.fixtures[collName], actual)
+			}
 		})
 	}
 }
