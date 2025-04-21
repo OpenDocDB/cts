@@ -52,11 +52,11 @@ func ConvertTestSuites(testSuites data.TestSuites, outDir string) error {
 		reqDir := filepath.Join(outDir, "requests", tsName)
 		resDir := filepath.Join(outDir, "responses", tsName)
 
-		if err := os.MkdirAll(reqDir, 0o766); err != nil {
+		if err := os.MkdirAll(reqDir, 0o777); err != nil {
 			return err
 		}
 
-		if err := os.MkdirAll(resDir, 0o766); err != nil {
+		if err := os.MkdirAll(resDir, 0o777); err != nil {
 			return err
 		}
 

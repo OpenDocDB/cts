@@ -79,7 +79,7 @@ func convertCommand() error {
 
 	fixtureDir := filepath.Join(cli.Convert.OutDir, "fixtures")
 
-	if err = os.MkdirAll(fixtureDir, 0o766); err != nil {
+	if err = os.MkdirAll(fixtureDir, 0o777); err != nil {
 		return err
 	}
 
