@@ -5,7 +5,7 @@ go 1.24
 toolchain go1.24.2
 
 require (
-	github.com/FerretDB/wire v0.0.20
+	github.com/FerretDB/wire v0.0.23
 	github.com/alecthomas/kong v1.10.0
 	github.com/neilotoole/slogt v1.1.0
 	github.com/pmezard/go-difflib v1.0.0
