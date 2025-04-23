@@ -114,12 +114,12 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		return err
 	}
 
-	if err = r.Setup(ctx, f); err != nil {
-		return err
-	}
-
 	var failed bool
 	for name, ts := range tss {
+		if err = r.Setup(ctx, f); err != nil {
+			return err
+		}
+
 		if cli.Run.Golden {
 			path := filepath.Join(cli.Dir, name+".json")
 			err = r.RunGolden(ctx, ts, path, vars)
