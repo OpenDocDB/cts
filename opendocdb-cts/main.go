@@ -18,7 +18,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
@@ -43,6 +42,8 @@ var cli struct {
 
 	Convert struct {
 		OutDir string `type:"path" arg:"" help:"Output directory."`
+
+		DB string `default:"db" help:"Database name to be used in CTS files."`
 	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {
@@ -67,20 +68,23 @@ func fmtCommand() error {
 
 // runCommand implements the "convert" command.
 func convertCommand() error {
-	fixtures, testSuites, err := data.Load(cli.Dir, nil)
+	vars := map[string]string{
+		"Database": cli.Convert.DB,
+	}
+
+	fixtures, testSuites, err := data.Load(cli.Dir, vars)
 	if err != nil {
 		return err
 	}
 
 	fixtureDir := filepath.Join(cli.Convert.OutDir, "fixtures")
 
-	if err = os.MkdirAll(fixtureDir, 0o766); err != nil {
+	if err = os.MkdirAll(fixtureDir, 0o777); err != nil {
 		return err
 	}
 
 	for name, fx := range fixtures {
 		var fxs string
-
 		fxs, err = mongosh.ConvertFixtures(map[string]data.Fixture{name: fx})
 		if err != nil {
 			return err
@@ -91,53 +95,7 @@ func convertCommand() error {
 		}
 	}
 
-	for tsName, ts := range testSuites {
-		reqDir := filepath.Join(cli.Convert.OutDir, "requests", tsName)
-		resDir := filepath.Join(cli.Convert.OutDir, "responses", tsName)
-
-		if err = os.MkdirAll(reqDir, 0o766); err != nil {
-			return err
-		}
-
-		if err = os.MkdirAll(resDir, 0o766); err != nil {
-			return err
-		}
-
-		for tcName, tc := range ts {
-			filename := fmt.Sprintf("%s.js", tcName)
-
-			req, res, err := convertTestCase(tc)
-			if err != nil {
-				return err
-			}
-
-			if err = os.WriteFile(filepath.Join(reqDir, filename), []byte(req), 0o666); err != nil {
-				return err
-			}
-
-			if err = os.WriteFile(filepath.Join(resDir, filename), []byte(res), 0o666); err != nil {
-				return err
-			}
-		}
-	}
-
-	return nil
-}
-
-// convertTestCase returns request and response from provided tc,
-// converted to JavaScript format.
-func convertTestCase(tc data.TestCase) (req string, res string, err error) {
-	req, err = mongosh.ConvertRequest(tc.Request)
-	if err != nil {
-		return "", "", err
-	}
-
-	res, err = mongosh.ConvertResponse(tc.Response)
-	if err != nil {
-		return "", "", err
-	}
-
-	return req, res, err
+	return mongosh.ConvertTestSuites(testSuites, cli.Convert.OutDir)
 }
 
 // runCommand implements the "run" command.

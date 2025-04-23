@@ -27,6 +27,7 @@ lint: fmt
 	../bin/govulncheck -test -show=verbose,color ./...
 
 env-up-detach:
+	mkdir -p ../tmp/testscripts
 	docker compose up --always-recreate-deps --build --force-recreate --pull=always \
 		--remove-orphans --renew-anon-volumes --timeout=0 \
 		--detach
