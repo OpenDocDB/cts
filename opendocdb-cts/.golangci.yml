@@ -117,7 +117,7 @@ linters-settings:
       - name: add-constant
         disabled: true # use common sense during review
       - name: cognitive-complexity
-        arguments: [30]
+        arguments: [25]
       - name: cyclomatic
         arguments: [30]
       - name: function-length
