@@ -20,9 +20,6 @@
       "cursor": {
         "firstBatch": [
           {
-            "foo": "this test should fail"
-          },
-          {
             "_id": "decimal128-negative-zero",
             "v": {
               "$numberDecimal": "-0.0"
