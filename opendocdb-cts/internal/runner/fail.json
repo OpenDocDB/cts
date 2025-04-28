@@ -6,7 +6,9 @@
 	},
     "response": {
       "cursor": {
-        "firstBatch": [],
+        "firstBatch": [
+		  {"v":"invalid"}
+		],
         "id": {
           "$numberLong": "0"
         },
