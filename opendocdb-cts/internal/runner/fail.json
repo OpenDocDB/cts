@@ -1,0 +1,20 @@
+{
+  "nested-array":{
+	"request":{
+      "find": "values",
+      "$db": "{{.Database}}"
+	},
+    "response": {
+      "cursor": {
+        "firstBatch": [],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+	  },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+	}
+  }
+}
