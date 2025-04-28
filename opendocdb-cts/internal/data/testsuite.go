@@ -30,6 +30,7 @@ import (
 
 // TestCase represents a single request / expected response pair.
 type TestCase struct {
+	Comment  json.RawMessage    `json:"$comment",omitempty`
 	Request  *wirebson.Document `json:"request"`
 	Response *wirebson.Document `json:"response"`
 }
