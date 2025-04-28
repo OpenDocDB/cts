@@ -191,7 +191,7 @@ func prepareArray(arr *wirebson.Array) (*wirebson.Array, error) {
 		if err != nil {
 			return nil, err
 		}
-		if err = arr.Add(fv); err != nil {
+		if err = res.Add(fv); err != nil {
 			return nil, err
 		}
 	}

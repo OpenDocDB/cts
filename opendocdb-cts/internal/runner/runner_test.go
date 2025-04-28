@@ -50,3 +50,28 @@ func TestRunner(t *testing.T) {
 		assert.NoError(t, err, "%s", name)
 	}
 }
+
+func TestRunnerFail(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.Background()
+
+	dir := filepath.Join(".")
+	db := t.Name()
+
+	f, tss, err := data.Load(dir, map[string]string{
+		"Database": db,
+	})
+	require.NoError(t, err)
+
+	r, err := New("mongodb://127.0.0.1:27001/"+db, slogt.New(t))
+	require.NoError(t, err)
+
+	err = r.Setup(ctx, f)
+	require.NoError(t, err)
+
+	for name, ts := range tss {
+		err = r.Run(ctx, ts)
+		assert.Error(t, err, "%s", name)
+	}
+}
