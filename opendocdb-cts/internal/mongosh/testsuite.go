@@ -26,6 +26,7 @@ import (
 
 // ConvertRequest converts wirebson's request Document to a mongosh's JavaScript `runCommand`.
 func ConvertRequest(req *wirebson.Document) (string, error) {
+	req.Remove("$db")
 	s, err := convert(req)
 	if err != nil {
 		return "", fmt.Errorf("mongosh.ConvertRequest: %w", err)
