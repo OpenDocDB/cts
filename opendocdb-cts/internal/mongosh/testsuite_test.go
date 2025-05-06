@@ -33,7 +33,7 @@ func TestConvertRequest(t *testing.T) {
 	)
 
 	expected := `db.runCommand({"find": "values", "filter": {"v": {"$eq": 42}}, ` +
-		`"sort": {"_id": 1}, "$db": "test"});` + "\n"
+		`"sort": {"_id": 1}});` + "\n"
 
 	actual, err := ConvertRequest(req)
 	require.NoError(t, err)
