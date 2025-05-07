@@ -25,6 +25,7 @@ import (
 )
 
 // ConvertRequest converts wirebson's request Document to a mongosh's JavaScript `runCommand`.
+// It removes "$db" field in provided document.
 func ConvertRequest(req *wirebson.Document) (string, error) {
 	req.Remove("$db")
 	s, err := convert(req)
