@@ -28,27 +28,29 @@ Example test case:
 
 ```json
 {
-  "request": {
-    "find": "values",
-    "filter": {
-      "v": {"$eq": {"$numberDouble": "0.0"}}
+  "double": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": {"$eq": {"$numberDouble": "0.0"}}
+      },
+      "sort": {
+        "_id": {"$numberInt": "1"}
+      },
+      "$db": "{{.Database}}"
     },
-    "sort": {
-      "_id": {"$numberInt": "1"}
-    },
-    "$db": "{{.Database}}"
-  },
-  "response": {
-    "cursor": {
-      "firstBatch": [
-        {"_id": "double-negative-zero", "v": {"$numberDouble": "-0.0"}},
-        {"_id": "double-zero",          "v": {"$numberDouble": "0.0"}},
-        // ...
-      ],
-      "id": {"$numberLong": "0"},
-      "ns": "{{.Database}}.values"
-    },
-    "ok": {"$numberDouble": "1.0"}
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {"_id": "double-negative-zero", "v": {"$numberDouble": "-0.0"}},
+          {"_id": "double-zero",          "v": {"$numberDouble": "0.0"}},
+          // ...
+        ],
+        "id": {"$numberLong": "0"},
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {"$numberDouble": "1.0"}
+    }
   }
 }
 ```
