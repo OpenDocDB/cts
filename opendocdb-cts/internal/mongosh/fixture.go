@@ -20,6 +20,8 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/FerretDB/wire/wirebson"
+
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 )
 
@@ -30,24 +32,23 @@ func ConvertFixtures(fixtures data.Fixtures) (string, error) {
 	for _, name := range slices.Sorted(maps.Keys(fixtures)) {
 		f := fixtures[name]
 
-		buf.WriteString("db.")
-		buf.WriteString(name)
-		buf.WriteString(".insertMany([")
+		fmt.Fprintf(&buf, "db.%s.insertMany(", name)
 
-		for i, doc := range f {
-			if i != 0 {
-				buf.WriteRune(',')
-			}
-
-			d, err := convert(doc)
-			if err != nil {
+		arr := wirebson.MakeArray(len(f))
+		for _, doc := range f {
+			if err := arr.Add(doc); err != nil {
 				return "", fmt.Errorf("mongosh.ConvertFixtures: %w", err)
 			}
-
-			buf.WriteString(d)
 		}
 
-		buf.WriteString("]);\n")
+		d, err := convert(arr)
+		if err != nil {
+			return "", fmt.Errorf("mongosh.ConvertFixtures: %w", err)
+		}
+
+		buf.WriteString(d)
+
+		buf.WriteString(");\n")
 	}
 
 	return buf.String(), nil

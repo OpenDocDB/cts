@@ -35,12 +35,12 @@ func convert(v any) (string, error) {
 
 	case *wirebson.Document:
 		var buf strings.Builder
-		buf.WriteRune('{')
+		buf.WriteString("{\n")
 
 		var comma bool
 		for n, v := range v.All() {
 			if comma {
-				buf.WriteString(", ")
+				buf.WriteString(",\n")
 			} else {
 				comma = true
 			}
@@ -56,16 +56,16 @@ func convert(v any) (string, error) {
 			buf.WriteString(s)
 		}
 
-		buf.WriteRune('}')
+		buf.WriteString("\n}")
 		return buf.String(), nil
 
 	case *wirebson.Array:
 		var buf strings.Builder
-		buf.WriteString("[")
+		buf.WriteString("[\n")
 
 		for i, v := range v.All() {
 			if i != 0 {
-				buf.WriteString(", ")
+				buf.WriteString(",\n")
 			}
 
 			s, err := convert(v)
@@ -76,7 +76,7 @@ func convert(v any) (string, error) {
 			buf.WriteString(s)
 		}
 
-		buf.WriteRune(']')
+		buf.WriteString("\n]")
 		return buf.String(), nil
 
 	// scalar types
