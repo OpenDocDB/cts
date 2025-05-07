@@ -32,7 +32,7 @@ func ConvertFixtures(fixtures data.Fixtures) (string, error) {
 	for _, name := range slices.Sorted(maps.Keys(fixtures)) {
 		f := fixtures[name]
 
-		fmt.Fprintf(&buf, "db.%s.insertMany(", name)
+		_, _ = fmt.Fprintf(&buf, "db.%s.insertMany(", name)
 
 		arr := wirebson.MakeArray(len(f))
 		for _, doc := range f {
