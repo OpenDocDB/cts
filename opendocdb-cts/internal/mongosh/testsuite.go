@@ -28,6 +28,7 @@ import (
 // It removes "$db" field in provided document.
 func ConvertRequest(req *wirebson.Document) (string, error) {
 	req.Remove("$db")
+
 	s, err := convert(req)
 	if err != nil {
 		return "", fmt.Errorf("mongosh.ConvertRequest: %w", err)

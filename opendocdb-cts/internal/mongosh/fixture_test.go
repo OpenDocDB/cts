@@ -54,7 +54,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int32", "v": 42}]);`,
+			db.c.insertMany([
+			{
+			"_id": "int32",
+			"v": 42
+			}
+			]);`,
 		},
 		"Binary": {
 			fixtures: data.Fixtures{
@@ -69,7 +74,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "binary", "v": BinData(128, "KgAN")}]);`,
+			db.c.insertMany([
+			{
+			"_id": "binary",
+			"v": BinData(128, "KgAN")
+			}
+			]);`,
 		},
 		"ObjectID": {
 			fixtures: data.Fixtures{
@@ -81,7 +91,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "objectid", "v": ObjectId("000102030405060708091011")}]);`,
+			db.c.insertMany([
+			{
+			"_id": "objectid",
+			"v": ObjectId("000102030405060708091011")
+			}
+			]);`,
 		},
 		"Bool": {
 			fixtures: data.Fixtures{
@@ -90,7 +105,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "bool-false", "v": false}]);`,
+			db.c.insertMany([
+			{
+			"_id": "bool-false",
+			"v": false
+			}
+			]);`,
 		},
 		"Datetime": {
 			fixtures: data.Fixtures{
@@ -102,7 +122,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "datetime", "v": ISODate("2021-11-01T10:18:42.123Z")}]);`,
+			db.c.insertMany([
+			{
+			"_id": "datetime",
+			"v": ISODate("2021-11-01T10:18:42.123Z")
+			}
+			]);`,
 		},
 		"Null": {
 			fixtures: data.Fixtures{
@@ -111,7 +136,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "null", "v": null}]);`,
+			db.c.insertMany([
+			{
+			"_id": "null",
+			"v": null
+			}
+			]);`,
 		},
 		"Regex": {
 			fixtures: data.Fixtures{
@@ -126,7 +156,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "regex", "v": RegExp("foo", "i")}]);`,
+			db.c.insertMany([
+			{
+			"_id": "regex",
+			"v": RegExp("foo", "i")
+			}
+			]);`,
 		},
 		"Timestamp": {
 			fixtures: data.Fixtures{
@@ -138,7 +173,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "timestamp", "v": Timestamp({t: 42, i: 13})}]);`,
+			db.c.insertMany([
+			{
+			"_id": "timestamp",
+			"v": Timestamp({t: 42, i: 13})
+			}
+			]);`,
 		},
 		"Long": {
 			fixtures: data.Fixtures{
@@ -147,7 +187,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "int64", "v": Long(0)}]);`,
+			db.c.insertMany([
+			{
+			"_id": "int64",
+			"v": Long(0)
+			}
+			]);`,
 		},
 		"Decimal": {
 			fixtures: data.Fixtures{
@@ -159,7 +204,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "decimal128", "v": Decimal128("42.13")}]);`,
+			db.c.insertMany([
+			{
+			"_id": "decimal128",
+			"v": Decimal128("42.13")
+			}
+			]);`,
 			skip: "https://github.com/OpenDocDB/cts/issues/34",
 		},
 		"Infinity": {
@@ -169,7 +219,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "double-inf", "v": Double(+Infinity)}]);`,
+			db.c.insertMany([
+			{
+			"_id": "double-inf",
+			"v": Double(+Infinity)
+			}
+			]);`,
 		},
 		"NegativeInfinity": {
 			fixtures: data.Fixtures{
@@ -178,7 +233,12 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				},
 			},
 			expected: `
-			db.c.insertMany([{"_id": "double-neg-inf", "v": Double(-Infinity)}]);`,
+			db.c.insertMany([
+			{
+			"_id": "double-neg-inf",
+			"v": Double(-Infinity)
+			}
+			]);`,
 		},
 	} {
 		t.Run(name, func(t *testing.T) {
