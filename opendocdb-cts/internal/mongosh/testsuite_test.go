@@ -32,12 +32,22 @@ func TestConvertRequest(t *testing.T) {
 		"$db", "test",
 	)
 
-	expected := `db.runCommand({"find": "values", "filter": {"v": {"$eq": 42}}, ` +
-		`"sort": {"_id": 1}});` + "\n"
+	expected := `
+	db.runCommand({
+	"find": "values",
+	"filter": {
+	"v": {
+	"$eq": 42
+	}
+	},
+	"sort": {
+	"_id": 1
+	}
+	});`
 
 	actual, err := ConvertRequest(req)
 	require.NoError(t, err)
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, unindent(expected)+"\n", actual)
 }
 
 func TestConvertResponse(t *testing.T) {
@@ -52,13 +62,25 @@ func TestConvertResponse(t *testing.T) {
 		),
 	)
 
-	expected := `response = {"cursor": {"firstBatch": [` +
-		`{"_id": "int32-zero", "v": 0}, ` +
-		`{"_id": "int64-zero", "v": Long(0)` +
-		`}], "id": Long(0), "ns": "test.values"}` +
-		`}` + "\n"
+	expected := `
+	response = {
+	"cursor": {
+	"firstBatch": [
+	{
+	"_id": "int32-zero",
+	"v": 0
+	},
+	{
+	"_id": "int64-zero",
+	"v": Long(0)
+	}
+	],
+	"id": Long(0),
+	"ns": "test.values"
+	}
+	}`
 
 	actual, err := ConvertResponse(res)
 	require.NoError(t, err)
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, unindent(expected)+"\n", actual)
 }

@@ -2,7 +2,7 @@ module github.com/OpenDocDB/cts/opendocdb-cts
 
 go 1.24
 
-toolchain go1.24.2
+toolchain go1.24.3
 
 require (
 	github.com/FerretDB/wire v0.0.24
