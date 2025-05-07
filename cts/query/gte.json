@@ -1,5 +1,5 @@
 {
-  "greater-than-equal": {
+  "double": {
     "request": {
       "find": "values",
       "filter": {
