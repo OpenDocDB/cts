@@ -1,0 +1,108 @@
+{
+  "dot-notation": {
+    "request": {
+      "find": "composites",
+      "filter": {
+        "v.foo": {
+          "$exists": true
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "array-documents",
+            "_comment": "An array of documents, add more documents if necessary.",
+            "v": [
+              {
+                "foo": {
+                  "$numberInt": "42"
+                }
+              },
+              {
+                "foo": {
+                  "$numberInt": "44"
+                }
+              },
+              {
+                "bar": {
+                  "$numberInt": "42"
+                }
+              }
+            ]
+          },
+          {
+            "_id": "document",
+            "v": {
+              "foo": {
+                "$numberInt": "42"
+              }
+            }
+          },
+          {
+            "_id": "document-composite",
+            "v": {
+              "foo": {
+                "$numberInt": "42"
+              },
+              "42": "foo",
+              "array": [
+                {
+                  "$numberInt": "42"
+                },
+                "foo",
+                null
+              ]
+            }
+          },
+          {
+            "_id": "document-composite-reverse",
+            "v": {
+              "array": [
+                {
+                  "$numberInt": "42"
+                },
+                "foo",
+                null
+              ],
+              "42": "foo",
+              "foo": {
+                "$numberInt": "42"
+              }
+            }
+          },
+          {
+            "_id": "document-nested",
+            "v": {
+              "foo": {
+                "document": {
+                  "$numberInt": "12"
+                }
+              }
+            }
+          },
+          {
+            "_id": "document-null",
+            "v": {
+              "foo": null
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.composites"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
