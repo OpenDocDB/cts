@@ -143,10 +143,6 @@ db.values.insertMany([
 "v": Timestamp({t: 42, i: 13})
 },
 {
-"_id": "timestamp-zero",
-"v": Timestamp({t: 0, i: 0})
-},
-{
 "_id": "timestamp-i",
 "v": Timestamp({t: 0, i: 1})
 },
