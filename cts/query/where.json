@@ -1,0 +1,47 @@
+{
+  "number": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "$where": "this.v == 42"
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            }
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "42"
+            }
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "42"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
