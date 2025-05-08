@@ -222,15 +222,6 @@
     }
   },
   {
-    "_id": "timestamp-zero",
-    "v": {
-      "$timestamp": {
-        "t": 0,
-        "i": 0
-      }
-    }
-  },
-  {
     "_id": "timestamp-i",
     "v": {
       "$timestamp": {
