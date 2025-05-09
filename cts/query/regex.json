@@ -1,0 +1,45 @@
+{
+  "string": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": {
+          "$regex": "foo",
+          "$options": "i"
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "regex",
+            "v": {
+              "$regularExpression": {
+                "pattern": "foo",
+                "options": "i"
+              }
+            }
+          },
+          {
+            "_id": "string",
+            "v": "foo"
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
