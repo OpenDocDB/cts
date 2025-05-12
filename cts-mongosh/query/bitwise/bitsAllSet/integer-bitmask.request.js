@@ -1,11 +1,8 @@
 db.runCommand({
-"find": "composites",
+"find": "values",
 "filter": {
 "v": {
-"$all": [
-42,
-"foo"
-]
+"$bitsAllSet": 6
 }
 },
 "sort": {

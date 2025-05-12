@@ -1,8 +1,8 @@
 db.runCommand({
-"find": "composites",
+"find": "values",
 "filter": {
 "v": {
-"$size": 3
+"$bitsAnyClear": 6
 }
 },
 "sort": {
