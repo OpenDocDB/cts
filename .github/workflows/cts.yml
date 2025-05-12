@@ -1,0 +1,77 @@
+---
+name: Run CTS
+on:
+  pull_request:
+    types:
+      - unlabeled # if GitHub Actions stuck, add and remove "not ready" label to force rebuild
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "12 0 * * *"
+
+env:
+  GOPATH: /home/runner/go
+  GOCACHE: /home/runner/go/cache
+  GOLANGCI_LINT_CACHE: /home/runner/go/cache/lint
+  GOMODCACHE: /home/runner/go/mod
+  GOPROXY: https://proxy.golang.org
+  GOTOOLCHAIN: local
+
+jobs:
+  cts:
+    name: Test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    if: github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'not ready')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start environment
+        working-directory: opendocdb-cts
+        run: make env-up-detach
+
+      # https://github.com/actions/setup-go/issues/457#issuecomment-2480536859
+      - name: Get Go version
+        id: toolchain
+        run: echo "version=$(sed -ne '/^toolchain /s/^toolchain go//p' opendocdb-cts/go.mod)" >> "$GITHUB_OUTPUT"
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ steps.toolchain.outputs.version }}
+          cache-dependency-path: opendocdb-cts/go.sum
+
+      - name: Install dependencies
+        working-directory: opendocdb-cts
+        run: make init
+
+      - name: Build
+        working-directory: opendocdb-cts
+        run: make build
+
+      - name: Lint
+        working-directory: opendocdb-cts
+        run: make lint
+
+      - name: Run
+        working-directory: opendocdb-cts
+        run: make run
+
+      # we don't want it on CI
+      - name: Clean test caches
+        if: always()
+        run: go clean -testcache
+
+      - name: Check dirty
+        if: always()
+        run: |
+          git status --untracked-files --ignored
+          git status
+          git diff --exit-code
