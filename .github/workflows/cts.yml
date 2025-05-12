@@ -1,5 +1,5 @@
 ---
-name: Run CTS
+name: CTS
 on:
   pull_request:
     types:
@@ -22,8 +22,8 @@ env:
   GOTOOLCHAIN: local
 
 jobs:
-  cts:
-    name: Test
+  all:
+    name: All
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -60,9 +60,21 @@ jobs:
         working-directory: opendocdb-cts
         run: make lint
 
-      - name: Run
+      - name: Test
         working-directory: opendocdb-cts
-        run: make run
+        run: make test
+
+      - name: Format CTS files
+        working-directory: opendocdb-cts
+        run: make run-fmt
+
+      - name: Run CTS for MongoDB
+        working-directory: opendocdb-cts
+        run: make run-mongodb
+
+      - name: Run CTS for FerretDB
+        working-directory: opendocdb-cts
+        run: make run-ferretdb || true
 
       # we don't want it on CI
       - name: Clean test caches

@@ -14,14 +14,16 @@ test: fmt
 build: fmt
 	go run main.go --help
 
-run:
+run-fmt:
 	go run main.go --dir=../cts fmt
+	go run main.go --dir=../cts convert ../cts-mongosh
 
+run-mongodb:
 	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27001/qklck6njgh9o --golden
 	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27001/cts
-	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
 
-	go run main.go --dir=../cts convert ../cts-mongosh
+run-ferretdb:
+	go run main.go --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
 
 lint: fmt
 	../bin/go-consistent -pedantic ./internal/...
