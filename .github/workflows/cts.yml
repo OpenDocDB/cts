@@ -76,7 +76,8 @@ jobs:
 
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
-        run: make run-ferretdb || true
+        run: make run-ferretdb
+        continue-on-error: true
 
       # we don't want it on CI
       - name: Clean test caches
