@@ -29,6 +29,8 @@ jobs:
 
     if: github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'not ready')
 
+    permissions: {}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
