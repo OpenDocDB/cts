@@ -64,10 +64,6 @@ jobs:
         working-directory: opendocdb-cts
         run: make test
 
-      - name: Run
-        working-directory: opendocdb-cts
-        run: make run
-
       # we don't want it on CI
       - name: Clean test caches
         if: always()
