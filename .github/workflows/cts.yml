@@ -1,5 +1,5 @@
 ---
-name: Go
+name: Run CTS
 on:
   pull_request:
     types:
@@ -22,7 +22,7 @@ env:
   GOTOOLCHAIN: local
 
 jobs:
-  test:
+  cts:
     name: Test
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -60,9 +60,9 @@ jobs:
         working-directory: opendocdb-cts
         run: make lint
 
-      - name: Test
+      - name: Run
         working-directory: opendocdb-cts
-        run: make test
+        run: make run
 
       # we don't want it on CI
       - name: Clean test caches
