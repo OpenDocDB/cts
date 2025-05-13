@@ -1,0 +1,41 @@
+{
+  "score": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": "foo"
+      },
+      "projection": {
+        "score": {
+          "$meta": "indexKey"
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "string",
+            "v": "foo",
+            "score": {
+              "_id": "string"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
