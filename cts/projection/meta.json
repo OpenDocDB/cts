@@ -1,13 +1,41 @@
 {
-  "score": {
+  "createIndex": {
+    "request": {
+      "createIndexes": "values",
+      "indexes": [
+        {
+          "name": "text_index",
+          "key": {
+            "v": "text"
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "numIndexesBefore": {
+        "$numberInt": "1"
+      },
+      "numIndexesAfter": {
+        "$numberInt": "2"
+      },
+      "createdCollectionAutomatically": false,
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "textScore": {
     "request": {
       "find": "values",
       "filter": {
-        "v": "foo"
+        "$text": {
+          "$search": "foo"
+        }
       },
       "projection": {
         "score": {
-          "$meta": "indexKey"
+          "$meta": "textScore"
         }
       },
       "sort": {
@@ -24,7 +52,7 @@
             "_id": "string",
             "v": "foo",
             "score": {
-              "_id": "string"
+              "$numberDouble": "1.1"
             }
           }
         ],
