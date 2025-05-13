@@ -1,11 +1,11 @@
 db.runCommand({
-"find": "values",
+"find": "composites",
 "filter": {
 
 },
 "projection": {
-"score": {
-"$meta": "indexKey"
+"v": {
+"$slice": 2
 }
 },
 "sort": {
