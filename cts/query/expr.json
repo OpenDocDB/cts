@@ -1,0 +1,60 @@
+{
+  "eq-double": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "$expr": {
+          "$eq": [
+            "$v",
+            {
+              "$numberDouble": "42.0"
+            }
+          ]
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "decimal128-whole",
+            "v": {
+              "$numberDecimal": "42"
+            }
+          },
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            }
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "42"
+            }
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "42"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}

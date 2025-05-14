@@ -1,0 +1,143 @@
+{
+  "zero-remainder": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": {
+          "$mod": [
+            {
+              "$numberInt": "2"
+            },
+            {
+              "$numberInt": "0"
+            }
+          ]
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "decimal128",
+            "v": {
+              "$numberDecimal": "42.13"
+            }
+          },
+          {
+            "_id": "decimal128-min",
+            "_comment": "The smallest value representable as a decimal128.",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
+            }
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            }
+          },
+          {
+            "_id": "decimal128-whole",
+            "v": {
+              "$numberDecimal": "42"
+            }
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "double",
+            "v": {
+              "$numberDouble": "42.13"
+            }
+          },
+          {
+            "_id": "double-big",
+            "_comment": "Value x such as x+1 == x.",
+            "v": {
+              "$numberDouble": "2.305843009213694E+18"
+            }
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            }
+          },
+          {
+            "_id": "double-smallest-non-zero",
+            "_comment": "The smallest positive non-zero value representable as a double.",
+            "v": {
+              "$numberDouble": "5E-324"
+            }
+          },
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            }
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "42"
+            }
+          },
+          {
+            "_id": "int32-min",
+            "v": {
+              "$numberInt": "-2147483648"
+            }
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "0"
+            }
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "42"
+            }
+          },
+          {
+            "_id": "int64-min",
+            "v": {
+              "$numberLong": "-9223372036854775808"
+            }
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "0"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
