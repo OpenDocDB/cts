@@ -33,5 +33,5 @@ func TestLoad(t *testing.T) {
 	require.Contains(t, f, "values", slices.Collect(maps.Keys(f)))
 	assert.NotEmpty(t, f["values"])
 
-	assert.Contains(t, tss, "query/eq", slices.Collect(maps.Keys(tss)))
+	assert.Contains(t, tss, "query/comparison/eq", slices.Collect(maps.Keys(tss)))
 }

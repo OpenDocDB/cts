@@ -1,0 +1,128 @@
+{
+  "simple": {
+    "request": {
+      "find": "composites",
+      "filter": {
+        "v": {
+          "$all": [
+            {
+              "$numberInt": "42"
+            },
+            "foo"
+          ]
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "array-composite",
+            "v": [
+              {
+                "$numberDouble": "42.13"
+              },
+              "foo",
+              {
+                "$binary": {
+                  "base64": "KgAN",
+                  "subType": "80"
+                }
+              },
+              {
+                "$oid": "000102030405060708091011"
+              },
+              true,
+              {
+                "$date": {
+                  "$numberLong": "1635761922123"
+                }
+              },
+              null,
+              {
+                "$regularExpression": {
+                  "pattern": "foo",
+                  "options": "i"
+                }
+              },
+              {
+                "$numberInt": "42"
+              },
+              {
+                "$timestamp": {
+                  "t": 42,
+                  "i": 13
+                }
+              },
+              {
+                "$numberLong": "41"
+              },
+              {
+                "$numberDecimal": "46.1"
+              }
+            ]
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": [
+              {
+                "$numberDecimal": "46.1"
+              },
+              {
+                "$numberLong": "41"
+              },
+              {
+                "$timestamp": {
+                  "t": 42,
+                  "i": 13
+                }
+              },
+              {
+                "$numberInt": "42"
+              },
+              {
+                "$regularExpression": {
+                  "pattern": "foo",
+                  "options": "i"
+                }
+              },
+              null,
+              {
+                "$date": {
+                  "$numberLong": "1635761922123"
+                }
+              },
+              true,
+              {
+                "$oid": "000102030405060708091011"
+              },
+              {
+                "$binary": {
+                  "base64": "KgAN",
+                  "subType": "80"
+                }
+              },
+              "foo",
+              {
+                "$numberDouble": "42.13"
+              }
+            ]
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.composites"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
