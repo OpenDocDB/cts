@@ -1,0 +1,97 @@
+{
+  "integer-bitmask": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "v": {
+          "$bitsAllClear": {
+            "$numberInt": "6"
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary-empty",
+            "v": {
+              "$binary": {
+                "base64": "",
+                "subType": "00"
+              }
+            }
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            }
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "double-big",
+            "_comment": "Value x such as x+1 == x.",
+            "v": {
+              "$numberDouble": "2.305843009213694E+18"
+            }
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            }
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "int32-min",
+            "v": {
+              "$numberInt": "-2147483648"
+            }
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "0"
+            }
+          },
+          {
+            "_id": "int64-min",
+            "v": {
+              "$numberLong": "-9223372036854775808"
+            }
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "0"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
