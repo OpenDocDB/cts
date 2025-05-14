@@ -32,7 +32,7 @@ func TestLoadSaveTestSuites(t *testing.T) {
 
 	tss, err := LoadTestSuites(dir, vars)
 	require.NoError(t, err)
-	assert.Contains(t, tss, "query/eq", slices.Collect(maps.Keys(tss)))
+	assert.Contains(t, tss, "query/comparison/eq", slices.Collect(maps.Keys(tss)))
 
 	err = SaveTestSuites(tss, dir, vars)
 	require.NoError(t, err)
