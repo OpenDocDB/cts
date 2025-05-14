@@ -8,9 +8,9 @@
             "_id": "int32"
           },
           "u": {
-            "$min": {
+            "$max": {
               "v": {
-                "$numberInt": "20"
+                "$numberInt": "50"
               }
             }
           }
@@ -44,7 +44,7 @@
           {
             "_id": "int32",
             "v": {
-              "$numberInt": "20"
+              "$numberInt": "50"
             }
           }
         ],
