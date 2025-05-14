@@ -1,0 +1,33 @@
+{
+  "number": {
+    "request": {
+      "update": "values",
+      "updates": [
+        {
+          "q": {
+            "_id": "int32"
+          },
+          "u": {
+            "$inc": {
+              "v": {
+                "$numberInt": "10"
+              }
+            }
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "n": {
+        "$numberInt": "1"
+      },
+      "nModified": {
+        "$numberInt": "1"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
