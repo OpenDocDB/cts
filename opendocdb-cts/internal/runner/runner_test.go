@@ -46,6 +46,9 @@ func TestRunner(t *testing.T) {
 	require.NoError(t, err)
 
 	for name, ts := range tss {
+		err = r.Setup(ctx, f)
+		require.NoError(t, err)
+
 		err = r.Run(ctx, ts)
 		assert.NoError(t, err, "%s", name)
 	}

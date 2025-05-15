@@ -1,0 +1,76 @@
+{
+  "1-pop": {
+    "request": {
+      "update": "composites",
+      "updates": [
+        {
+          "q": {
+            "_id": "array-documents"
+          },
+          "u": {
+            "$pop": {
+              "v": {
+                "$numberInt": "1"
+              }
+            }
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "n": {
+        "$numberInt": "1"
+      },
+      "nModified": {
+        "$numberInt": "1"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-find": {
+    "request": {
+      "find": "composites",
+      "filter": {
+        "_id": "array-documents"
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "array-documents",
+            "_comment": "An array of documents, add more documents if necessary.",
+            "v": [
+              {
+                "foo": {
+                  "$numberInt": "42"
+                }
+              },
+              {
+                "foo": {
+                  "$numberInt": "44"
+                }
+              }
+            ]
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.composites"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
