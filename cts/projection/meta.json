@@ -1,5 +1,5 @@
 {
-  "createIndex": {
+  "1-createIndex": {
     "request": {
       "createIndexes": "values",
       "indexes": [
@@ -25,7 +25,7 @@
       }
     }
   },
-  "textScore": {
+  "2-textScore": {
     "request": {
       "find": "values",
       "filter": {
