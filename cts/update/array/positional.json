@@ -8,10 +8,8 @@
             "_id": "array"
           },
           "u": {
-            "$addToSet": {
-              "v": {
-                "$numberInt": "100"
-              }
+            "v.$": {
+              "$numberInt": "100"
             }
           }
         }
