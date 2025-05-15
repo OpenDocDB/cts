@@ -1,7 +1,7 @@
 {
   "1-number": {
     "request": {
-      "update": "values",
+      "update": "composites",
       "updates": [
         {
           "q": {
@@ -18,10 +18,10 @@
     },
     "response": {
       "n": {
-        "$numberInt": "0"
+        "$numberInt": "1"
       },
       "nModified": {
-        "$numberInt": "0"
+        "$numberInt": "1"
       },
       "ok": {
         "$numberDouble": "1.0"
@@ -30,7 +30,7 @@
   },
   "2-find": {
     "request": {
-      "find": "values",
+      "find": "composites",
       "filter": {
         "_id": "array"
       },
@@ -43,11 +43,18 @@
     },
     "response": {
       "cursor": {
-        "firstBatch": [],
+        "firstBatch": [
+          {
+            "_id": "array",
+            "v.$": {
+              "$numberInt": "100"
+            }
+          }
+        ],
         "id": {
           "$numberLong": "0"
         },
-        "ns": "{{.Database}}.values"
+        "ns": "{{.Database}}.composites"
       },
       "ok": {
         "$numberDouble": "1.0"
