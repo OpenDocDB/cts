@@ -20,10 +20,10 @@
     },
     "response": {
       "n": {
-        "$numberInt": "0"
+        "$numberInt": "1"
       },
       "nModified": {
-        "$numberInt": "0"
+        "$numberInt": "1"
       },
       "ok": {
         "$numberDouble": "1.0"
@@ -45,11 +45,16 @@
     },
     "response": {
       "cursor": {
-        "firstBatch": [],
+        "firstBatch": [
+          {
+            "_id": "array",
+            "v": []
+          }
+        ],
         "id": {
           "$numberLong": "0"
         },
-        "ns": "{{.Database}}.values"
+        "ns": "{{.Database}}.composites"
       },
       "ok": {
         "$numberDouble": "1.0"
