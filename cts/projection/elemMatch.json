@@ -1,0 +1,123 @@
+{
+  "number": {
+    "request": {
+      "find": "composites",
+      "filter": {},
+      "projection": {
+        "v": {
+          "$elemMatch": {
+            "$gte": {
+              "$numberInt": "42"
+            }
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "array",
+            "v": [
+              {
+                "$numberInt": "42"
+              }
+            ]
+          },
+          {
+            "_id": "array-composite",
+            "v": [
+              {
+                "$numberDouble": "42.13"
+              }
+            ]
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": [
+              {
+                "$numberDecimal": "46.1"
+              }
+            ]
+          },
+          {
+            "_id": "array-document-empty"
+          },
+          {
+            "_id": "array-documents"
+          },
+          {
+            "_id": "array-double-big",
+            "v": [
+              {
+                "$numberDouble": "2.305843009213694E+18"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-desc"
+          },
+          {
+            "_id": "array-double-duplicate"
+          },
+          {
+            "_id": "array-double-max-integer",
+            "v": [
+              {
+                "$numberDouble": "9.007199254740991E+15"
+              }
+            ]
+          },
+          {
+            "_id": "array-empty"
+          },
+          {
+            "_id": "array-nested"
+          },
+          {
+            "_id": "array-null"
+          },
+          {
+            "_id": "array-numbers-asc",
+            "v": [
+              {
+                "$numberInt": "42"
+              }
+            ]
+          },
+          {
+            "_id": "document"
+          },
+          {
+            "_id": "document-composite"
+          },
+          {
+            "_id": "document-composite-reverse"
+          },
+          {
+            "_id": "document-empty"
+          },
+          {
+            "_id": "document-nested"
+          },
+          {
+            "_id": "document-null"
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.composites"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
