@@ -1,0 +1,59 @@
+{
+  "1-addToSet": {
+    "request": {
+      "update": "values",
+      "updates": [
+        {
+          "q": {
+            "_id": "array"
+          },
+          "u": {
+            "$addToSet": {
+              "v": {
+                "$numberInt": "100"
+              }
+            }
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "n": {
+        "$numberInt": "0"
+      },
+      "nModified": {
+        "$numberInt": "0"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-find": {
+    "request": {
+      "find": "values",
+      "filter": {
+        "_id": "array"
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
