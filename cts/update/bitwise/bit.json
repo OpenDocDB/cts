@@ -1,5 +1,5 @@
 {
-  "1-or-number": {
+  "1-or": {
     "request": {
       "update": "values",
       "updates": [
