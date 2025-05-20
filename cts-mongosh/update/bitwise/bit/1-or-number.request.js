@@ -3,8 +3,14 @@ db.runCommand({
 "updates": [
 {
 "q": {
-
+"v": {
+"$type": [
+"int",
+"long"
+]
+}
 },
+"multi": true,
 "u": {
 "$bit": {
 "v": {

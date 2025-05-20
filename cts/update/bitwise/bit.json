@@ -4,7 +4,15 @@
       "update": "values",
       "updates": [
         {
-          "q": {},
+          "q": {
+            "v": {
+              "$type": [
+                "int",
+                "long"
+              ]
+            }
+          },
+          "multi": true,
           "u": {
             "$bit": {
               "v": {
@@ -20,21 +28,10 @@
     },
     "response": {
       "n": {
-        "$numberInt": "0"
+        "$numberInt": "8"
       },
-      "writeErrors": [
-        {
-          "index": {
-            "$numberInt": "0"
-          },
-          "code": {
-            "$numberInt": "2"
-          },
-          "errmsg": "Cannot apply $bit to a value of non-integral type._id: \"binary\" has the field v of non-integer type binData"
-        }
-      ],
       "nModified": {
-        "$numberInt": "0"
+        "$numberInt": "6"
       },
       "ok": {
         "$numberDouble": "1.0"
@@ -243,7 +240,7 @@
           {
             "_id": "int32",
             "v": {
-              "$numberInt": "42"
+              "$numberInt": "46"
             }
           },
           {
@@ -255,19 +252,19 @@
           {
             "_id": "int32-min",
             "v": {
-              "$numberInt": "-2147483648"
+              "$numberInt": "-2147483644"
             }
           },
           {
             "_id": "int32-zero",
             "v": {
-              "$numberInt": "0"
+              "$numberInt": "4"
             }
           },
           {
             "_id": "int64",
             "v": {
-              "$numberLong": "42"
+              "$numberLong": "46"
             }
           },
           {
@@ -279,13 +276,13 @@
           {
             "_id": "int64-min",
             "v": {
-              "$numberLong": "-9223372036854775808"
+              "$numberLong": "-9223372036854775804"
             }
           },
           {
             "_id": "int64-zero",
             "v": {
-              "$numberLong": "0"
+              "$numberLong": "4"
             }
           },
           {
