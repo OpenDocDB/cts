@@ -20,15 +20,57 @@ Decimal128("3476215962376601600.461")
 ]
 },
 {
+"_id": "array-document-empty",
+"v": [
+{
+
+}
+]
+},
+{
+"_id": "array-documents",
+"v": [
+{
+"foo": 42
+}
+]
+},
+{
 "_id": "array-double-big",
 "v": [
 Double(2305843009213694000)
 ]
 },
 {
+"_id": "array-double-desc",
+"v": [
+Double(40)
+]
+},
+{
+"_id": "array-double-duplicate",
+"v": [
+Double(10)
+]
+},
+{
 "_id": "array-double-max-integer",
 "v": [
 Double(9007199254740991)
+]
+},
+{
+"_id": "array-nested",
+"v": [
+[
+"foo"
+]
+]
+},
+{
+"_id": "array-null",
+"v": [
+null
 ]
 },
 {

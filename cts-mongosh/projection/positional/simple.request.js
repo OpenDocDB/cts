@@ -3,7 +3,7 @@ db.runCommand({
 "filter": {
 "v": {
 "$elemMatch": {
-"$gte": 42
+"$exists": true
 }
 }
 },

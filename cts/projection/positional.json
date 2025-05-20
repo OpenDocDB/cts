@@ -1,13 +1,11 @@
 {
-  "number": {
+  "simple": {
     "request": {
       "find": "composites",
       "filter": {
         "v": {
           "$elemMatch": {
-            "$gte": {
-              "$numberInt": "42"
-            }
+            "$exists": true
           }
         }
       },
@@ -51,10 +49,42 @@
             ]
           },
           {
+            "_id": "array-document-empty",
+            "v": [
+              {}
+            ]
+          },
+          {
+            "_id": "array-documents",
+            "v": [
+              {
+                "foo": {
+                  "$numberInt": "42"
+                }
+              }
+            ]
+          },
+          {
             "_id": "array-double-big",
             "v": [
               {
                 "$numberDouble": "2.305843009213694E+18"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-desc",
+            "v": [
+              {
+                "$numberDouble": "40.0"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-duplicate",
+            "v": [
+              {
+                "$numberDouble": "10.0"
               }
             ]
           },
@@ -64,6 +94,20 @@
               {
                 "$numberDouble": "9.007199254740991E+15"
               }
+            ]
+          },
+          {
+            "_id": "array-nested",
+            "v": [
+              [
+                "foo"
+              ]
+            ]
+          },
+          {
+            "_id": "array-null",
+            "v": [
+              null
             ]
           },
           {
