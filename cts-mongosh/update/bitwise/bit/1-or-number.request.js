@@ -3,7 +3,7 @@ db.runCommand({
 "updates": [
 {
 "q": {
-"_id": "int32"
+
 },
 "u": {
 "$bit": {

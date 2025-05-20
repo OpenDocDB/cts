@@ -1,9 +1,10 @@
 db.runCommand({
 "find": "values",
-"filter": {
-"_id": "int32"
-},
 "sort": {
 "_id": 1
+},
+"projection": {
+"_id": 1,
+"v": 1
 }
 });
