@@ -5,7 +5,9 @@
       "updates": [
         {
           "q": {
-            "_id": "array"
+            "v": {
+              "$type": "array"
+            }
           },
           "u": {
             "$addToSet": {
@@ -33,39 +35,23 @@
   "2-find": {
     "request": {
       "find": "composites",
-      "filter": {
-        "_id": "array"
-      },
       "sort": {
         "_id": {
           "$numberInt": "1"
         }
       },
+      "multi": true,
       "$db": "{{.Database}}"
     },
     "response": {
-      "cursor": {
-        "firstBatch": [
-          {
-            "_id": "array",
-            "v": [
-              {
-                "$numberInt": "42"
-              },
-              {
-                "$numberInt": "100"
-              }
-            ]
-          }
-        ],
-        "id": {
-          "$numberLong": "0"
-        },
-        "ns": "{{.Database}}.composites"
-      },
       "ok": {
-        "$numberDouble": "1.0"
-      }
+        "$numberDouble": "0.0"
+      },
+      "errmsg": "BSON field 'FindCommandRequest.multi' is an unknown field.",
+      "code": {
+        "$numberInt": "40415"
+      },
+      "codeName": "IDLUnknownField"
     }
   }
 }
