@@ -3,7 +3,9 @@ db.runCommand({
 "updates": [
 {
 "q": {
-"_id": "array"
+"v": {
+"$type": "array"
+}
 },
 "u": {
 "$addToSet": {

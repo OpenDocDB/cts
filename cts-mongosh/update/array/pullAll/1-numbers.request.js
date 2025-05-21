@@ -3,7 +3,9 @@ db.runCommand({
 "updates": [
 {
 "q": {
-"_id": "array"
+"v": {
+"$type": "array"
+}
 },
 "u": {
 "$pullAll": {
@@ -12,7 +14,8 @@ db.runCommand({
 100
 ]
 }
-}
+},
+"multi": true
 }
 ]
 });

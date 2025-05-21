@@ -1,16 +1,6 @@
 response = {
-"cursor": {
-"firstBatch": [
-{
-"_id": "array",
-"v": [
-42,
-100
-]
-}
-],
-"id": Long(0),
-"ns": "db.composites"
-},
-"ok": Double(1)
+"ok": Double(0),
+"errmsg": "BSON field 'FindCommandRequest.multi' is an unknown field.",
+"code": 40415,
+"codeName": "IDLUnknownField"
 }
