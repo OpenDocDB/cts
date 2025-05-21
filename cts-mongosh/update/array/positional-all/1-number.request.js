@@ -3,11 +3,16 @@ db.runCommand({
 "updates": [
 {
 "q": {
-"_id": "array"
+"v": {
+"$type": "array"
+}
 },
 "u": {
+"$set": {
 "v.$[]": 100
 }
+},
+"multi": true
 }
 ]
 });
