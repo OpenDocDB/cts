@@ -1,0 +1,43 @@
+{
+  "simple": {
+    "request": {
+      "find": "geospatial",
+      "filter": {
+        "location": {
+          "$nearSphere": {
+            "$geometry": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "15"
+                },
+                {
+                  "$numberInt": "15"
+                }
+              ]
+            },
+            "$maxDistance": {
+              "$numberInt": "2000000"
+            }
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "ok": {
+        "$numberDouble": "0.0"
+      },
+      "errmsg": "error processing query: ns={{.Database}}.geospatialTree: GEONEAR  field=location maxdist=2e+06 isNearSphere=0\nSort: { _id: 1 }\nProj: {}\n planner returned error :: caused by :: unable to find index for $geoNear query",
+      "code": {
+        "$numberInt": "291"
+      },
+      "codeName": "NoQueryExecutionPlans"
+    }
+  }
+}
