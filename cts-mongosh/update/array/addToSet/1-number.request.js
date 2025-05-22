@@ -11,7 +11,8 @@ db.runCommand({
 "$addToSet": {
 "v": 100
 }
-}
+},
+"multi": true
 }
 ]
 });
