@@ -1,0 +1,374 @@
+{
+  "1-or": {
+    "request": {
+      "update": "values",
+      "updates": [
+        {
+          "q": {
+            "v": {
+              "$type": [
+                "int",
+                "long"
+              ]
+            }
+          },
+          "multi": true,
+          "u": {
+            "$bit": {
+              "v": {
+                "or": {
+                  "$numberInt": "4"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "n": {
+        "$numberInt": "8"
+      },
+      "nModified": {
+        "$numberInt": "6"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-find": {
+    "request": {
+      "find": "values",
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "projection": {
+        "_id": {
+          "$numberInt": "1"
+        },
+        "v": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary",
+            "v": {
+              "$binary": {
+                "base64": "KgAN",
+                "subType": "80"
+              }
+            }
+          },
+          {
+            "_id": "binary-empty",
+            "v": {
+              "$binary": {
+                "base64": "",
+                "subType": "00"
+              }
+            }
+          },
+          {
+            "_id": "bool-false",
+            "v": false
+          },
+          {
+            "_id": "bool-true",
+            "v": true
+          },
+          {
+            "_id": "datetime",
+            "v": {
+              "$date": {
+                "$numberLong": "1635761922123"
+              }
+            }
+          },
+          {
+            "_id": "datetime-epoch",
+            "v": {
+              "$date": {
+                "$numberLong": "0"
+              }
+            }
+          },
+          {
+            "_id": "datetime-max",
+            "v": {
+              "$date": {
+                "$numberLong": "253402300799999"
+              }
+            }
+          },
+          {
+            "_id": "datetime-min",
+            "v": {
+              "$date": {
+                "$numberLong": "-62167219200000"
+              }
+            }
+          },
+          {
+            "_id": "decimal128",
+            "v": {
+              "$numberDecimal": "42.13"
+            }
+          },
+          {
+            "_id": "decimal128-infinity",
+            "v": {
+              "$numberDecimal": "Infinity"
+            }
+          },
+          {
+            "_id": "decimal128-max",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
+            }
+          },
+          {
+            "_id": "decimal128-min",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
+            }
+          },
+          {
+            "_id": "decimal128-nan",
+            "v": {
+              "$numberDecimal": "NaN"
+            }
+          },
+          {
+            "_id": "decimal128-negative-infinity",
+            "v": {
+              "$numberDecimal": "-Infinity"
+            }
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            }
+          },
+          {
+            "_id": "decimal128-whole",
+            "v": {
+              "$numberDecimal": "42"
+            }
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "double",
+            "v": {
+              "$numberDouble": "42.13"
+            }
+          },
+          {
+            "_id": "double-big",
+            "v": {
+              "$numberDouble": "2.305843009213694E+18"
+            }
+          },
+          {
+            "_id": "double-infinity",
+            "v": {
+              "$numberDouble": "Infinity"
+            }
+          },
+          {
+            "_id": "double-max",
+            "v": {
+              "$numberDouble": "1.7976931348623157E+308"
+            }
+          },
+          {
+            "_id": "double-max-integer",
+            "v": {
+              "$numberDouble": "9.007199254740991E+15"
+            }
+          },
+          {
+            "_id": "double-nan",
+            "v": {
+              "$numberDouble": "NaN"
+            }
+          },
+          {
+            "_id": "double-negative-infinity",
+            "v": {
+              "$numberDouble": "-Infinity"
+            }
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            }
+          },
+          {
+            "_id": "double-smallest-non-zero",
+            "v": {
+              "$numberDouble": "5E-324"
+            }
+          },
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            }
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "46"
+            }
+          },
+          {
+            "_id": "int32-max",
+            "v": {
+              "$numberInt": "2147483647"
+            }
+          },
+          {
+            "_id": "int32-min",
+            "v": {
+              "$numberInt": "-2147483644"
+            }
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "4"
+            }
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "46"
+            }
+          },
+          {
+            "_id": "int64-max",
+            "v": {
+              "$numberLong": "9223372036854775807"
+            }
+          },
+          {
+            "_id": "int64-min",
+            "v": {
+              "$numberLong": "-9223372036854775804"
+            }
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "4"
+            }
+          },
+          {
+            "_id": "null",
+            "v": null
+          },
+          {
+            "_id": "objectid",
+            "v": {
+              "$oid": "000102030405060708091011"
+            }
+          },
+          {
+            "_id": "objectid-empty",
+            "v": {
+              "$oid": "000000000000000000000000"
+            }
+          },
+          {
+            "_id": "regex",
+            "v": {
+              "$regularExpression": {
+                "pattern": "foo",
+                "options": "i"
+              }
+            }
+          },
+          {
+            "_id": "regex-empty",
+            "v": {
+              "$regularExpression": {
+                "pattern": "",
+                "options": ""
+              }
+            }
+          },
+          {
+            "_id": "string",
+            "v": "foo"
+          },
+          {
+            "_id": "string-empty",
+            "v": ""
+          },
+          {
+            "_id": "timestamp",
+            "v": {
+              "$timestamp": {
+                "t": 42,
+                "i": 13
+              }
+            }
+          },
+          {
+            "_id": "timestamp-i",
+            "v": {
+              "$timestamp": {
+                "t": 0,
+                "i": 1
+              }
+            }
+          },
+          {
+            "_id": "unset"
+          },
+          {
+            "_id": {
+              "$oid": "000000000000000000000000"
+            },
+            "v": "objectid-empty"
+          },
+          {
+            "_id": {
+              "$oid": "000102030405060708091011"
+            },
+            "v": "objectid"
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
