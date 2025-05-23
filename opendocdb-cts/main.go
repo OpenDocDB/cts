@@ -122,7 +122,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		return err
 	}
 
-	var failed bool
+	var failed int
 	testResults := make([]testResult, 0, len(tss))
 
 	for name, ts := range tss {
@@ -143,7 +143,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
 			testResults = append(testResults, testResult{name: name, passed: false})
-			failed = true
+			failed++
 		}
 	}
 
@@ -160,7 +160,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 	resultsTable(l, testResults)
 
-	if failed {
+	passedPercent := 100 - (float64(failed*100) / float64(len(tss)))
+	l.InfoContext(ctx, fmt.Sprintf("Passed %.1f%% of tests", passedPercent))
+
+	if failed > 0 {
 		return errors.New("some tests failed")
 	}
 
