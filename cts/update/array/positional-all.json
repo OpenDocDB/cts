@@ -1,0 +1,317 @@
+{
+  "1-number": {
+    "request": {
+      "update": "composites",
+      "updates": [
+        {
+          "q": {
+            "v": {
+              "$type": "array"
+            }
+          },
+          "u": {
+            "$set": {
+              "v.$[]": {
+                "$numberInt": "100"
+              }
+            }
+          },
+          "multi": true
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "n": {
+        "$numberInt": "13"
+      },
+      "nModified": {
+        "$numberInt": "12"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-find": {
+    "request": {
+      "find": "composites",
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "array",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-composite",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-document-empty",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-documents",
+            "_comment": "An array of documents, add more documents if necessary.",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-big",
+            "_comment": "The array contains the value x such that x+1 == x.",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-desc",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-duplicate",
+            "_comment": "The first and the second elements are the same value.",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-double-max-integer",
+            "_comment": "The array contains the largest integer value representable as a double.",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-empty",
+            "v": []
+          },
+          {
+            "_id": "array-nested",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-null",
+            "v": [
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "array-numbers-asc",
+            "v": [
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ]
+          },
+          {
+            "_id": "document",
+            "v": {
+              "foo": {
+                "$numberInt": "42"
+              }
+            }
+          },
+          {
+            "_id": "document-composite",
+            "v": {
+              "foo": {
+                "$numberInt": "42"
+              },
+              "42": "foo",
+              "array": [
+                {
+                  "$numberInt": "42"
+                },
+                "foo",
+                null
+              ]
+            }
+          },
+          {
+            "_id": "document-composite-reverse",
+            "v": {
+              "array": [
+                {
+                  "$numberInt": "42"
+                },
+                "foo",
+                null
+              ],
+              "42": "foo",
+              "foo": {
+                "$numberInt": "42"
+              }
+            }
+          },
+          {
+            "_id": "document-empty",
+            "v": {}
+          },
+          {
+            "_id": "document-nested",
+            "v": {
+              "foo": {
+                "document": {
+                  "$numberInt": "12"
+                }
+              }
+            }
+          },
+          {
+            "_id": "document-null",
+            "v": {
+              "foo": null
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.composites"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
