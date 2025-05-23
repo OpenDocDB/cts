@@ -122,8 +122,9 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		return err
 	}
 
-	var failed int
-	testResults := make([]testResult, 0, len(tss))
+	failed, total := 0, len(tss)
+
+	testResults := make([]testResult, 0, total)
 
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
@@ -160,8 +161,8 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 	resultsTable(l, testResults)
 
-	passedPercent := 100 - (float64(failed*100) / float64(len(tss)))
-	l.InfoContext(ctx, fmt.Sprintf("Passed %.1f%% of tests", passedPercent))
+	passedPercent := 100 - (float64(failed*100) / float64(total))
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of tests (%d/%d)\n\n", passedPercent, total-failed, total))
 
 	if failed > 0 {
 		return errors.New("some tests failed")
@@ -172,7 +173,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 func resultsTable(l *slog.Logger, results []testResult) {
 	var sb strings.Builder
-	sb.Write([]byte("\n"))
+	sb.Write([]byte("\n\n"))
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 	fmt.Fprintln(w, "Test Name\tResult")
 	fmt.Fprintln(w, "---------\t------")
