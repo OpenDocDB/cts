@@ -157,7 +157,8 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 func resultsTable(l *slog.Logger, results []testResult) {
 	var sb strings.Builder
-	w := tabwriter.NewWriter(&sb, 0, 0, 2, ' ', tabwriter.AlignRight)
+	sb.Write([]byte("\n"))
+	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 	fmt.Fprintln(w, "Test Name\tResult")
 	fmt.Fprintln(w, "---------\t------")
 
@@ -168,9 +169,10 @@ func resultsTable(l *slog.Logger, results []testResult) {
 		}
 		fmt.Fprintf(w, "%s\t%s\n", result.name, status)
 	}
-
 	w.Flush()
+
 	l.Info(sb.String())
+
 }
 
 func main() {
