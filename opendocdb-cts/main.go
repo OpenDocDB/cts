@@ -18,11 +18,13 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
+	"text/tabwriter"
 
 	"github.com/alecthomas/kong"
 
@@ -98,6 +100,11 @@ func convertCommand() error {
 	return mongosh.ConvertTestSuites(testSuites, cli.Convert.OutDir)
 }
 
+type testResult struct {
+	name   string
+	passed bool
+}
+
 // runCommand implements the "run" command.
 func runCommand(ctx context.Context, l *slog.Logger) error {
 	r, err := runner.New(cli.Run.URI.String(), l)
@@ -115,6 +122,8 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	var failed bool
+	testResults := make([]testResult, 0, len(tss))
+
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
 			return err
@@ -129,17 +138,39 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
+			testResults = append(testResults, testResult{name: name, passed: true})
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
+			testResults = append(testResults, testResult{name: name, passed: false})
 			failed = true
 		}
 	}
+
+	resultsTable(l, testResults)
 
 	if failed {
 		return errors.New("some tests failed")
 	}
 
 	return nil
+}
+
+func resultsTable(l *slog.Logger, results []testResult) {
+	var sb strings.Builder
+	w := tabwriter.NewWriter(&sb, 0, 0, 2, ' ', tabwriter.AlignRight)
+	fmt.Fprintln(w, "Test Name\tResult")
+	fmt.Fprintln(w, "---------\t------")
+
+	for _, result := range results {
+		status := "❌"
+		if result.passed {
+			status = "✅"
+		}
+		fmt.Fprintf(w, "%s\t%s\n", result.name, status)
+	}
+
+	w.Flush()
+	l.Info(sb.String())
 }
 
 func main() {
