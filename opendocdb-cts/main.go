@@ -101,11 +101,6 @@ func convertCommand() error {
 	return mongosh.ConvertTestSuites(testSuites, cli.Convert.OutDir)
 }
 
-type testResult struct {
-	name   string
-	passed bool
-}
-
 // runCommand implements the "run" command.
 func runCommand(ctx context.Context, l *slog.Logger) error {
 	r, err := runner.New(cli.Run.URI.String(), l)
@@ -169,6 +164,12 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	return nil
+}
+
+// testResult represents the result of a test.
+type testResult struct {
+	name   string
+	passed bool
 }
 
 // resultsTable formats the test results into a table and writes it to the logger.
