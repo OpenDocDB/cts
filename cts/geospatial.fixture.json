@@ -1,0 +1,108 @@
+[
+  {
+    "_id": "point-a",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        {
+          "$numberInt": "10"
+        },
+        {
+          "$numberInt": "10"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "point-b",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        {
+          "$numberInt": "20"
+        },
+        {
+          "$numberInt": "20"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "point-c",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        {
+          "$numberInt": "30"
+        },
+        {
+          "$numberInt": "30"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "zero",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        {
+          "$numberInt": "10"
+        },
+        {
+          "$numberInt": "10"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "polygon",
+    "location": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            {
+              "$numberInt": "0"
+            },
+            {
+              "$numberInt": "0"
+            }
+          ],
+          [
+            {
+              "$numberInt": "0"
+            },
+            {
+              "$numberInt": "40"
+            }
+          ],
+          [
+            {
+              "$numberInt": "40"
+            },
+            {
+              "$numberInt": "40"
+            }
+          ],
+          [
+            {
+              "$numberInt": "40"
+            },
+            {
+              "$numberInt": "0"
+            }
+          ],
+          [
+            {
+              "$numberInt": "0"
+            },
+            {
+              "$numberInt": "0"
+            }
+          ]
+        ]
+      ]
+    }
+  }
+]
