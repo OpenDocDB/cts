@@ -18,10 +18,12 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log/slog"
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/alecthomas/kong"
@@ -114,7 +116,9 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		return err
 	}
 
-	var failed bool
+	failed, total := 0, len(tss)
+	testResults := make([]testResult, 0, total)
+
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
 			return err
@@ -129,13 +133,31 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
+			testResults = append(testResults, testResult{name: name, passed: true})
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			failed = true
+			testResults = append(testResults, testResult{name: name, passed: false})
+			failed++
 		}
 	}
 
-	if failed {
+	slices.SortFunc(testResults, func(a, b testResult) int {
+		switch {
+		case a.name < b.name:
+			return -1
+		case a.name > b.name:
+			return 1
+		default:
+			return 0
+		}
+	})
+
+	l.InfoContext(ctx, "\n"+resultsTable(testResults))
+
+	passedPercent := 100 - (float64(failed*100) / float64(total))
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of tests (%d/%d)\n\n", passedPercent, total-failed, total))
+
+	if failed > 0 {
 		return errors.New("some tests failed")
 	}
 
