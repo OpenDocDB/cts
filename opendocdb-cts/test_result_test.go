@@ -22,8 +22,8 @@ import (
 
 func TestResultsTable(t *testing.T) {
 	tests := map[string]struct {
-		results  []testResult
 		expected string
+		results  []testResult
 	}{
 		"empty": {
 			results: []testResult{},

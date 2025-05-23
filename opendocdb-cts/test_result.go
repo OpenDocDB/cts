@@ -43,17 +43,28 @@ func resultsTable(results []testResult) string {
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
-	fmt.Fprintln(w, "Test Name\tResult")
-	fmt.Fprintln(w, "---------\t------")
+
+	if _, err := fmt.Fprintln(w, "Test Name\tResult"); err != nil {
+		panic(err)
+	}
+
+	if _, err := fmt.Fprintln(w, "---------\t------"); err != nil {
+		panic(err)
+	}
 
 	for _, result := range results {
 		status := "❌"
 		if result.passed {
 			status = "✅"
 		}
-		fmt.Fprintf(w, "%s\t%s\n", result.name, status)
+		if _, err := fmt.Fprintf(w, "%s\t%s\n", result.name, status); err != nil {
+			panic(err)
+		}
 	}
-	w.Flush()
+
+	if err := w.Flush(); err != nil {
+		panic(err)
+	}
 
 	return sb.String()
 }
