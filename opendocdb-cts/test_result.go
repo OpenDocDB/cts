@@ -16,7 +16,6 @@ package main
 
 import (
 	"fmt"
-	"log/slog"
 	"slices"
 	"strings"
 	"text/tabwriter"
@@ -30,7 +29,7 @@ type testResult struct {
 
 // resultsTable formats the test results into a table and writes it to the logger.
 // The test results are sorted by name.
-func resultsTable(l *slog.Logger, results []testResult) {
+func resultsTable(results []testResult) string {
 	slices.SortFunc(results, func(a, b testResult) int {
 		switch {
 		case a.name < b.name:
@@ -43,7 +42,6 @@ func resultsTable(l *slog.Logger, results []testResult) {
 	})
 
 	var sb strings.Builder
-	sb.Write([]byte("\n\n"))
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 	fmt.Fprintln(w, "Test Name\tResult")
 	fmt.Fprintln(w, "---------\t------")
@@ -57,5 +55,5 @@ func resultsTable(l *slog.Logger, results []testResult) {
 	}
 	w.Flush()
 
-	l.Info(sb.String())
+	return sb.String()
 }
