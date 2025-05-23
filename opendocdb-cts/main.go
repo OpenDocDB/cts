@@ -23,6 +23,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"text/tabwriter"
 
@@ -146,6 +147,17 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		}
 	}
 
+	slices.SortFunc(testResults, func(a, b testResult) int {
+		switch {
+		case a.name < b.name:
+			return -1
+		case a.name > b.name:
+			return 1
+		default:
+			return 0
+		}
+	})
+
 	resultsTable(l, testResults)
 
 	if failed {
@@ -172,7 +184,6 @@ func resultsTable(l *slog.Logger, results []testResult) {
 	w.Flush()
 
 	l.Info(sb.String())
-
 }
 
 func main() {
