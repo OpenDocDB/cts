@@ -118,7 +118,6 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	failed, total := 0, len(tss)
-
 	testResults := make([]testResult, 0, total)
 
 	for name, ts := range tss {
