@@ -27,8 +27,8 @@ type testResult struct {
 	passed bool
 }
 
-// resultsTable formats the test results into a table and writes it to the logger.
-// The test results are sorted by name.
+// resultsTable returns the results of the tests in a formatted table.
+// The table is sorted by test name.
 func resultsTable(results []testResult) string {
 	slices.SortFunc(results, func(a, b testResult) int {
 		switch {
