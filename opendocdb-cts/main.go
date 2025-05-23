@@ -171,7 +171,20 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	return nil
 }
 
+// resultsTable formats the test results into a table and writes it to the logger.
+// The test results are sorted by name.
 func resultsTable(l *slog.Logger, results []testResult) {
+	slices.SortFunc(results, func(a, b testResult) int {
+		switch {
+		case a.name < b.name:
+			return -1
+		case a.name > b.name:
+			return 1
+		default:
+			return 0
+		}
+	})
+
 	var sb strings.Builder
 	sb.Write([]byte("\n\n"))
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
