@@ -29,14 +29,25 @@ func TestResultsTable(t *testing.T) {
 		},
 		"simple": {
 			results: []testResult{
-				{name: "test1", passed: true},
-				{name: "test2", passed: false},
+				{name: "test1/foo", passed: true},
+				{name: "test2/bar", passed: false},
 			},
 			expected: "" +
 				"Test Name     |Result\n" +
 				"---------     |------\n" +
-				"test1         |✅\n" +
-				"test2         |❌\n",
+				"test1/foo     |✅\n" +
+				"test2/bar     |❌\n",
+		},
+		"sorted": {
+			results: []testResult{
+				{name: "foo", passed: true},
+				{name: "bar", passed: false},
+			},
+			expected: "" +
+				"Test Name     |Result\n" +
+				"---------     |------\n" +
+				"bar           |❌\n" +
+				"foo           |✅\n",
 		},
 	}
 
