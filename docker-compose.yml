@@ -5,7 +5,6 @@ services:
     volumes:
       - .:/src
       - ./tmp/cache:/cache
-    command: sleep infinity
 
   mongodb:
     build:
