@@ -2,6 +2,10 @@
 services:
   cts:
     build: {}
+    volumes:
+      - .:/src
+      - ./tmp/cache:/cache
+    command: sleep infinity
 
   mongodb:
     build:

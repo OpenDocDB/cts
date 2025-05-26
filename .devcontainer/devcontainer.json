@@ -1,0 +1,34 @@
+{
+    "name": "OpenDocDB CTS",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "cts",
+    "workspaceFolder": "/src",
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "streetsidesoftware.code-spell-checker",
+                "ms-azuretools.vscode-docker"
+            ],
+            "settings": {
+                "go.toolsManagement.checkForUpdates": "local",
+                "go.useLanguageServer": true,
+                "go.gopath": "/cache/gopath",
+                "go.gocache": "/cache/gocache",
+                "go.formatTool": "goimports",
+                "go.lintTool": "golangci-lint",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": true
+                }
+            }
+        }
+    },
+    
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {}
+    },
+    
+    "remoteUser": "root"
+}
