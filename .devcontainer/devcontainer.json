@@ -1,6 +1,9 @@
 {
     "name": "OpenDocDB CTS",
-    "dockerComposeFile": "../docker-compose.yml",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "docker-compose.yml"
+    ],
     "service": "cts",
     "workspaceFolder": "/src",
     
