@@ -96,7 +96,60 @@ func convert(v any) (string, error) {
 			return res, nil
 		}
 	case string:
-		return fmt.Sprintf(`%q`, v), nil
+		// For short strings, just return the quoted string
+		if len(v) <= 80 {
+			return fmt.Sprintf(`%q`, v), nil
+		}
+
+		// For long strings, split on spaces to keep lines under 80 characters
+		var builder strings.Builder
+		remaining := v
+		isFirstChunk := true
+		maxChunkLen := 80
+
+		for len(remaining) > 0 {
+			var chunk string
+			splitIndex := -1
+			
+			// Try to find a space to split at before maxChunkLen
+			if len(remaining) > maxChunkLen {
+				// Look for the last space before maxChunkLen
+				for i := maxChunkLen; i >= 0; i-- {
+					if i < len(remaining) && remaining[i] == ' ' {
+						splitIndex = i
+						break
+					}
+				}
+
+				// If no space found, just split at maxChunkLen
+				if splitIndex == -1 {
+					splitIndex = maxChunkLen
+				}
+
+				chunk = remaining[:splitIndex]
+				remaining = remaining[splitIndex:]
+
+				// If split occurred at a space, skip the space
+				if len(remaining) > 0 && remaining[0] == ' ' {
+					remaining = remaining[1:]
+				}
+			} else {
+				chunk = remaining
+				remaining = ""
+			}
+
+			// Add the separator between chunks
+			if !isFirstChunk {
+				builder.WriteString(" +\n")
+			} else {
+				isFirstChunk = false
+			}
+
+			// Add the quoted chunk
+			builder.WriteString(fmt.Sprintf(`%q`, chunk))
+		}
+
+		return builder.String(), nil
 	case wirebson.Binary:
 		s := base64.RawStdEncoding.EncodeToString(v.B)
 		return fmt.Sprintf(`BinData(%d, "%s")`, v.Subtype, s), nil
