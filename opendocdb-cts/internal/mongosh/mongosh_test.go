@@ -82,6 +82,12 @@ func TestConvertLongStrings(t *testing.T) {
 "cesToUseForSplittingBecauseSometimesWeNeedToHandleStringsThatAreVeryLongWithoutS" +
 "paces"`,
 		},
+		{
+			name:     "string_with_newlines",
+			input:    "This is a string\nwith newlines\nand more text that should be properly handled by the string splitting logic",
+			expected: `"This is a string\nwith newlines\nand more text that should be properly handled by" +
+"the string splitting logic"`,
+		},
 	}
 
 	for _, tt := range tests {
