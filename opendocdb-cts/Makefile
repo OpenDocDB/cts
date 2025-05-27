@@ -12,7 +12,7 @@ test: fmt
 	go test -count=1 ./...
 
 build: fmt
-	go run ./... --help
+	go run . --help
 
 run-fmt:
 	go run ./... --dir=../cts fmt
