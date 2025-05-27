@@ -30,16 +30,7 @@ type testResult struct {
 // resultsTable returns the results of the tests in a formatted table.
 // The table is sorted by test name.
 func resultsTable(results []testResult) string {
-	slices.SortFunc(results, func(a, b testResult) int {
-		switch {
-		case a.name < b.name:
-			return -1
-		case a.name > b.name:
-			return 1
-		default:
-			return 0
-		}
-	})
+	slices.SortFunc(results, func(a, b testResult) int { return cmp.Compare(a.name, b.name) })
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
