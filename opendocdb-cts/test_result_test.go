@@ -60,7 +60,7 @@ func TestResultsTable(t *testing.T) {
 			},
 			expected: "" +
 				"Test Name                                           |Result\n" +
-				"---------                                     	     |------\n" +
+				"---------                                           |------\n" +
 				"LoremIpsumDolorSitAmetConsecteturAdipiscingElit     |✅\n" +
 				"b                                                   |❌\n",
 		},
