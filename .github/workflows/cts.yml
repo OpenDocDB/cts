@@ -1,5 +1,5 @@
 ---
-name: Go
+name: CTS
 on:
   pull_request:
     types:
@@ -22,12 +22,14 @@ env:
   GOTOOLCHAIN: local
 
 jobs:
-  test:
-    name: Test
+  all:
+    name: All
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     if: github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'not ready')
+
+    permissions: {}
 
     steps:
       - name: Checkout code
@@ -64,9 +66,18 @@ jobs:
         working-directory: opendocdb-cts
         run: make test
 
-      - name: Run
+      - name: Format CTS files
         working-directory: opendocdb-cts
-        run: make run
+        run: make run-fmt
+
+      - name: Run CTS for MongoDB
+        working-directory: opendocdb-cts
+        run: make run-mongodb
+
+      - name: Run CTS for FerretDB
+        working-directory: opendocdb-cts
+        run: make run-ferretdb
+        continue-on-error: true
 
       # we don't want it on CI
       - name: Clean test caches

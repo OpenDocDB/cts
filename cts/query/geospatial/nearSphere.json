@@ -1,0 +1,164 @@
+{
+  "1-create-index": {
+    "request": {
+      "createIndexes": "geospatial",
+      "indexes": [
+        {
+          "key": {
+            "location": "2dsphere"
+          },
+          "name": "location_2dsphere"
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "numIndexesBefore": {
+        "$numberInt": "1"
+      },
+      "numIndexesAfter": {
+        "$numberInt": "2"
+      },
+      "createdCollectionAutomatically": false,
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-simple": {
+    "request": {
+      "find": "geospatial",
+      "filter": {
+        "location": {
+          "$nearSphere": {
+            "$geometry": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "15"
+                },
+                {
+                  "$numberInt": "15"
+                }
+              ]
+            },
+            "$maxDistance": {
+              "$numberInt": "2000000"
+            }
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "point-a",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "10"
+                },
+                {
+                  "$numberInt": "10"
+                }
+              ]
+            }
+          },
+          {
+            "_id": "point-b",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "20"
+                },
+                {
+                  "$numberInt": "20"
+                }
+              ]
+            }
+          },
+          {
+            "_id": "polygon",
+            "location": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    {
+                      "$numberInt": "0"
+                    },
+                    {
+                      "$numberInt": "0"
+                    }
+                  ],
+                  [
+                    {
+                      "$numberInt": "0"
+                    },
+                    {
+                      "$numberInt": "40"
+                    }
+                  ],
+                  [
+                    {
+                      "$numberInt": "40"
+                    },
+                    {
+                      "$numberInt": "40"
+                    }
+                  ],
+                  [
+                    {
+                      "$numberInt": "40"
+                    },
+                    {
+                      "$numberInt": "0"
+                    }
+                  ],
+                  [
+                    {
+                      "$numberInt": "0"
+                    },
+                    {
+                      "$numberInt": "0"
+                    }
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "_id": "zero",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "10"
+                },
+                {
+                  "$numberInt": "10"
+                }
+              ]
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.geospatial"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}

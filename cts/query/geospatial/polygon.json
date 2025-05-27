@@ -1,0 +1,116 @@
+{
+  "simple": {
+    "request": {
+      "find": "geospatial",
+      "filter": {
+        "location": {
+          "$geoWithin": {
+            "$polygon": [
+              [
+                {
+                  "$numberInt": "5"
+                },
+                {
+                  "$numberInt": "5"
+                }
+              ],
+              [
+                {
+                  "$numberInt": "25"
+                },
+                {
+                  "$numberInt": "5"
+                }
+              ],
+              [
+                {
+                  "$numberInt": "25"
+                },
+                {
+                  "$numberInt": "25"
+                }
+              ],
+              [
+                {
+                  "$numberInt": "5"
+                },
+                {
+                  "$numberInt": "25"
+                }
+              ],
+              [
+                {
+                  "$numberInt": "5"
+                },
+                {
+                  "$numberInt": "5"
+                }
+              ]
+            ]
+          }
+        }
+      },
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "point-a",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "10"
+                },
+                {
+                  "$numberInt": "10"
+                }
+              ]
+            }
+          },
+          {
+            "_id": "point-b",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "20"
+                },
+                {
+                  "$numberInt": "20"
+                }
+              ]
+            }
+          },
+          {
+            "_id": "zero",
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                {
+                  "$numberInt": "10"
+                },
+                {
+                  "$numberInt": "10"
+                }
+              ]
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.geospatial"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
