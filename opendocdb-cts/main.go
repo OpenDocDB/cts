@@ -141,16 +141,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		}
 	}
 
-	slices.SortFunc(testResults, func(a, b testResult) int {
-		switch {
-		case a.name < b.name:
-			return -1
-		case a.name > b.name:
-			return 1
-		default:
-			return 0
-		}
-	})
+	// Sorting of testResults is removed as resultsTable already performs sorting.
 
 	l.InfoContext(ctx, "\n"+resultsTable(testResults))
 
