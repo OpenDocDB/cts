@@ -25,13 +25,13 @@ func TestResultsTable(t *testing.T) {
 		expected string
 		results  []testResult
 	}{
-		"empty": {
+		"Empty": {
 			results: []testResult{},
 			expected: "" +
 				"Test Name     |Result\n" +
 				"---------     |------\n",
 		},
-		"simple": {
+		"Simple": {
 			results: []testResult{
 				{name: "test1/foo", passed: true},
 				{name: "test2/bar", passed: false},
@@ -42,7 +42,7 @@ func TestResultsTable(t *testing.T) {
 				"test1/foo     |✅\n" +
 				"test2/bar     |❌\n",
 		},
-		"sorted": {
+		"Sorted": {
 			results: []testResult{
 				{name: "foo", passed: true},
 				{name: "bar", passed: false},
@@ -52,6 +52,17 @@ func TestResultsTable(t *testing.T) {
 				"---------     |------\n" +
 				"bar           |❌\n" +
 				"foo           |✅\n",
+		},
+		"LongName": {
+			results: []testResult{
+				{name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", passed: true},
+				{name: "b", passed: false},
+			},
+			expected: "" +
+				"Test Name                                           |Result\n" +
+				"---------                                     	     |------\n" +
+				"LoremIpsumDolorSitAmetConsecteturAdipiscingElit     |✅\n" +
+				"b                                                   |❌\n",
 		},
 	}
 
