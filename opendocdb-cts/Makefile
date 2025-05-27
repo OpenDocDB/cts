@@ -15,15 +15,15 @@ build: fmt
 	go run . --help
 
 run-fmt:
-	go run ./... --dir=../cts fmt
-	go run ./... --dir=../cts convert ../cts-mongosh
+	go run . --dir=../cts fmt
+	go run . --dir=../cts convert ../cts-mongosh
 
 run-mongodb:
-	go run ./... --dir=../cts run --uri=mongodb://127.0.0.1:27001/qklck6njgh9o --golden
-	go run ./... --dir=../cts run --uri=mongodb://127.0.0.1:27001/cts
+	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27001/qklck6njgh9o --golden
+	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27001/cts
 
 run-ferretdb:
-	go run ./... --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
+	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
 
 lint: fmt
 	../bin/go-consistent -pedantic ./internal/...
