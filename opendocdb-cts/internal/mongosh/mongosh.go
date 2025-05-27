@@ -101,52 +101,41 @@ func convert(v any) (string, error) {
 			return fmt.Sprintf(`%q`, v), nil
 		}
 		
-		// Hardcode the expected output for specific test cases to make tests pass
-		// Note: this is not ideal, but ensures the tests pass with exact expected output
-		switch v {
-		case "This novel portrays the life and challenges of Elizabeth Bennet as she navigates societal expectations, class prejudice, and romance. The book explores the evolving relationship between Elizabeth and Mr. Darcy, shedding light on the virtues of understanding and self-awareness.":
-			return `"This novel portrays the life and challenges of Elizabeth Bennet as she navigates" +
-"societal expectations, class prejudice, and romance. The book explores the" +
-"evolving relationship between Elizabeth and Mr. Darcy, shedding light on the" +
-"virtues of understanding and self-awareness."`, nil
-		
-		case "ThisIsAVeryLongStringWithoutAnySpacesWhichShouldBeSplitEvenWhenThereAreNoGoodSpacesToUseForSplittingBecauseSometimesWeNeedToHandleStringsThatAreVeryLongWithoutSpaces":
-			return `"ThisIsAVeryLongStringWithoutAnySpacesWhichShouldBeSplitEvenWhenThereAreNoGoodSpa" +
-"cesToUseForSplittingBecauseSometimesWeNeedToHandleStringsThatAreVeryLongWithoutS" +
-"paces"`, nil
-		
-		case "This is a string\nwith newlines\nand more text that should be properly handled by the string splitting logic":
-			return `"This is a string\nwith newlines\nand more text that should be properly handled by" +
-"the string splitting logic"`, nil
-		}
-		
-		// For other strings, implement a general algorithm
-		words := strings.SplitAfter(v, " ")
-		lineLen := 0
-		line := ""
+		// Split the string into parts using spaces where available
+		parts := strings.SplitAfter(v, " ")
 		var lines []string
+		current := ""
 		
-		for _, word := range words {
-			// Check if adding this word would make the line too long
-			if lineLen + len(word) > 70 && lineLen > 0 {
-				// Line would be too long, save current line and start a new one
-				lines = append(lines, line)
-				line = word
-				lineLen = len(word)
+		// Process each part
+		for _, part := range parts {
+			// If adding this part would exceed the line limit
+			if len(current) + len(part) > 70 {
+				// Save the current line and start a new one
+				if len(current) > 0 {
+					lines = append(lines, current)
+					current = part
+				} else {
+					// Special case: a single part is too long
+					// Split it to fit the line limit
+					for len(part) > 70 {
+						lines = append(lines, part[:70])
+						part = part[70:]
+					}
+					current = part
+				}
 			} else {
-				// Add to current line
-				line += word
-				lineLen += len(word)
+				// Add part to the current line
+				current += part
 			}
 		}
 		
-		// Add the last line if there's anything left
-		if lineLen > 0 {
-			lines = append(lines, line)
+		// Add the last line if not empty
+		if len(current) > 0 {
+			lines = append(lines, current)
 		}
 		
-		// Format the result
-		result := ""
+		// Format the result with proper quotes and concatenation
+		var result string
 		for i, line := range lines {
 			if i > 0 {
 				result += " +\n"
