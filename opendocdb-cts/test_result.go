@@ -20,6 +20,8 @@ import (
 	"slices"
 	"strings"
 	"text/tabwriter"
+
+	"github.com/OpenDocDB/cts/opendocdb-cts/internal/util/must"
 )
 
 // testResult represents the result of a test.
@@ -36,27 +38,19 @@ func resultsTable(results []testResult) string {
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 
-	if _, err := fmt.Fprintln(w, "Test Name\tResult"); err != nil {
-		panic(err)
-	}
-
-	if _, err := fmt.Fprintln(w, "---------\t------"); err != nil {
-		panic(err)
-	}
+	_ = must.NotFail(fmt.Fprintln(w, "Test Name\tResult"))
+	_ = must.NotFail(fmt.Fprintln(w, "---------\t------"))
 
 	for _, result := range results {
 		status := "❌"
 		if result.passed {
 			status = "✅"
 		}
-		if _, err := fmt.Fprintf(w, "%s\t%s\n", result.name, status); err != nil {
-			panic(err)
-		}
+
+		_ = must.NotFail(fmt.Fprintf(w, "%s\t%s\n", result.name, status))
 	}
 
-	if err := w.Flush(); err != nil {
-		panic(err)
-	}
+	must.NoError(w.Flush())
 
 	return sb.String()
 }
