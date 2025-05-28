@@ -41,12 +41,9 @@ func ConvertFixtures(fixtures data.Fixtures) (string, error) {
 			}
 		}
 
-		d, err := convert(arr)
-		if err != nil {
+		if err := convert(arr, &buf); err != nil {
 			return "", fmt.Errorf("mongosh.ConvertFixtures: %w", err)
 		}
-
-		buf.WriteString(d)
 
 		buf.WriteString(");\n")
 	}
