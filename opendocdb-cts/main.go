@@ -140,8 +140,6 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		}
 	}
 
-	// Sorting of testResults is removed as resultsTable already performs sorting.
-
 	l.InfoContext(ctx, "\n"+resultsTable(testResults))
 
 	passedPercent := 100 - (float64(failed*100) / float64(total))
