@@ -101,7 +101,7 @@ func convert(v any, buf *strings.Builder) error {
 				buf.WriteString(fmt.Sprintf(`%q`, sb.String()))
 				sb.Reset()
 
-				buf.WriteString(`" +\n"`)
+				buf.WriteString(" +\n")
 				counter = 0
 			}
 			sb.WriteString(word)
