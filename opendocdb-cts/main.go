@@ -142,6 +142,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 	l.InfoContext(ctx, "\n"+resultsTable(testResults))
 
+	if total == 0 {
+		l.InfoContext(ctx, "\n\nNo tests were run.\n\n")
+		return nil
+	}
 	passedPercent := 100 - (float64(failed*100) / float64(total))
 	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of tests (%d/%d)\n\n", passedPercent, total-failed, total))
 
