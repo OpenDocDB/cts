@@ -96,9 +96,9 @@ func convert(v any) (string, error) {
 			return res, nil
 		}
 	case string:
+		var out string
 		words := strings.SplitAfter(v, " ")
 
-		var out string
 		var line string
 		for _, word := range words {
 			if len(line) >= 80 {
