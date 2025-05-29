@@ -6,6 +6,10 @@ and a `opendocdb-cts` tool for managing CTS.
 See [this blog post](https://opendocdb.org/steps-to-consider-when-standardizing-a-json-like-query-language) for some background information.
 See also a [list of our industry supporters](https://opendocdb.org/supporters).
 
+## Development Environment
+
+This repository includes DevContainer configuration for Visual Studio Code, which sets up a complete development environment with all necessary tools. See the [.devcontainer](/.devcontainer) directory for more information.
+
 ## CTS
 
 The `cts` directory contains files representing the Compatibility Test Suite.

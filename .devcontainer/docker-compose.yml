@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  cts:
+    build:
+      context: ..
+      dockerfile: .devcontainer/devcontainer.dockerfile
+    command: sleep infinity
+    volumes:
+      - ..:/src:cached
+      - ../tmp/cache:/cache
+    environment:
+      - GO111MODULE=on
+    # Overrides default command so things don't shut down after the process ends.
+    # Helps with container lifecycle during development.
+    
+  # Override default services as needed for development
+  # No changes needed for mongodb and ferretdb services as they are already configured properly

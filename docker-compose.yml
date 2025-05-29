@@ -2,6 +2,9 @@
 services:
   cts:
     build: {}
+    volumes:
+      - .:/src
+      - ./tmp/cache:/cache
 
   mongodb:
     build:
