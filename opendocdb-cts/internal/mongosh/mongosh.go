@@ -100,18 +100,18 @@ func convert(v any) (string, error) {
 		words := strings.SplitAfter(v, " ")
 
 		var line string
+
 		for _, word := range words {
 			if len(line) >= 80 {
 				out += strconv.Quote(line) + " +\n"
+
 				line = ""
 			}
 
 			line += word
 		}
 
-		if len(line) > 0 {
-			out += strconv.Quote(line)
-		}
+		out += strconv.Quote(line)
 
 		return out, nil
 	case wirebson.Binary:
