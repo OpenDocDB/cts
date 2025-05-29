@@ -99,19 +99,21 @@ func convert(v any) (string, error) {
 		words := strings.SplitAfter(v, " ")
 
 		var out string
-		var counter int
-
+		var line string
 		for _, word := range words {
-			if counter >= 80 {
-				out += `" +` + "\n" + `"`
-				counter = 0
+			if len(line) >= 80 {
+				out += strconv.Quote(line) + " +\n"
+				line = ""
 			}
 
-			out += word
-			counter += len(word)
+			line += word
 		}
 
-		return fmt.Sprintf(`%q`, out), nil
+		if len(line) > 0 {
+			out += strconv.Quote(line)
+		}
+
+		return out, nil
 	case wirebson.Binary:
 		s := base64.RawStdEncoding.EncodeToString(v.B)
 		return fmt.Sprintf(`BinData(%d, "%s")`, v.Subtype, s), nil
