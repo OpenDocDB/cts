@@ -1,0 +1,60 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$group": {
+            "_id": {
+              "$type": "$v"
+            }
+          }
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "double",
+            "count": {
+              "$numberInt": "10"
+            }
+          },
+          {
+            "_id": "string",
+            "count": {
+              "$numberInt": "2"
+            }
+          },
+          {
+            "_id": "object",
+            "count": {
+              "$numberInt": "5"
+            }
+          },
+          {
+            "_id": "null",
+            "count": {
+              "$numberInt": "1"
+            }
+          },
+          {
+            "_id": "bool",
+            "count": {
+              "$numberInt": "2"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
