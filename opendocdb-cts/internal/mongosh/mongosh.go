@@ -29,11 +29,12 @@ import (
 // Converts wirebson value to their mongosh's JavaScript equivalent.
 // The value should be fully decoded.
 // [wirebson.RawArray] and [wirebson.DocumentArray] are not supported.
-func convert(v any, buf *strings.Builder) error {
+func convert(v any) (string, error) {
 	switch v := v.(type) {
 	// composite types
 
 	case *wirebson.Document:
+		var buf strings.Builder
 		buf.WriteString("{\n")
 
 		var comma bool
@@ -47,16 +48,19 @@ func convert(v any, buf *strings.Builder) error {
 			buf.WriteString(strconv.Quote(n))
 			buf.WriteString(": ")
 
-			err := convert(v, buf)
+			s, err := convert(v)
 			if err != nil {
-				return fmt.Errorf("mongosh.convert: %w", err)
+				return "", fmt.Errorf("mongosh.convert: %w", err)
 			}
+
+			buf.WriteString(s)
 		}
 
 		buf.WriteString("\n}")
-		return nil
+		return buf.String(), nil
 
 	case *wirebson.Array:
+		var buf strings.Builder
 		buf.WriteString("[\n")
 
 		for i, v := range v.All() {
@@ -64,89 +68,75 @@ func convert(v any, buf *strings.Builder) error {
 				buf.WriteString(",\n")
 			}
 
-			err := convert(v, buf)
+			s, err := convert(v)
 			if err != nil {
-				return fmt.Errorf("mongosh.convert: %w", err)
+				return "", fmt.Errorf("mongosh.convert: %w", err)
 			}
+
+			buf.WriteString(s)
 		}
 
 		buf.WriteString("\n]")
-		return nil
+		return buf.String(), nil
 
 	// scalar types
 
 	case float64:
 		switch {
 		case math.IsInf(v, -1):
-			buf.WriteString("Double(-Infinity)")
+			return `Double(-Infinity)`, nil
 		case math.IsInf(v, 1):
-			buf.WriteString("Double(+Infinity)")
+			return `Double(+Infinity)`, nil
 		default:
 			res := strconv.FormatFloat(v, 'f', -1, 64)
 			if !strings.Contains(res, ".") {
 				// otherwise, it will be converted to int32 by mongosh
 				res = "Double(" + res + ")"
 			}
-			buf.WriteString(res)
+			return res, nil
 		}
-		return nil
 	case string:
 		words := strings.SplitAfter(v, " ")
 
-		var sb strings.Builder
-
+		var out string
 		var counter int
+
 		for _, word := range words {
 			if counter >= 80 {
-				buf.WriteString(fmt.Sprintf(`%q`, sb.String()))
-				sb.Reset()
-
-				buf.WriteString(`" +\n"`)
+				out += `" +` + "\n" + `"`
 				counter = 0
 			}
-			sb.WriteString(word)
+
+			out += word
 			counter += len(word)
 		}
-		if sb.Len() != 0 {
-			buf.WriteString(fmt.Sprintf(`%q`, sb.String()))
-		}
 
-		return nil
+		return fmt.Sprintf(`%q`, out), nil
 	case wirebson.Binary:
 		s := base64.RawStdEncoding.EncodeToString(v.B)
-		buf.WriteString(fmt.Sprintf("BinData(%d, \"%s\")", v.Subtype, s))
-		return nil
+		return fmt.Sprintf(`BinData(%d, "%s")`, v.Subtype, s), nil
 	case wirebson.ObjectID:
-		buf.WriteString(fmt.Sprintf("ObjectId(\"%x\")", v))
-		return nil
+		return fmt.Sprintf(`ObjectId("%x")`, v), nil
 	case bool:
-		buf.WriteString(fmt.Sprintf("%t", v))
-		return nil
+		return fmt.Sprintf(`%t`, v), nil
 	case time.Time:
-		buf.WriteString(fmt.Sprintf("ISODate(\"%s\")", v.Format(time.RFC3339Nano)))
-		return nil
+		return fmt.Sprintf(`ISODate("%s")`, v.Format(time.RFC3339Nano)), nil
 	case wirebson.NullType, nil:
-		buf.WriteString("null")
-		return nil
+		return `null`, nil
 	case wirebson.Regex:
-		buf.WriteString(fmt.Sprintf("RegExp(\"%s\", \"%s\")", v.Pattern, v.Options))
-		return nil
+		return fmt.Sprintf(`RegExp("%s", "%s")`, v.Pattern, v.Options), nil
 	case int32:
 		// it will be stored as double by the legacy shell, but we don't care about it there
-		buf.WriteString(fmt.Sprintf("%d", v))
-		return nil
+		return fmt.Sprintf(`%d`, v), nil
 	case wirebson.Timestamp:
-		buf.WriteString(fmt.Sprintf("Timestamp({t: %d, i: %d})", v.T(), v.I()))
-		return nil
+		return fmt.Sprintf(`Timestamp({t: %d, i: %d})`, v.T(), v.I()), nil
 	case int64:
 		// the legacy shell handles Long() / NumberLong() differently
-		buf.WriteString(fmt.Sprintf("Long(%d)", v))
-		return nil
+		return fmt.Sprintf(`Long(%d)`, v), nil
 	case wirebson.Decimal128:
 		// TODO https://github.com/OpenDocDB/cts/issues/34
-		buf.WriteString(fmt.Sprintf("Decimal128(\"%d.%d\")", v.H, v.L))
-		return nil
+		return fmt.Sprintf(`Decimal128("%d.%d")`, v.H, v.L), nil
 	default:
-		return fmt.Errorf("mongosh.convert: invalid BSON type %T", v)
+		return "", fmt.Errorf("mongosh.convert: invalid BSON type %T", v)
 	}
 }

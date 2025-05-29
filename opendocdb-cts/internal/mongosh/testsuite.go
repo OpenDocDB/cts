@@ -18,7 +18,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/FerretDB/wire/wirebson"
 
@@ -30,22 +29,22 @@ import (
 func ConvertRequest(req *wirebson.Document) (string, error) {
 	req.Remove("$db")
 
-	var buf strings.Builder
-	if err := convert(req, &buf); err != nil {
+	s, err := convert(req)
+	if err != nil {
 		return "", fmt.Errorf("mongosh.ConvertRequest: %w", err)
 	}
 
-	return "db.runCommand(" + buf.String() + ");\n", nil
+	return "db.runCommand(" + s + ");\n", nil
 }
 
 // ConvertResponse converts wirebson's response Document to a mongosh's JavaScript `response` variable.
 func ConvertResponse(res *wirebson.Document) (string, error) {
-	var buf strings.Builder
-	if err := convert(res, &buf); err != nil {
+	s, err := convert(res)
+	if err != nil {
 		return "", fmt.Errorf("mongosh.ConvertResponse: %w", err)
 	}
 
-	return "response = " + buf.String() + "\n", nil
+	return "response = " + s + "\n", nil
 }
 
 // ConvertTestSuites converts request and response from each testsuite
