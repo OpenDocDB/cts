@@ -2,24 +2,43 @@ response = {
 "cursor": {
 "firstBatch": [
 {
-"_id": "double",
-"count": 10
+"_id": "binData"
 },
 {
-"_id": "string",
-"count": 2
+"_id": "bool"
 },
 {
-"_id": "object",
-"count": 5
+"_id": "date"
 },
 {
-"_id": "null",
-"count": 1
+"_id": "decimal"
 },
 {
-"_id": "bool",
-"count": 2
+"_id": "double"
+},
+{
+"_id": "int"
+},
+{
+"_id": "long"
+},
+{
+"_id": "missing"
+},
+{
+"_id": "null"
+},
+{
+"_id": "objectId"
+},
+{
+"_id": "regex"
+},
+{
+"_id": "string"
+},
+{
+"_id": "timestamp"
 }
 ],
 "id": Long(0),

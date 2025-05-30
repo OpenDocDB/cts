@@ -7,6 +7,14 @@ db.runCommand({
 "$type": "$v"
 }
 }
+},
+{
+"$sort": {
+"_id": 1
 }
-]
+}
+],
+"cursor": {
+
+}
 });
