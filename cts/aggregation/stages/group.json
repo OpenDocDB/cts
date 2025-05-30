@@ -9,42 +9,59 @@
               "$type": "$v"
             }
           }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
         }
       ],
+      "cursor": {},
       "$db": "{{.Database}}"
     },
     "response": {
       "cursor": {
         "firstBatch": [
           {
-            "_id": "double",
-            "count": {
-              "$numberInt": "10"
-            }
+            "_id": "binData"
           },
           {
-            "_id": "string",
-            "count": {
-              "$numberInt": "2"
-            }
+            "_id": "bool"
           },
           {
-            "_id": "object",
-            "count": {
-              "$numberInt": "5"
-            }
+            "_id": "date"
           },
           {
-            "_id": "null",
-            "count": {
-              "$numberInt": "1"
-            }
+            "_id": "decimal"
           },
           {
-            "_id": "bool",
-            "count": {
-              "$numberInt": "2"
-            }
+            "_id": "double"
+          },
+          {
+            "_id": "int"
+          },
+          {
+            "_id": "long"
+          },
+          {
+            "_id": "missing"
+          },
+          {
+            "_id": "null"
+          },
+          {
+            "_id": "objectId"
+          },
+          {
+            "_id": "regex"
+          },
+          {
+            "_id": "string"
+          },
+          {
+            "_id": "timestamp"
           }
         ],
         "id": {
