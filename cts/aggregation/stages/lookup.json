@@ -1,0 +1,734 @@
+{
+  "path": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$lookup": {
+            "from": "composites",
+            "localField": "v",
+            "foreignField": "v.foo",
+            "as": "composite_docs",
+            "pipeline": [
+              {
+                "$sort": {
+                  "_id": {
+                    "$numberInt": "1"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary",
+            "_comment": "The base64 encoded string of bytes [42, 0, 13].",
+            "v": {
+              "$binary": {
+                "base64": "KgAN",
+                "subType": "80"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "binary-empty",
+            "v": {
+              "$binary": {
+                "base64": "",
+                "subType": "00"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "bool-false",
+            "v": false,
+            "composite_docs": []
+          },
+          {
+            "_id": "bool-true",
+            "v": true,
+            "composite_docs": []
+          },
+          {
+            "_id": "datetime",
+            "_comment": "The equivalent of 2021-11-01T10:18:42.123Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "1635761922123"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "datetime-epoch",
+            "_comment": "Unix epoch time.",
+            "v": {
+              "$date": {
+                "$numberLong": "0"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "datetime-max",
+            "_comment": "The equivalent of 9999-12-31T23:59:59.999Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "253402300799999"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "datetime-min",
+            "_comment": "The equivalent of 0000-01-01T00:00:00Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "-62167219200000"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128",
+            "v": {
+              "$numberDecimal": "42.13"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-infinity",
+            "v": {
+              "$numberDecimal": "Infinity"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-max",
+            "_comment": "The largest value representable as a decimal128.",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-min",
+            "_comment": "The smallest value representable as a decimal128.",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-nan",
+            "v": {
+              "$numberDecimal": "NaN"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-negative-infinity",
+            "v": {
+              "$numberDecimal": "-Infinity"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "decimal128-whole",
+            "v": {
+              "$numberDecimal": "42"
+            },
+            "composite_docs": [
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              },
+              {
+                "_id": "document-composite",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  },
+                  "42": "foo",
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ]
+                }
+              },
+              {
+                "_id": "document-composite-reverse",
+                "v": {
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ],
+                  "42": "foo",
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double",
+            "v": {
+              "$numberDouble": "42.13"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-big",
+            "_comment": "Value x such as x+1 == x.",
+            "v": {
+              "$numberDouble": "2.305843009213694E+18"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-infinity",
+            "v": {
+              "$numberDouble": "Infinity"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-max",
+            "_comment": "The largest positive finite value representable as a double.",
+            "v": {
+              "$numberDouble": "1.7976931348623157E+308"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-max-integer",
+            "_comment": "The largest integer value representable as a double.",
+            "v": {
+              "$numberDouble": "9.007199254740991E+15"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-nan",
+            "v": {
+              "$numberDouble": "NaN"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-negative-infinity",
+            "v": {
+              "$numberDouble": "-Infinity"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-smallest-non-zero",
+            "_comment": "The smallest positive non-zero value representable as a double.",
+            "v": {
+              "$numberDouble": "5E-324"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            },
+            "composite_docs": [
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              },
+              {
+                "_id": "document-composite",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  },
+                  "42": "foo",
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ]
+                }
+              },
+              {
+                "_id": "document-composite-reverse",
+                "v": {
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ],
+                  "42": "foo",
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "42"
+            },
+            "composite_docs": [
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              },
+              {
+                "_id": "document-composite",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  },
+                  "42": "foo",
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ]
+                }
+              },
+              {
+                "_id": "document-composite-reverse",
+                "v": {
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ],
+                  "42": "foo",
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "_id": "int32-max",
+            "v": {
+              "$numberInt": "2147483647"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int32-min",
+            "v": {
+              "$numberInt": "-2147483648"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "42"
+            },
+            "composite_docs": [
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              },
+              {
+                "_id": "document-composite",
+                "v": {
+                  "foo": {
+                    "$numberInt": "42"
+                  },
+                  "42": "foo",
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ]
+                }
+              },
+              {
+                "_id": "document-composite-reverse",
+                "v": {
+                  "array": [
+                    {
+                      "$numberInt": "42"
+                    },
+                    "foo",
+                    null
+                  ],
+                  "42": "foo",
+                  "foo": {
+                    "$numberInt": "42"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "_id": "int64-max",
+            "v": {
+              "$numberLong": "9223372036854775807"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int64-min",
+            "v": {
+              "$numberLong": "-9223372036854775808"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "0"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "null",
+            "v": null,
+            "composite_docs": [
+              {
+                "_id": "array-document-empty",
+                "v": [
+                  {}
+                ]
+              },
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document-empty",
+                "v": {}
+              },
+              {
+                "_id": "document-null",
+                "v": {
+                  "foo": null
+                }
+              }
+            ]
+          },
+          {
+            "_id": "objectid",
+            "v": {
+              "$oid": "000102030405060708091011"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "objectid-empty",
+            "v": {
+              "$oid": "000000000000000000000000"
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "regex",
+            "v": {
+              "$regularExpression": {
+                "pattern": "foo",
+                "options": "i"
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "regex-empty",
+            "v": {
+              "$regularExpression": {
+                "pattern": "",
+                "options": ""
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "string",
+            "v": "foo",
+            "composite_docs": []
+          },
+          {
+            "_id": "string-empty",
+            "v": "",
+            "composite_docs": []
+          },
+          {
+            "_id": "timestamp",
+            "v": {
+              "$timestamp": {
+                "t": 42,
+                "i": 13
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "timestamp-i",
+            "v": {
+              "$timestamp": {
+                "t": 0,
+                "i": 1
+              }
+            },
+            "composite_docs": []
+          },
+          {
+            "_id": "unset",
+            "composite_docs": [
+              {
+                "_id": "array-document-empty",
+                "v": [
+                  {}
+                ]
+              },
+              {
+                "_id": "array-documents",
+                "_comment": "An array of documents, add more documents if necessary.",
+                "v": [
+                  {
+                    "foo": {
+                      "$numberInt": "42"
+                    }
+                  },
+                  {
+                    "foo": {
+                      "$numberInt": "44"
+                    }
+                  },
+                  {
+                    "bar": {
+                      "$numberInt": "42"
+                    }
+                  }
+                ]
+              },
+              {
+                "_id": "document-empty",
+                "v": {}
+              },
+              {
+                "_id": "document-null",
+                "v": {
+                  "foo": null
+                }
+              }
+            ]
+          },
+          {
+            "_id": {
+              "$oid": "000000000000000000000000"
+            },
+            "_comment": "_id is an empty ObjectID.",
+            "v": "objectid-empty",
+            "composite_docs": []
+          },
+          {
+            "_id": {
+              "$oid": "000102030405060708091011"
+            },
+            "_comment": "_id is an ObjectID.",
+            "v": "objectid",
+            "composite_docs": []
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
