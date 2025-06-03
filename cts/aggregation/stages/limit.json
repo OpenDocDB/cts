@@ -1,0 +1,55 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        },
+        {
+          "$limit": {
+            "$numberInt": "2"
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary",
+            "_comment": "The base64 encoded string of bytes [42, 0, 13].",
+            "v": {
+              "$binary": {
+                "base64": "KgAN",
+                "subType": "80"
+              }
+            }
+          },
+          {
+            "_id": "binary-empty",
+            "v": {
+              "$binary": {
+                "base64": "",
+                "subType": "00"
+              }
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
