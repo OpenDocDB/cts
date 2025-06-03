@@ -1,0 +1,77 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$group": {
+            "_id": {
+              "$type": "$v"
+            }
+          }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binData"
+          },
+          {
+            "_id": "bool"
+          },
+          {
+            "_id": "date"
+          },
+          {
+            "_id": "decimal"
+          },
+          {
+            "_id": "double"
+          },
+          {
+            "_id": "int"
+          },
+          {
+            "_id": "long"
+          },
+          {
+            "_id": "missing"
+          },
+          {
+            "_id": "null"
+          },
+          {
+            "_id": "objectId"
+          },
+          {
+            "_id": "regex"
+          },
+          {
+            "_id": "string"
+          },
+          {
+            "_id": "timestamp"
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
