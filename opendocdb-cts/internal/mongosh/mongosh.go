@@ -96,7 +96,24 @@ func convert(v any) (string, error) {
 			return res, nil
 		}
 	case string:
-		return fmt.Sprintf(`%q`, v), nil
+		var out string
+		words := strings.SplitAfter(v, " ")
+
+		var line string
+
+		for _, word := range words {
+			if len(line) >= 80 {
+				out += strconv.Quote(line) + " +\n"
+
+				line = ""
+			}
+
+			line += word
+		}
+
+		out += strconv.Quote(line)
+
+		return out, nil
 	case wirebson.Binary:
 		s := base64.RawStdEncoding.EncodeToString(v.B)
 		return fmt.Sprintf(`BinData(%d, "%s")`, v.Subtype, s), nil
