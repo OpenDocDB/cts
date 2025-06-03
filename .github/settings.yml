@@ -13,6 +13,10 @@ repository:
 
 # https://docs.github.com/en/rest/issues/labels
 labels:
+  - name: conflict
+    color: "#FF0000"
+    description: PRs that have merge conflicts
+
   - name: deps
     color: "#D4C5F9"
     description: PRs that update dependencies
