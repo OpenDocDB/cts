@@ -1,0 +1,23 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$out": "output_collection"
+        }
+      ],
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "ok": {
+        "$numberDouble": "0.0"
+      },
+      "errmsg": "The 'cursor' option is required, except for aggregate with the explain argument",
+      "code": {
+        "$numberInt": "9"
+      },
+      "codeName": "FailedToParse"
+    }
+  }
+}
