@@ -25,6 +25,10 @@ run-mongodb:
 run-ferretdb:
 	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
 
+run-remote:
+	# CTS_URI environment variable should be set
+	go run . --dir=../cts run
+
 lint: fmt
 	../bin/go-consistent -pedantic ./internal/...
 	../bin/golangci-lint run
