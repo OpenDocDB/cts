@@ -129,6 +129,8 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 // prepareDocument returns document with multiple changes applied recursively:
 //   - empty or duplicate field names are disallowed;
 //   - fields are sorted by name.
+//
+// TODO https://github.com/OpenDocDB/cts/issues/89
 func prepareDocument(doc *wirebson.Document) (*wirebson.Document, error) {
 	res := wirebson.MakeDocument(doc.Len())
 

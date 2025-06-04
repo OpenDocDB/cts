@@ -74,7 +74,7 @@ Test cases use the following data types:
 Document field names can't be empty.
 Duplicate field names are not allowed.
 The order of fields is currently mostly ignored.
-All that might change in the future.
+All that [might change in the future](https://github.com/OpenDocDB/cts/issues/89).
 
 Double and decimal128 values include things like negative zero, infinity, NaN, etc.
 
@@ -88,8 +88,3 @@ Test cases, test suites, and fixtures are stored in Extended JSON v2 in Canonica
 `opendocdb-cts` directory contains the tool for running CTS against various OpenDocDB-compatible databases
 using the wire protocol.
 It also could convert fixtures and test cases to `mongosh` JavaScript syntax for documentation purposes.
-
-## Roadmap
-
-* [Generate test cases](https://github.com/OpenDocDB/cts/issues/5).
-* Run CTS automatically against MongoDB, FerretDB, Azure Cosmos DB, and Amazon DocumentDB.
