@@ -1,0 +1,32 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$count": "total"
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "total": {
+              "$numberInt": "48"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
