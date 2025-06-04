@@ -26,6 +26,9 @@ import (
 	"github.com/FerretDB/wire/wirebson"
 )
 
+// lineLength is the maximum length of a line in the output.
+const lineLength = 70
+
 // Converts wirebson value to their mongosh's JavaScript equivalent.
 // The value should be fully decoded.
 // [wirebson.RawArray] and [wirebson.DocumentArray] are not supported.
@@ -102,7 +105,7 @@ func convert(v any) (string, error) {
 		var line string
 
 		for _, word := range words {
-			if len(line) >= 80 {
+			if len(line) > lineLength {
 				out += strconv.Quote(line) + " +\n"
 
 				line = ""

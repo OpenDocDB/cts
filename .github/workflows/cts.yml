@@ -77,7 +77,14 @@ jobs:
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
         run: make run-ferretdb
-        continue-on-error: true
+
+      # TODO https://github.com/OpenDocDB/cts/issues/84
+      # - name: Run CTS for Firestore
+      #   if: github.event_name != 'pull_request'
+      #   working-directory: opendocdb-cts
+      #   run: make run-remote
+      #   env:
+      #     CTS_URI: ${{ secrets.FIRESTORE_CTS_URI }}
 
       # we don't want it on CI
       - name: Clean test caches

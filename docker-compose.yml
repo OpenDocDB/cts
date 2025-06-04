@@ -23,7 +23,6 @@ services:
       dockerfile: ferretdb.Dockerfile
     ports:
       - 27002:27017
-    platform: linux/amd64
     environment:
       # Always UTC+05:45. Set to catch timezone problems.
       - TZ=Asia/Kathmandu

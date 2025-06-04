@@ -49,7 +49,7 @@ var cli struct {
 
 	Run struct {
 		URI    *url.URL `default:"mongodb://127.0.0.1:27017/cts" help:"Database URI."`
-		Golden bool     `                                        help:"Update CTS files instead if failing tests."`
+		Golden bool     `                                        help:"Update CTS files instead if failing."`
 	} `cmd:"" help:"Run CTS."`
 }
 
@@ -143,15 +143,11 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	l.InfoContext(ctx, "\n"+resultsTable(testResults))
 
 	if total == 0 {
-		l.InfoContext(ctx, "\n\nNo tests were run.\n\n")
-		return nil
+		return errors.New("no test suites were run")
 	}
-	passedPercent := 100 - (float64(failed*100) / float64(total))
-	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of tests (%d/%d)\n\n", passedPercent, total-failed, total))
 
-	if failed > 0 {
-		return errors.New("some tests failed")
-	}
+	p := float64(total-failed) / float64(total) * 100
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
 	return nil
 }
