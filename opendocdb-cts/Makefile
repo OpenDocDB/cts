@@ -1,4 +1,4 @@
-all: test build run lint
+all: test build run-fmt lint
 
 init:
 	go mod tidy && go mod verify
