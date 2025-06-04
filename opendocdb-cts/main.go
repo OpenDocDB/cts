@@ -143,11 +143,11 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	l.InfoContext(ctx, "\n"+resultsTable(testResults))
 
 	if total == 0 {
-		return errors.New("no test cases were run")
+		return errors.New("no test suites were run")
 	}
 
 	p := float64(total-failed) / float64(total) * 100
-	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test cases (%d/%d).\n\n", p, total-failed, total))
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
 	return nil
 }
