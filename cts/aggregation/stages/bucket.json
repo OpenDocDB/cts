@@ -1,0 +1,69 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$bucket": {
+            "groupBy": "$v",
+            "boundaries": [
+              {
+                "$numberInt": "0"
+              },
+              {
+                "$numberInt": "50"
+              },
+              {
+                "$numberInt": "100"
+              }
+            ],
+            "default": "Other",
+            "output": {
+              "count": {
+                "$sum": {
+                  "$numberInt": "1"
+                }
+              }
+            }
+          }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": {
+              "$numberInt": "0"
+            },
+            "count": {
+              "$numberInt": "14"
+            }
+          },
+          {
+            "_id": "Other",
+            "count": {
+              "$numberInt": "34"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
