@@ -1,0 +1,90 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": {
+        "$numberInt": "1"
+      },
+      "pipeline": [
+        {
+          "$currentOp": {}
+        },
+        {
+          "$project": {
+            "type": {
+              "$numberInt": "1"
+            },
+            "op": {
+              "$numberInt": "1"
+            },
+            "ns": {
+              "$numberInt": "1"
+            },
+            "command": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "admin"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "type": "op",
+            "op": "command",
+            "ns": "admin.$cmd.aggregate",
+            "command": {
+              "aggregate": {
+                "$numberInt": "1"
+              },
+              "pipeline": [
+                {
+                  "$currentOp": {}
+                },
+                {
+                  "$project": {
+                    "type": {
+                      "$numberInt": "1"
+                    },
+                    "op": {
+                      "$numberInt": "1"
+                    },
+                    "ns": {
+                      "$numberInt": "1"
+                    },
+                    "command": {
+                      "$numberInt": "1"
+                    }
+                  }
+                }
+              ],
+              "cursor": {},
+              "$db": "admin"
+            }
+          },
+          {
+            "type": "op",
+            "op": "none",
+            "ns": "",
+            "command": {}
+          },
+          {
+            "type": "op",
+            "op": "none",
+            "ns": "",
+            "command": {}
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "admin.$cmd.aggregate"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
