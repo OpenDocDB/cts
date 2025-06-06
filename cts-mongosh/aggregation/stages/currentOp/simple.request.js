@@ -1,9 +1,17 @@
 db.runCommand({
-"aggregate": "admin",
+"aggregate": 1,
 "pipeline": [
 {
 "$currentOp": {
-"allUsers": true
+
+}
+},
+{
+"$project": {
+"type": 1,
+"op": 1,
+"ns": 1,
+"command": 1
 }
 }
 ],

@@ -1,51 +1,12 @@
 {
-  "1-find": {
-    "request": {
-      "find": "values",
-      "sort": {
-        "_id": {
-          "$numberInt": "1"
-        }
-      },
-      "limit": {
-        "$numberInt": "1"
-      },
-      "$db": "{{.Database}}"
-    },
-    "response": {
-      "cursor": {
-        "firstBatch": [
-          {
-            "_id": "binary",
-            "_comment": "The base64 encoded string of bytes [42, 0, 13].",
-            "v": {
-              "$binary": {
-                "base64": "KgAN",
-                "subType": "80"
-              }
-            }
-          }
-        ],
-        "id": {
-          "$numberLong": "0"
-        },
-        "ns": "{{.Database}}.values"
-      },
-      "ok": {
-        "$numberDouble": "1.0"
-      }
-    }
-  },
-  "2-simple": {
+  "simple": {
     "request": {
       "aggregate": {
         "$numberInt": "1"
       },
       "pipeline": [
         {
-          "$currentOp": {
-            "allUsers": true
-          }
+          "$currentOp": {}
         },
         {
           "$project": {
@@ -80,9 +41,7 @@
               },
               "pipeline": [
                 {
-                  "$currentOp": {
-                    "allUsers": true
-                  }
+                  "$currentOp": {}
                 },
                 {
                   "$project": {
