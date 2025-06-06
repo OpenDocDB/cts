@@ -1,11 +1,66 @@
 {
-  "simple": {
+  "1-find": {
     "request": {
-      "aggregate": "admin",
+      "find": "values",
+      "sort": {
+        "_id": {
+          "$numberInt": "1"
+        }
+      },
+      "limit": {
+        "$numberInt": "1"
+      },
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary",
+            "_comment": "The base64 encoded string of bytes [42, 0, 13].",
+            "v": {
+              "$binary": {
+                "base64": "KgAN",
+                "subType": "80"
+              }
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  },
+  "2-simple": {
+    "request": {
+      "aggregate": {
+        "$numberInt": "1"
+      },
       "pipeline": [
         {
           "$currentOp": {
             "allUsers": true
+          }
+        },
+        {
+          "$project": {
+            "type": {
+              "$numberInt": "1"
+            },
+            "op": {
+              "$numberInt": "1"
+            },
+            "ns": {
+              "$numberInt": "1"
+            },
+            "command": {
+              "$numberInt": "1"
+            }
           }
         }
       ],
@@ -13,14 +68,64 @@
       "$db": "admin"
     },
     "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "type": "op",
+            "op": "command",
+            "ns": "admin.$cmd.aggregate",
+            "command": {
+              "aggregate": {
+                "$numberInt": "1"
+              },
+              "pipeline": [
+                {
+                  "$currentOp": {
+                    "allUsers": true
+                  }
+                },
+                {
+                  "$project": {
+                    "type": {
+                      "$numberInt": "1"
+                    },
+                    "op": {
+                      "$numberInt": "1"
+                    },
+                    "ns": {
+                      "$numberInt": "1"
+                    },
+                    "command": {
+                      "$numberInt": "1"
+                    }
+                  }
+                }
+              ],
+              "cursor": {},
+              "$db": "admin"
+            }
+          },
+          {
+            "type": "op",
+            "op": "none",
+            "ns": "",
+            "command": {}
+          },
+          {
+            "type": "op",
+            "op": "none",
+            "ns": "",
+            "command": {}
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "admin.$cmd.aggregate"
+      },
       "ok": {
-        "$numberDouble": "0.0"
-      },
-      "errmsg": "$currentOp must be run against the 'admin' database with {aggregate: 1}",
-      "code": {
-        "$numberInt": "73"
-      },
-      "codeName": "InvalidNamespace"
+        "$numberDouble": "1.0"
+      }
     }
   }
 }
