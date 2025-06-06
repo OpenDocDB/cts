@@ -3,7 +3,11 @@ response = {
 "firstBatch": [
 {
 "_id": 0,
-"count": 14
+"count": 8
+},
+{
+"_id": 41,
+"count": 6
 },
 {
 "_id": "Other",

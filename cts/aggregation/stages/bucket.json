@@ -46,7 +46,15 @@
               "$numberInt": "0"
             },
             "count": {
-              "$numberInt": "14"
+              "$numberInt": "8"
+            }
+          },
+          {
+            "_id": {
+              "$numberInt": "41"
+            },
+            "count": {
+              "$numberInt": "6"
             }
           },
           {

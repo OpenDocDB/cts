@@ -6,7 +6,7 @@ db.runCommand({
 "groupBy": "$v",
 "boundaries": [
 0,
-50,
+41,
 100
 ],
 "default": "Other",
