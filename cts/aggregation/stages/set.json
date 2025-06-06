@@ -1,0 +1,398 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$set": {
+            "new": "foobar"
+          }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "binary",
+            "_comment": "The base64 encoded string of bytes [42, 0, 13].",
+            "v": {
+              "$binary": {
+                "base64": "KgAN",
+                "subType": "80"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "binary-empty",
+            "v": {
+              "$binary": {
+                "base64": "",
+                "subType": "00"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "bool-false",
+            "v": false,
+            "new": "foobar"
+          },
+          {
+            "_id": "bool-true",
+            "v": true,
+            "new": "foobar"
+          },
+          {
+            "_id": "datetime",
+            "_comment": "The equivalent of 2021-11-01T10:18:42.123Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "1635761922123"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "datetime-epoch",
+            "_comment": "Unix epoch time.",
+            "v": {
+              "$date": {
+                "$numberLong": "0"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "datetime-max",
+            "_comment": "The equivalent of 9999-12-31T23:59:59.999Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "253402300799999"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "datetime-min",
+            "_comment": "The equivalent of 0000-01-01T00:00:00Z.",
+            "v": {
+              "$date": {
+                "$numberLong": "-62167219200000"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128",
+            "v": {
+              "$numberDecimal": "42.13"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-infinity",
+            "v": {
+              "$numberDecimal": "Infinity"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-max",
+            "_comment": "The largest value representable as a decimal128.",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-min",
+            "_comment": "The smallest value representable as a decimal128.",
+            "v": {
+              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-nan",
+            "v": {
+              "$numberDecimal": "NaN"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-negative-infinity",
+            "v": {
+              "$numberDecimal": "-Infinity"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "v": {
+              "$numberDecimal": "-0.0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-whole",
+            "v": {
+              "$numberDecimal": "42"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "decimal128-zero",
+            "v": {
+              "$numberDecimal": "0.0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double",
+            "v": {
+              "$numberDouble": "42.13"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-big",
+            "_comment": "Value x such as x+1 == x.",
+            "v": {
+              "$numberDouble": "2.305843009213694E+18"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-infinity",
+            "v": {
+              "$numberDouble": "Infinity"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-max",
+            "_comment": "The largest positive finite value representable as a double.",
+            "v": {
+              "$numberDouble": "1.7976931348623157E+308"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-max-integer",
+            "_comment": "The largest integer value representable as a double.",
+            "v": {
+              "$numberDouble": "9.007199254740991E+15"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-nan",
+            "v": {
+              "$numberDouble": "NaN"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-negative-infinity",
+            "v": {
+              "$numberDouble": "-Infinity"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-negative-zero",
+            "v": {
+              "$numberDouble": "-0.0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-smallest-non-zero",
+            "_comment": "The smallest positive non-zero value representable as a double.",
+            "v": {
+              "$numberDouble": "5E-324"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-whole",
+            "v": {
+              "$numberDouble": "42.0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "double-zero",
+            "v": {
+              "$numberDouble": "0.0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int32",
+            "v": {
+              "$numberInt": "42"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int32-max",
+            "v": {
+              "$numberInt": "2147483647"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int32-min",
+            "v": {
+              "$numberInt": "-2147483648"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int32-zero",
+            "v": {
+              "$numberInt": "0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int64",
+            "v": {
+              "$numberLong": "42"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int64-max",
+            "v": {
+              "$numberLong": "9223372036854775807"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int64-min",
+            "v": {
+              "$numberLong": "-9223372036854775808"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "int64-zero",
+            "v": {
+              "$numberLong": "0"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "null",
+            "v": null,
+            "new": "foobar"
+          },
+          {
+            "_id": "objectid",
+            "v": {
+              "$oid": "000102030405060708091011"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "objectid-empty",
+            "v": {
+              "$oid": "000000000000000000000000"
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "regex",
+            "v": {
+              "$regularExpression": {
+                "pattern": "foo",
+                "options": "i"
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "regex-empty",
+            "v": {
+              "$regularExpression": {
+                "pattern": "",
+                "options": ""
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "string",
+            "v": "foo",
+            "new": "foobar"
+          },
+          {
+            "_id": "string-empty",
+            "v": "",
+            "new": "foobar"
+          },
+          {
+            "_id": "timestamp",
+            "v": {
+              "$timestamp": {
+                "t": 42,
+                "i": 13
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "timestamp-i",
+            "v": {
+              "$timestamp": {
+                "t": 0,
+                "i": 1
+              }
+            },
+            "new": "foobar"
+          },
+          {
+            "_id": "unset",
+            "new": "foobar"
+          },
+          {
+            "_id": {
+              "$oid": "000000000000000000000000"
+            },
+            "_comment": "_id is an empty ObjectID.",
+            "v": "objectid-empty",
+            "new": "foobar"
+          },
+          {
+            "_id": {
+              "$oid": "000102030405060708091011"
+            },
+            "_comment": "_id is an ObjectID.",
+            "v": "objectid",
+            "new": "foobar"
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
