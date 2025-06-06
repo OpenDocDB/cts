@@ -1,0 +1,166 @@
+response = {
+"cursor": {
+"firstBatch": [
+{
+"_id": "binary",
+"_comment": "The base64 encoded string of bytes [42, 0, 13]."
+},
+{
+"_id": "binary-empty"
+},
+{
+"_id": "bool-false"
+},
+{
+"_id": "bool-true"
+},
+{
+"_id": "datetime",
+"_comment": "The equivalent of 2021-11-01T10:18:42.123Z."
+},
+{
+"_id": "datetime-epoch",
+"_comment": "Unix epoch time."
+},
+{
+"_id": "datetime-max",
+"_comment": "The equivalent of 9999-12-31T23:59:59.999Z."
+},
+{
+"_id": "datetime-min",
+"_comment": "The equivalent of 0000-01-01T00:00:00Z."
+},
+{
+"_id": "decimal128"
+},
+{
+"_id": "decimal128-infinity"
+},
+{
+"_id": "decimal128-max",
+"_comment": "The largest value representable as a decimal128."
+},
+{
+"_id": "decimal128-min",
+"_comment": "The smallest value representable as a decimal128."
+},
+{
+"_id": "decimal128-nan"
+},
+{
+"_id": "decimal128-negative-infinity"
+},
+{
+"_id": "decimal128-negative-zero"
+},
+{
+"_id": "decimal128-whole"
+},
+{
+"_id": "decimal128-zero"
+},
+{
+"_id": "double"
+},
+{
+"_id": "double-big",
+"_comment": "Value x such as x+1 == x."
+},
+{
+"_id": "double-infinity"
+},
+{
+"_id": "double-max",
+"_comment": "The largest positive finite value representable as a double."
+},
+{
+"_id": "double-max-integer",
+"_comment": "The largest integer value representable as a double."
+},
+{
+"_id": "double-nan"
+},
+{
+"_id": "double-negative-infinity"
+},
+{
+"_id": "double-negative-zero"
+},
+{
+"_id": "double-smallest-non-zero",
+"_comment": "The smallest positive non-zero value representable as a double."
+},
+{
+"_id": "double-whole"
+},
+{
+"_id": "double-zero"
+},
+{
+"_id": "int32"
+},
+{
+"_id": "int32-max"
+},
+{
+"_id": "int32-min"
+},
+{
+"_id": "int32-zero"
+},
+{
+"_id": "int64"
+},
+{
+"_id": "int64-max"
+},
+{
+"_id": "int64-min"
+},
+{
+"_id": "int64-zero"
+},
+{
+"_id": "null"
+},
+{
+"_id": "objectid"
+},
+{
+"_id": "objectid-empty"
+},
+{
+"_id": "regex"
+},
+{
+"_id": "regex-empty"
+},
+{
+"_id": "string"
+},
+{
+"_id": "string-empty"
+},
+{
+"_id": "timestamp"
+},
+{
+"_id": "timestamp-i"
+},
+{
+"_id": "unset"
+},
+{
+"_id": ObjectId("000000000000000000000000"),
+"_comment": "_id is an empty ObjectID."
+},
+{
+"_id": ObjectId("000102030405060708091011"),
+"_comment": "_id is an ObjectID."
+}
+],
+"id": Long(0),
+"ns": "db.values"
+},
+"ok": Double(1)
+}
