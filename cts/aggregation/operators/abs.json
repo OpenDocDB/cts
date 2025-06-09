@@ -1,0 +1,194 @@
+{
+  "simple": {
+    "request": {
+      "aggregate": "values",
+      "pipeline": [
+        {
+          "$match": {
+            "v": {
+              "$type": [
+                "int",
+                "long",
+                "double",
+                "decimal"
+              ],
+              "$gt": {
+                "$numberLong": "-9223372036854775808"
+              }
+            }
+          }
+        },
+        {
+          "$project": {
+            "_id": {
+              "$numberInt": "1"
+            },
+            "abs": {
+              "$abs": "$v"
+            }
+          }
+        },
+        {
+          "$sort": {
+            "_id": {
+              "$numberInt": "1"
+            }
+          }
+        }
+      ],
+      "cursor": {},
+      "$db": "{{.Database}}"
+    },
+    "response": {
+      "cursor": {
+        "firstBatch": [
+          {
+            "_id": "decimal128",
+            "abs": {
+              "$numberDecimal": "42.13"
+            }
+          },
+          {
+            "_id": "decimal128-infinity",
+            "abs": {
+              "$numberDecimal": "Infinity"
+            }
+          },
+          {
+            "_id": "decimal128-max",
+            "abs": {
+              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
+            }
+          },
+          {
+            "_id": "decimal128-min",
+            "abs": {
+              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
+            }
+          },
+          {
+            "_id": "decimal128-negative-zero",
+            "abs": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "decimal128-whole",
+            "abs": {
+              "$numberDecimal": "42"
+            }
+          },
+          {
+            "_id": "decimal128-zero",
+            "abs": {
+              "$numberDecimal": "0.0"
+            }
+          },
+          {
+            "_id": "double",
+            "abs": {
+              "$numberDouble": "42.13"
+            }
+          },
+          {
+            "_id": "double-big",
+            "abs": {
+              "$numberDouble": "2.305843009213694E+18"
+            }
+          },
+          {
+            "_id": "double-infinity",
+            "abs": {
+              "$numberDouble": "Infinity"
+            }
+          },
+          {
+            "_id": "double-max",
+            "abs": {
+              "$numberDouble": "1.7976931348623157E+308"
+            }
+          },
+          {
+            "_id": "double-max-integer",
+            "abs": {
+              "$numberDouble": "9.007199254740991E+15"
+            }
+          },
+          {
+            "_id": "double-negative-zero",
+            "abs": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "double-smallest-non-zero",
+            "abs": {
+              "$numberDouble": "5E-324"
+            }
+          },
+          {
+            "_id": "double-whole",
+            "abs": {
+              "$numberDouble": "42.0"
+            }
+          },
+          {
+            "_id": "double-zero",
+            "abs": {
+              "$numberDouble": "0.0"
+            }
+          },
+          {
+            "_id": "int32",
+            "abs": {
+              "$numberInt": "42"
+            }
+          },
+          {
+            "_id": "int32-max",
+            "abs": {
+              "$numberInt": "2147483647"
+            }
+          },
+          {
+            "_id": "int32-min",
+            "abs": {
+              "$numberLong": "2147483648"
+            }
+          },
+          {
+            "_id": "int32-zero",
+            "abs": {
+              "$numberInt": "0"
+            }
+          },
+          {
+            "_id": "int64",
+            "abs": {
+              "$numberLong": "42"
+            }
+          },
+          {
+            "_id": "int64-max",
+            "abs": {
+              "$numberLong": "9223372036854775807"
+            }
+          },
+          {
+            "_id": "int64-zero",
+            "abs": {
+              "$numberLong": "0"
+            }
+          }
+        ],
+        "id": {
+          "$numberLong": "0"
+        },
+        "ns": "{{.Database}}.values"
+      },
+      "ok": {
+        "$numberDouble": "1.0"
+      }
+    }
+  }
+}
