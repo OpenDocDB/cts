@@ -12,6 +12,9 @@
           "$sort": {
             "_id": {
               "$numberInt": "1"
+            },
+            "v": {
+              "$numberInt": "1"
             }
           }
         }
@@ -30,8 +33,30 @@
           },
           {
             "_id": "array-composite",
+            "v": null
+          },
+          {
+            "_id": "array-composite",
+            "v": {
+              "$numberLong": "41"
+            }
+          },
+          {
+            "_id": "array-composite",
+            "v": {
+              "$numberInt": "42"
+            }
+          },
+          {
+            "_id": "array-composite",
             "v": {
               "$numberDouble": "42.13"
+            }
+          },
+          {
+            "_id": "array-composite",
+            "v": {
+              "$numberDecimal": "46.1"
             }
           },
           {
@@ -67,25 +92,6 @@
           },
           {
             "_id": "array-composite",
-            "v": null
-          },
-          {
-            "_id": "array-composite",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
-              }
-            }
-          },
-          {
-            "_id": "array-composite",
-            "v": {
-              "$numberInt": "42"
-            }
-          },
-          {
-            "_id": "array-composite",
             "v": {
               "$timestamp": {
                 "t": 42,
@@ -95,45 +101,6 @@
           },
           {
             "_id": "array-composite",
-            "v": {
-              "$numberLong": "41"
-            }
-          },
-          {
-            "_id": "array-composite",
-            "v": {
-              "$numberDecimal": "46.1"
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$numberDecimal": "46.1"
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$numberLong": "41"
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$numberInt": "42"
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
             "v": {
               "$regularExpression": {
                 "pattern": "foo",
@@ -148,20 +115,30 @@
           {
             "_id": "array-composite-reverse",
             "v": {
-              "$date": {
-                "$numberLong": "1635761922123"
-              }
+              "$numberLong": "41"
             }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": true
           },
           {
             "_id": "array-composite-reverse",
             "v": {
-              "$oid": "000102030405060708091011"
+              "$numberInt": "42"
             }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": {
+              "$numberDouble": "42.13"
+            }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": {
+              "$numberDecimal": "46.1"
+            }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": "foo"
           },
           {
             "_id": "array-composite-reverse",
@@ -174,17 +151,52 @@
           },
           {
             "_id": "array-composite-reverse",
-            "v": "foo"
+            "v": {
+              "$oid": "000102030405060708091011"
+            }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": true
           },
           {
             "_id": "array-composite-reverse",
             "v": {
-              "$numberDouble": "42.13"
+              "$date": {
+                "$numberLong": "1635761922123"
+              }
+            }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": {
+              "$timestamp": {
+                "t": 42,
+                "i": 13
+              }
+            }
+          },
+          {
+            "_id": "array-composite-reverse",
+            "v": {
+              "$regularExpression": {
+                "pattern": "foo",
+                "options": "i"
+              }
             }
           },
           {
             "_id": "array-document-empty",
             "v": {}
+          },
+          {
+            "_id": "array-documents",
+            "_comment": "An array of documents, add more documents if necessary.",
+            "v": {
+              "bar": {
+                "$numberInt": "42"
+              }
+            }
           },
           {
             "_id": "array-documents",
@@ -205,15 +217,6 @@
             }
           },
           {
-            "_id": "array-documents",
-            "_comment": "An array of documents, add more documents if necessary.",
-            "v": {
-              "bar": {
-                "$numberInt": "42"
-              }
-            }
-          },
-          {
             "_id": "array-double-big",
             "_comment": "The array contains the value x such that x+1 == x.",
             "v": {
@@ -223,7 +226,7 @@
           {
             "_id": "array-double-desc",
             "v": {
-              "$numberDouble": "40.0"
+              "$numberDouble": "10.0"
             }
           },
           {
@@ -235,7 +238,7 @@
           {
             "_id": "array-double-desc",
             "v": {
-              "$numberDouble": "10.0"
+              "$numberDouble": "40.0"
             }
           },
           {

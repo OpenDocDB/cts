@@ -7,7 +7,23 @@ response = {
 },
 {
 "_id": "array-composite",
+"v": null
+},
+{
+"_id": "array-composite",
+"v": Long(41)
+},
+{
+"_id": "array-composite",
+"v": 42
+},
+{
+"_id": "array-composite",
 "v": 42.13
+},
+{
+"_id": "array-composite",
+"v": Decimal128("3476215962376601600.461")
 },
 {
 "_id": "array-composite",
@@ -31,46 +47,10 @@ response = {
 },
 {
 "_id": "array-composite",
-"v": null
-},
-{
-"_id": "array-composite",
-"v": RegExp("foo", "i")
-},
-{
-"_id": "array-composite",
-"v": 42
-},
-{
-"_id": "array-composite",
 "v": Timestamp({t: 42, i: 13})
 },
 {
 "_id": "array-composite",
-"v": Long(41)
-},
-{
-"_id": "array-composite",
-"v": Decimal128("3476215962376601600.461")
-},
-{
-"_id": "array-composite-reverse",
-"v": Decimal128("3476215962376601600.461")
-},
-{
-"_id": "array-composite-reverse",
-"v": Long(41)
-},
-{
-"_id": "array-composite-reverse",
-"v": Timestamp({t: 42, i: 13})
-},
-{
-"_id": "array-composite-reverse",
-"v": 42
-},
-{
-"_id": "array-composite-reverse",
 "v": RegExp("foo", "i")
 },
 {
@@ -79,19 +59,19 @@ response = {
 },
 {
 "_id": "array-composite-reverse",
-"v": ISODate("2021-11-01T10:18:42.123Z")
+"v": Long(41)
 },
 {
 "_id": "array-composite-reverse",
-"v": true
+"v": 42
 },
 {
 "_id": "array-composite-reverse",
-"v": ObjectId("000102030405060708091011")
+"v": 42.13
 },
 {
 "_id": "array-composite-reverse",
-"v": BinData(128, "KgAN")
+"v": Decimal128("3476215962376601600.461")
 },
 {
 "_id": "array-composite-reverse",
@@ -99,12 +79,39 @@ response = {
 },
 {
 "_id": "array-composite-reverse",
-"v": 42.13
+"v": BinData(128, "KgAN")
+},
+{
+"_id": "array-composite-reverse",
+"v": ObjectId("000102030405060708091011")
+},
+{
+"_id": "array-composite-reverse",
+"v": true
+},
+{
+"_id": "array-composite-reverse",
+"v": ISODate("2021-11-01T10:18:42.123Z")
+},
+{
+"_id": "array-composite-reverse",
+"v": Timestamp({t: 42, i: 13})
+},
+{
+"_id": "array-composite-reverse",
+"v": RegExp("foo", "i")
 },
 {
 "_id": "array-document-empty",
 "v": {
 
+}
+},
+{
+"_id": "array-documents",
+"_comment": "An array of documents, add more documents if necessary.",
+"v": {
+"bar": 42
 }
 },
 {
@@ -122,20 +129,13 @@ response = {
 }
 },
 {
-"_id": "array-documents",
-"_comment": "An array of documents, add more documents if necessary.",
-"v": {
-"bar": 42
-}
-},
-{
 "_id": "array-double-big",
 "_comment": "The array contains the value x such that x+1 == x.",
 "v": Double(2305843009213694000)
 },
 {
 "_id": "array-double-desc",
-"v": Double(40)
+"v": Double(10)
 },
 {
 "_id": "array-double-desc",
@@ -143,7 +143,7 @@ response = {
 },
 {
 "_id": "array-double-desc",
-"v": Double(10)
+"v": Double(40)
 },
 {
 "_id": "array-double-duplicate",

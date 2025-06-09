@@ -8,7 +8,8 @@ db.runCommand({
 },
 {
 "$sort": {
-"_id": 1
+"_id": 1,
+"v": 1
 }
 }
 ],
