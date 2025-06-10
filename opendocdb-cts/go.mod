@@ -4,7 +4,8 @@ go 1.24
 
 toolchain go1.24.4
 
-replace github.com/FerretDB/wire => ../../wire
+// FIXME
+replace github.com/FerretDB/wire => github.com/AlekSi/wire v0.1.2-0.20250610123143-b771aae1f9b9
 
 require (
 	github.com/FerretDB/wire v0.1.2-0.20250610101712-3e0a99f157d8

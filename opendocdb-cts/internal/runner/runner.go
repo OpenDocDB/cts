@@ -64,25 +64,41 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 	}, nil
 }
 
-// Setup sets up the test environment, recreating the database and fixtures.
-func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
-	// FIXME refactor to keep connection
+// connect creates a new connection for the given MongoDB URI.
+//
+// Context can be used to cancel the connection attempt.
+// Canceling the context after the connection is established has no effect.
+func (r *Runner) connect(ctx context.Context) (*wireclient.Conn, error) {
 	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
 	if conn == nil {
-		return fmt.Errorf("failed to connect to %s", r.uri.String())
+		return nil, fmt.Errorf("failed to connect to %s", r.uri.String())
+	}
+
+	username := r.uri.User.Username()
+	password, _ := r.uri.User.Password()
+	if username == "" {
+		return conn, nil
+	}
+
+	err := conn.Login(ctx, username, password, "")
+	if err != nil {
+		conn.Close()
+		return nil, err
+	}
+
+	return conn, nil
+}
+
+// Setup sets up the test environment, recreating the database and fixtures.
+func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
+	conn, err := r.connect(ctx)
+	if err != nil {
+		return err
 	}
 
 	defer conn.Close()
 
-	username := r.uri.User.Username()
-	password, _ := r.uri.User.Password()
-	if username != "" {
-		if err := conn.Login(ctx, username, password, ""); err != nil {
-			return err
-		}
-	}
-
-	_, _, err := conn.Request(ctx, wire.MustOpMsg(
+	_, _, err = conn.Request(ctx, wire.MustOpMsg(
 		"dropDatabase", int32(1),
 		"$db", r.db,
 	))
@@ -268,21 +284,12 @@ func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.T
 // Run executes the given test suite.
 // Test cases are sorted by their names.
 func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
-	// FIXME refactor to keep connection
-	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
-	if conn == nil {
-		return fmt.Errorf("failed to connect to %s", r.uri.String())
+	conn, err := r.connect(ctx)
+	if err != nil {
+		return err
 	}
 
 	defer conn.Close()
-
-	username := r.uri.User.Username()
-	password, _ := r.uri.User.Password()
-	if username != "" {
-		if err := conn.Login(ctx, username, password, ""); err != nil {
-			return err
-		}
-	}
 
 	var errs []error
 	for _, name := range slices.Sorted(maps.Keys(ts)) {
@@ -299,21 +306,12 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 // RunGolden executes the given test suite and updates its file with actual results.
 // Test cases are sorted by their names.
 func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, vars map[string]string) error {
-	// FIXME refactor to keep connection
-	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
-	if conn == nil {
-		return fmt.Errorf("failed to connect to %s", r.uri.String())
+	conn, err := r.connect(ctx)
+	if err != nil {
+		return err
 	}
 
 	defer conn.Close()
-
-	username := r.uri.User.Username()
-	password, _ := r.uri.User.Password()
-	if username != "" {
-		if err := conn.Login(ctx, username, password, ""); err != nil {
-			return err
-		}
-	}
 
 	for _, name := range slices.Sorted(maps.Keys(ts)) {
 		tc := ts[name]

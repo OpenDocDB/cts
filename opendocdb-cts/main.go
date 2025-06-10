@@ -24,6 +24,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/alecthomas/kong"
 
@@ -120,7 +121,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	testResults := make([]testResult, 0, total)
 
 	for name, ts := range tss {
-		if err = r.Setup(ctx, f); err != nil {
+		setupCtx, setupCancel := context.WithTimeout(ctx, 10*time.Second)
+		err = r.Setup(setupCtx, f)
+		setupCancel()
+		if err != nil {
 			return err
 		}
 
