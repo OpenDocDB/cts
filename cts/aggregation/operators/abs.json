@@ -10,7 +10,8 @@
                 "int",
                 "long",
                 "double",
-                "decimal"
+                "decimal",
+                "null"
               ],
               "$gt": {
                 "$numberLong": "-9223372036854775808"
