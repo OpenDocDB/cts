@@ -37,7 +37,8 @@ import (
 //
 //nolint:vet // we don't care about fieldalignment here
 var cli struct {
-	Dir string `type:"path" default:"cts" help:"CTS directory."`
+	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
+	Debug bool   `            default:"false" help:"Enable debug logging."`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
@@ -162,6 +163,14 @@ func main() {
 	var err error
 
 	kongCtx := kong.Parse(&cli, kongOptions...)
+
+	level := slog.LevelInfo
+	if cli.Debug {
+		level = slog.LevelDebug
+	}
+
+	slog.SetLogLoggerLevel(level)
+
 	switch kongCtx.Command() {
 	case "fmt":
 		err = fmtCommand()

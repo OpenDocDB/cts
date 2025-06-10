@@ -66,17 +66,22 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 
 // Setup sets up the test environment, recreating the database and fixtures.
 func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
-	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
-	if err != nil {
-		return err
+	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
+	if conn == nil {
+		return fmt.Errorf("failed to connect to %s", r.uri.String())
 	}
+
 	defer conn.Close()
 
-	if err = conn.Ping(ctx); err != nil {
-		return err
+	username := r.uri.User.Username()
+	password, _ := r.uri.User.Password()
+	if username != "" {
+		if err := conn.Login(ctx, username, password, ""); err != nil {
+			return err
+		}
 	}
 
-	_, _, err = conn.Request(ctx, wire.MustOpMsg(
+	_, _, err := conn.Request(ctx, wire.MustOpMsg(
 		"dropDatabase", int32(1),
 		"$db", r.db,
 	))
@@ -262,11 +267,21 @@ func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.T
 // Run executes the given test suite.
 // Test cases are sorted by their names.
 func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
-	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
-	if err != nil {
-		return err
+	// FIXME refactor
+	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
+	if conn == nil {
+		return fmt.Errorf("failed to connect to %s", r.uri.String())
 	}
+
 	defer conn.Close()
+
+	username := r.uri.User.Username()
+	password, _ := r.uri.User.Password()
+	if username != "" {
+		if err := conn.Login(ctx, username, password, ""); err != nil {
+			return err
+		}
+	}
 
 	var errs []error
 	for _, name := range slices.Sorted(maps.Keys(ts)) {
@@ -283,11 +298,21 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 // RunGolden executes the given test suite and updates its file with actual results.
 // Test cases are sorted by their names.
 func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, vars map[string]string) error {
-	conn, err := wireclient.Connect(ctx, r.uri.String(), r.l)
-	if err != nil {
-		return err
+	// FIXME refactor
+	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
+	if conn == nil {
+		return fmt.Errorf("failed to connect to %s", r.uri.String())
 	}
+
 	defer conn.Close()
+
+	username := r.uri.User.Username()
+	password, _ := r.uri.User.Password()
+	if username != "" {
+		if err := conn.Login(ctx, username, password, ""); err != nil {
+			return err
+		}
+	}
 
 	for _, name := range slices.Sorted(maps.Keys(ts)) {
 		tc := ts[name]
