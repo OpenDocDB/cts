@@ -116,7 +116,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	failed, total := 0, len(tss)
-	testResults := make([]testCaseResult, 0, total)
+	results := make([]testCaseResult, 0, total)
 
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
@@ -132,22 +132,22 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
-			testResults = append(testResults, testCaseResult{name: name, passed: true})
+			results = append(results, testCaseResult{name: name, passed: true})
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			testResults = append(testResults, testCaseResult{name: name, passed: false})
+			results = append(results, testCaseResult{name: name, passed: false})
 			failed++
 		}
 	}
 
-	l.InfoContext(ctx, "\n"+resultsTable(testResults))
+	l.InfoContext(ctx, "\n"+resultsTable(results))
 
 	if total == 0 {
 		return errors.New("no test suites were run")
 	}
 
 	p := float64(total-failed) / float64(total) * 100
-	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test cases (%d/%d).\n\n", p, total-failed, total))
 
 	return nil
 }
