@@ -23,16 +23,16 @@ import (
 func TestResultsTable(t *testing.T) {
 	tests := map[string]struct {
 		expected string
-		results  []testResult
+		results  []testCaseResult
 	}{
 		"Empty": {
-			results: []testResult{},
+			results: []testCaseResult{},
 			expected: "" +
 				"Test Name     |Result\n" +
 				"---------     |------\n",
 		},
 		"Simple": {
-			results: []testResult{
+			results: []testCaseResult{
 				{name: "test1/foo", passed: true},
 				{name: "test2/bar", passed: false},
 			},
@@ -43,7 +43,7 @@ func TestResultsTable(t *testing.T) {
 				"test2/bar     |❌\n",
 		},
 		"Sorted": {
-			results: []testResult{
+			results: []testCaseResult{
 				{name: "foo", passed: true},
 				{name: "bar", passed: false},
 			},
@@ -54,7 +54,7 @@ func TestResultsTable(t *testing.T) {
 				"foo           |✅\n",
 		},
 		"LongName": {
-			results: []testResult{
+			results: []testCaseResult{
 				{name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", passed: true},
 				{name: "b", passed: false},
 			},
