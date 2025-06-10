@@ -24,21 +24,21 @@ import (
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/util/must"
 )
 
-// testCaseResult represents the result of a single test case.
-type testCaseResult struct {
+// testSuiteResult represents the result of a single test suite.
+type testSuiteResult struct {
 	name   string
 	passed bool
 }
 
 // resultsTable returns the results of the test cases in a formatted table.
-// The table is sorted by test case name.
-func resultsTable(results []testCaseResult) string {
-	slices.SortFunc(results, func(a, b testCaseResult) int { return cmp.Compare(a.name, b.name) })
+// The table is sorted by test suite names.
+func resultsTable(results []testSuiteResult) string {
+	slices.SortFunc(results, func(a, b testSuiteResult) int { return cmp.Compare(a.name, b.name) })
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 
-	_ = must.NotFail(fmt.Fprintln(w, "Test Case Name\tResult"))
+	_ = must.NotFail(fmt.Fprintln(w, "Test Suite Name\tResult"))
 	_ = must.NotFail(fmt.Fprintln(w, "---------\t------"))
 
 	for _, result := range results {

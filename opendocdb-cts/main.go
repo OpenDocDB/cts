@@ -116,7 +116,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	failed, total := 0, len(tss)
-	results := make([]testCaseResult, 0, total)
+	results := make([]testSuiteResult, 0, total)
 
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
@@ -132,10 +132,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
-			results = append(results, testCaseResult{name: name, passed: true})
+			results = append(results, testSuiteResult{name: name, passed: true})
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			results = append(results, testCaseResult{name: name, passed: false})
+			results = append(results, testSuiteResult{name: name, passed: false})
 			failed++
 		}
 	}
@@ -147,7 +147,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	p := float64(total-failed) / float64(total) * 100
-	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test cases (%d/%d).\n\n", p, total-failed, total))
+	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
 	return nil
 }
