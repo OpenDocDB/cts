@@ -66,6 +66,7 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 
 // Setup sets up the test environment, recreating the database and fixtures.
 func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
+	// FIXME refactor to keep connection
 	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
 	if conn == nil {
 		return fmt.Errorf("failed to connect to %s", r.uri.String())
@@ -267,7 +268,7 @@ func (*Runner) runTestCase(ctx context.Context, conn *wireclient.Conn, tc data.T
 // Run executes the given test suite.
 // Test cases are sorted by their names.
 func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
-	// FIXME refactor
+	// FIXME refactor to keep connection
 	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
 	if conn == nil {
 		return fmt.Errorf("failed to connect to %s", r.uri.String())
@@ -298,7 +299,7 @@ func (r *Runner) Run(ctx context.Context, ts data.TestSuite) error {
 // RunGolden executes the given test suite and updates its file with actual results.
 // Test cases are sorted by their names.
 func (r *Runner) RunGolden(ctx context.Context, ts data.TestSuite, path string, vars map[string]string) error {
-	// FIXME refactor
+	// FIXME refactor to keep connection
 	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
 	if conn == nil {
 		return fmt.Errorf("failed to connect to %s", r.uri.String())
