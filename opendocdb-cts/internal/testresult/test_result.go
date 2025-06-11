@@ -26,14 +26,14 @@ import (
 
 // TestSuiteResult represents the result of a single test suite.
 type TestSuiteResult struct {
-	name   string
-	passed bool
+	Name   string
+	Passed bool
 }
 
 // ResultsTable returns the results of the test cases in a formatted table.
 // The table is sorted by test suite names.
 func ResultsTable(results []TestSuiteResult) string {
-	slices.SortFunc(results, func(a, b TestSuiteResult) int { return cmp.Compare(a.name, b.name) })
+	slices.SortFunc(results, func(a, b TestSuiteResult) int { return cmp.Compare(a.Name, b.Name) })
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
@@ -43,11 +43,11 @@ func ResultsTable(results []TestSuiteResult) string {
 
 	for _, result := range results {
 		status := "❌"
-		if result.passed {
+		if result.Passed {
 			status = "✅"
 		}
 
-		_ = must.NotFail(fmt.Fprintf(w, "%s\t%s\n", result.name, status))
+		_ = must.NotFail(fmt.Fprintf(w, "%s\t%s\n", result.Name, status))
 	}
 
 	must.NoError(w.Flush())

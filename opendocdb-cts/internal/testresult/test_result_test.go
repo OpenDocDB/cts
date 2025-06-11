@@ -23,18 +23,18 @@ import (
 func TestResultsTable(t *testing.T) {
 	tests := map[string]struct {
 		expected string
-		results  []testCaseResult
+		results  []TestSuiteResult
 	}{
 		"Empty": {
-			results: []testCaseResult{},
+			results: []TestSuiteResult{},
 			expected: "" +
 				"Test Name     |Result\n" +
 				"---------     |------\n",
 		},
 		"Simple": {
-			results: []testCaseResult{
-				{name: "test1/foo", passed: true},
-				{name: "test2/bar", passed: false},
+			results: []TestSuiteResult{
+				{Name: "test1/foo", Passed: true},
+				{Name: "test2/bar", Passed: false},
 			},
 			expected: "" +
 				"Test Name     |Result\n" +
@@ -43,9 +43,9 @@ func TestResultsTable(t *testing.T) {
 				"test2/bar     |❌\n",
 		},
 		"Sorted": {
-			results: []testCaseResult{
-				{name: "foo", passed: true},
-				{name: "bar", passed: false},
+			results: []TestSuiteResult{
+				{Name: "foo", Passed: true},
+				{Name: "bar", Passed: false},
 			},
 			expected: "" +
 				"Test Name     |Result\n" +
@@ -54,9 +54,9 @@ func TestResultsTable(t *testing.T) {
 				"foo           |✅\n",
 		},
 		"LongName": {
-			results: []testCaseResult{
-				{name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", passed: true},
-				{name: "b", passed: false},
+			results: []TestSuiteResult{
+				{Name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", Passed: true},
+				{Name: "b", Passed: false},
 			},
 			expected: "" +
 				"Test Name                                           |Result\n" +
@@ -66,9 +66,9 @@ func TestResultsTable(t *testing.T) {
 		},
 	}
 
-	for name, tc := range tests {
-		t.Run(name, func(t *testing.T) {
-			result := resultsTable(tc.results)
+	for Name, tc := range tests {
+		t.Run(Name, func(t *testing.T) {
+			result := ResultsTable(tc.results)
 			assert.Equal(t, tc.expected, result)
 		})
 	}
