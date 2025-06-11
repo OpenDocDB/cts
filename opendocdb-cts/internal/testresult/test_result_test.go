@@ -28,8 +28,8 @@ func TestResultsTable(t *testing.T) {
 		"Empty": {
 			results: []TestSuiteResult{},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n",
 		},
 		"Simple": {
 			results: []TestSuiteResult{
@@ -37,10 +37,10 @@ func TestResultsTable(t *testing.T) {
 				{Name: "test2/bar", Passed: false},
 			},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n" +
-				"test1/foo     |✅\n" +
-				"test2/bar     |❌\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n" +
+				"test1/foo           |✅\n" +
+				"test2/bar           |❌\n",
 		},
 		"Sorted": {
 			results: []TestSuiteResult{
@@ -48,10 +48,10 @@ func TestResultsTable(t *testing.T) {
 				{Name: "bar", Passed: false},
 			},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n" +
-				"bar           |❌\n" +
-				"foo           |✅\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n" +
+				"bar                 |❌\n" +
+				"foo                 |✅\n",
 		},
 		"LongName": {
 			results: []TestSuiteResult{
@@ -59,7 +59,7 @@ func TestResultsTable(t *testing.T) {
 				{Name: "b", Passed: false},
 			},
 			expected: "" +
-				"Test Name                                           |Result\n" +
+				"Test Suite Name                                     |Result\n" +
 				"---------                                           |------\n" +
 				"LoremIpsumDolorSitAmetConsecteturAdipiscingElit     |✅\n" +
 				"b                                                   |❌\n",
