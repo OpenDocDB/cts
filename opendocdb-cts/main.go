@@ -24,6 +24,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/alecthomas/kong"
 
@@ -38,7 +39,8 @@ import (
 //
 //nolint:vet // we don't care about fieldalignment here
 var cli struct {
-	Dir string `type:"path" default:"cts" help:"CTS directory."`
+	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
+	Debug bool   `            default:"false" help:"Enable debug logging."`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
@@ -120,7 +122,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	results := make([]testresult.TestSuiteResult, 0, total)
 
 	for name, ts := range tss {
-		if err = r.Setup(ctx, f); err != nil {
+		setupCtx, setupCancel := context.WithTimeout(ctx, 10*time.Second)
+		err = r.Setup(setupCtx, f)
+		setupCancel()
+		if err != nil {
 			return err
 		}
 
@@ -163,6 +168,14 @@ func main() {
 	var err error
 
 	kongCtx := kong.Parse(&cli, kongOptions...)
+
+	level := slog.LevelInfo
+	if cli.Debug {
+		level = slog.LevelDebug
+	}
+
+	slog.SetLogLoggerLevel(level)
+
 	switch kongCtx.Command() {
 	case "fmt":
 		err = fmtCommand()
