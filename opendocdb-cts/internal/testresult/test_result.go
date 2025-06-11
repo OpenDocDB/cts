@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package testresult
 
 import (
 	"cmp"
@@ -24,16 +24,16 @@ import (
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/util/must"
 )
 
-// testSuiteResult represents the result of a single test suite.
-type testSuiteResult struct {
+// TestSuiteResult represents the result of a single test suite.
+type TestSuiteResult struct {
 	name   string
 	passed bool
 }
 
-// resultsTable returns the results of the test cases in a formatted table.
+// ResultsTable returns the results of the test cases in a formatted table.
 // The table is sorted by test suite names.
-func resultsTable(results []testSuiteResult) string {
-	slices.SortFunc(results, func(a, b testSuiteResult) int { return cmp.Compare(a.name, b.name) })
+func ResultsTable(results []TestSuiteResult) string {
+	slices.SortFunc(results, func(a, b TestSuiteResult) int { return cmp.Compare(a.name, b.name) })
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)

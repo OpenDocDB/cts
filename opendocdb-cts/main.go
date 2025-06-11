@@ -116,7 +116,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	failed, total := 0, len(tss)
-	results := make([]testSuiteResult, 0, total)
+	results := make([]results.TestSuiteResult, 0, total)
 
 	for name, ts := range tss {
 		if err = r.Setup(ctx, f); err != nil {
