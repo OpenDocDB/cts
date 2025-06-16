@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package testresult provides functionality to format test suite results into a table.
+// Package testresult provides functionality to format CTS test suite results into a table.
 package testresult
 
 import (
