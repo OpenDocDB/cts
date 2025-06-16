@@ -31,7 +31,7 @@ type TestSuiteResult struct {
 	Passed bool
 }
 
-// ResultsTable returns the results of the test cases in a formatted table.
+// ResultsTable returns the results of the test suites in a formatted table.
 // The table is sorted by test suite names.
 func ResultsTable(results []TestSuiteResult) string {
 	slices.SortFunc(results, func(a, b TestSuiteResult) int { return cmp.Compare(a.Name, b.Name) })
