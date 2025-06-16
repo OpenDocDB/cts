@@ -1,5 +1,5 @@
 {
-    "name": "ctsf",
+    "name": "cts",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "cts",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
