@@ -10,11 +10,7 @@
         27001,
         27002
     ],
-    //#"features": {
-    //#    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-    //#},
-    "mounts": [
-        "source=cts-cache,target=/cache,type=volume"
-    ],
+    "overrideCommand": false,
+    "init": false,
     "remoteUser": "root"
 }
