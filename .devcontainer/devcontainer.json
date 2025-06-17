@@ -1,6 +1,9 @@
 {
     "name": "cts",
-    "dockerComposeFile": "../docker-compose.yml",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "./docker-compose.extend.yml"
+    ],
     "service": "cts",
     "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
     "forwardPorts": [

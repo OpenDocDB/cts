@@ -1,0 +1,4 @@
+---
+services:
+  cts:
+    image: cts-build:latest
