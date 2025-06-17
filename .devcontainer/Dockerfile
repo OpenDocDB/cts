@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM golang:1.24.3 AS build
+FROM --platform=$BUILDPLATFORM golang:1.24.3
 
 ENV GOPATH=/cache/gopath
 ENV GOCACHE=/cache/gocache
@@ -23,9 +23,5 @@ export CGO_ENABLED=0
 go build -v -o /opendocdb-cts
 /opendocdb-cts --help
 EOF
-
-FROM --platform=$BUILDPLATFORM golang:1.24.3
-
-COPY --from=build /opendocdb-cts /opendocdb-cts
 
 ENTRYPOINT [ "/opendocdb-cts", "run" ]
