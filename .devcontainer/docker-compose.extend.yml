@@ -1,4 +1,6 @@
 ---
 services:
   cts:
-    image: cts-build:latest
+    build: 
+      context: .devcontainer
+      dockerfile: Dockerfile
