@@ -2,5 +2,8 @@
 services:
   cts:
     build: 
-      context: .devcontainer
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/src:cached
+      - ./tmp/cache:/cache

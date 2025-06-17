@@ -24,7 +24,8 @@ go build -v -o /opendocdb-cts
 /opendocdb-cts --help
 EOF
 
+FROM --platform=$BUILDPLATFORM golang:1.24.3
+
 COPY --from=build /opendocdb-cts /opendocdb-cts
-COPY ./cts /cts
 
 ENTRYPOINT [ "/opendocdb-cts", "run" ]
