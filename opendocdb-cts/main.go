@@ -31,6 +31,7 @@ import (
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/runner"
+	"github.com/OpenDocDB/cts/opendocdb-cts/internal/testresult"
 )
 
 // The cli struct represents all command-line commands, fields and flags.
@@ -118,7 +119,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	}
 
 	failed, total := 0, len(tss)
-	testResults := make([]testResult, 0, total)
+	results := make([]testresult.TestSuiteResult, 0, total)
 
 	for name, ts := range tss {
 		setupCtx, setupCancel := context.WithTimeout(ctx, 10*time.Second)
@@ -137,15 +138,15 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
-			testResults = append(testResults, testResult{name: name, passed: true})
+			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			testResults = append(testResults, testResult{name: name, passed: false})
+			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
 			failed++
 		}
 	}
 
-	l.InfoContext(ctx, "\n"+resultsTable(testResults))
+	l.InfoContext(ctx, "\n"+testresult.ResultsTable(results))
 
 	if total == 0 {
 		return errors.New("no test suites were run")

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package testresult
 
 import (
 	"testing"
@@ -23,52 +23,52 @@ import (
 func TestResultsTable(t *testing.T) {
 	tests := map[string]struct {
 		expected string
-		results  []testResult
+		results  []TestSuiteResult
 	}{
 		"Empty": {
-			results: []testResult{},
+			results: []TestSuiteResult{},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n",
 		},
 		"Simple": {
-			results: []testResult{
-				{name: "test1/foo", passed: true},
-				{name: "test2/bar", passed: false},
+			results: []TestSuiteResult{
+				{Name: "test1/foo", Passed: true},
+				{Name: "test2/bar", Passed: false},
 			},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n" +
-				"test1/foo     |✅\n" +
-				"test2/bar     |❌\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n" +
+				"test1/foo           |✅\n" +
+				"test2/bar           |❌\n",
 		},
 		"Sorted": {
-			results: []testResult{
-				{name: "foo", passed: true},
-				{name: "bar", passed: false},
+			results: []TestSuiteResult{
+				{Name: "foo", Passed: true},
+				{Name: "bar", Passed: false},
 			},
 			expected: "" +
-				"Test Name     |Result\n" +
-				"---------     |------\n" +
-				"bar           |❌\n" +
-				"foo           |✅\n",
+				"Test Suite Name     |Result\n" +
+				"---------           |------\n" +
+				"bar                 |❌\n" +
+				"foo                 |✅\n",
 		},
 		"LongName": {
-			results: []testResult{
-				{name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", passed: true},
-				{name: "b", passed: false},
+			results: []TestSuiteResult{
+				{Name: "LoremIpsumDolorSitAmetConsecteturAdipiscingElit", Passed: true},
+				{Name: "b", Passed: false},
 			},
 			expected: "" +
-				"Test Name                                           |Result\n" +
+				"Test Suite Name                                     |Result\n" +
 				"---------                                           |------\n" +
 				"LoremIpsumDolorSitAmetConsecteturAdipiscingElit     |✅\n" +
 				"b                                                   |❌\n",
 		},
 	}
 
-	for name, tc := range tests {
-		t.Run(name, func(t *testing.T) {
-			result := resultsTable(tc.results)
+	for Name, tc := range tests {
+		t.Run(Name, func(t *testing.T) {
+			result := ResultsTable(tc.results)
 			assert.Equal(t, tc.expected, result)
 		})
 	}

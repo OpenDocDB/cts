@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+// Package testresult provides functionality to format CTS test suite results into a table.
+package testresult
 
 import (
 	"cmp"
@@ -24,30 +25,30 @@ import (
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/util/must"
 )
 
-// testResult represents the result of a test.
-type testResult struct {
-	name   string
-	passed bool
+// TestSuiteResult represents the result of a single test suite.
+type TestSuiteResult struct {
+	Name   string
+	Passed bool
 }
 
-// resultsTable returns the results of the tests in a formatted table.
-// The table is sorted by test name.
-func resultsTable(results []testResult) string {
-	slices.SortFunc(results, func(a, b testResult) int { return cmp.Compare(a.name, b.name) })
+// ResultsTable returns the results of the test suites in a formatted table.
+// The table is sorted by test suite names.
+func ResultsTable(results []TestSuiteResult) string {
+	slices.SortFunc(results, func(a, b TestSuiteResult) int { return cmp.Compare(a.Name, b.Name) })
 
 	var sb strings.Builder
 	w := tabwriter.NewWriter(&sb, 0, 0, 5, ' ', tabwriter.Debug)
 
-	_ = must.NotFail(fmt.Fprintln(w, "Test Name\tResult"))
+	_ = must.NotFail(fmt.Fprintln(w, "Test Suite Name\tResult"))
 	_ = must.NotFail(fmt.Fprintln(w, "---------\t------"))
 
 	for _, result := range results {
 		status := "❌"
-		if result.passed {
+		if result.Passed {
 			status = "✅"
 		}
 
-		_ = must.NotFail(fmt.Fprintf(w, "%s\t%s\n", result.name, status))
+		_ = must.NotFail(fmt.Fprintf(w, "%s\t%s\n", result.Name, status))
 	}
 
 	must.NoError(w.Flush())
