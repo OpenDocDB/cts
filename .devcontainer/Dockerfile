@@ -26,4 +26,4 @@ EOF
 
 WORKDIR /src
 
-ENTRYPOINT [ "/opendocdb-cts", "run" ]
+ENTRYPOINT [ "/opendocdb-cts", "run", "--uri=mongodb://127.0.0.1:27001/cts"]
