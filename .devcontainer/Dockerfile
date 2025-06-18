@@ -24,4 +24,6 @@ go build -v -o /opendocdb-cts
 /opendocdb-cts --help
 EOF
 
+WORKDIR /src
+
 ENTRYPOINT [ "/opendocdb-cts", "run" ]
