@@ -4,3 +4,6 @@ services:
     image: golang:1.24.3
     volumes:
       - .:/workspace:cached
+    extra_hosts:
+          - "host.docker.internal:host-gateway"
+
