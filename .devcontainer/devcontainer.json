@@ -5,7 +5,7 @@
         "./docker-compose.extend.yml"
     ],
     "service": "devcontainer",
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "workspaceFolder": "/workspace",
     "forwardPorts": [
         27001,
         27002
