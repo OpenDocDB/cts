@@ -1,9 +1,4 @@
 ---
 services:
-  cts:
-    build: 
-      context: .
-      dockerfile: .devcontainer/Dockerfile
-    volumes:
-      - .:/src:cached
-      - ./tmp/cache:/cache
+  devcontainer:
+    image: golang:1.24.3

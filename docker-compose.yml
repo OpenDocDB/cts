@@ -1,6 +1,7 @@
 ---
 services:
-  cts: {}
+  cts: 
+    build: {}
 
   mongodb:
     build:
