@@ -26,7 +26,7 @@ run-mongodb:
 	go run . --dir=../cts run --uri=mongodb://${MONGODB_HOST}:27001/cts
 
 run-ferretdb:
-	go run . --dir=../cts run --uri=mongodb://${MONGODB_PORT}:27002/cts
+	go run . --dir=../cts run --uri=mongodb://${FERRETDB_HOST}:27002/cts
 
 run-remote:
 	# CTS_URI environment variable should be set
