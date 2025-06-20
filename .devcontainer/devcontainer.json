@@ -1,0 +1,23 @@
+{
+    "name": "cts",
+    "dockerComposeFile": [
+        "../docker-compose.yml",
+        "./docker-compose.extend.yml"
+    ],
+    "service": "devcontainer",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go"
+            ]
+        },
+        "files": {
+            "insertFinalNewline": true,
+            "trimTrailingWhitespace": true
+        }
+    },
+    "workspaceFolder": "/workspace",
+    "overrideCommand": true,
+    "remoteUser": "root",
+    "onCreateCommand": "cd /workspace/opendocdb-cts && make init"
+}
