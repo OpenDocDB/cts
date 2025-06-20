@@ -12,7 +12,8 @@
             ]
         },
         "files": {
-            "insertFinalNewline": true
+            "insertFinalNewline": true,
+            "trimTrailingWhitespace": true
         }
     },
     "workspaceFolder": "/workspace",
