@@ -7,6 +7,5 @@
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
-    "init": true,
     "remoteUser": "root"
 }
