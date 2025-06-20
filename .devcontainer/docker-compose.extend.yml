@@ -3,7 +3,7 @@ services:
   devcontainer:
     image: golang:1.24.3
     volumes:
-      - .:/workspace:cached
+      - .:/workspace
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
