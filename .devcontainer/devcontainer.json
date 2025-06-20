@@ -6,10 +6,6 @@
     ],
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
-    "forwardPorts": [
-        27001,
-        27002
-    ],
     "overrideCommand": true,
     "init": true,
     "remoteUser": "root"
