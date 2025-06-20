@@ -10,6 +10,9 @@
             "extensions": [
                 "golang.go"
             ]
+        },
+        "files": {
+            "insertFinalNewline": true
         }
     },
     "workspaceFolder": "/workspace",
