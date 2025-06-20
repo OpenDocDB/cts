@@ -24,8 +24,6 @@ go build -v -o /opendocdb-cts
 /opendocdb-cts --help
 EOF
 
-
-# TODO https://github.com/devcontainers/cli/issues/239
 FROM scratch
 
 COPY --from=build /opendocdb-cts /opendocdb-cts
