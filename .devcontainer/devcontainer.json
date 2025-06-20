@@ -5,6 +5,13 @@
         "./docker-compose.extend.yml"
     ],
     "service": "devcontainer",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go"
+            ]
+        }
+    },
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
     "remoteUser": "root",

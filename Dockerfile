@@ -24,6 +24,7 @@ go build -v -o /opendocdb-cts
 /opendocdb-cts --help
 EOF
 
+
 FROM scratch
 
 COPY --from=build /opendocdb-cts /opendocdb-cts
