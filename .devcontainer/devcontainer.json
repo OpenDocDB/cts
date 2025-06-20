@@ -7,5 +7,6 @@
     "service": "devcontainer",
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
-    "remoteUser": "root"
+    "remoteUser": "root",
+    "onCreateCommand": "cd /workspace/opendocdb-cts && make init"
 }
