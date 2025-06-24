@@ -30,4 +30,6 @@ FROM scratch
 COPY --from=build /opendocdb-cts /opendocdb-cts
 COPY ./cts /cts
 
-ENTRYPOINT [ "/opendocdb-cts", "run" ]
+ENTRYPOINT [ "/opendocdb-cts" ]
+
+LABEL org.opencontainers.image.source="https://github.com/OpenDocDB/cts"

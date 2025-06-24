@@ -37,3 +37,9 @@ jobs:
       - name: Build local Docker image
         working-directory: opendocdb-cts
         run: make docker-local
+
+      - name: Build and push the latest Docker image
+        working-directory: opendocdb-cts
+        run: >
+          docker buildx build --builder=opendocdb-cts --platform=linux/amd64,linux/arm64
+          --tag=ghcr.io/opendocdb/cts:latest --push ..
