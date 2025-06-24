@@ -1,7 +1,7 @@
 ---
 services:
   devcontainer:
-    image: golang:1.24.3
+    image: golang:1.24.4
     volumes:
       - .:/workspace
     extra_hosts:
