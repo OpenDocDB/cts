@@ -1,8 +1,7 @@
 ---
-services:
-  cts:
-    build: {}
+# This file is used for the development environment.
 
+services:
   mongodb:
     build:
       context: ./build/deps
