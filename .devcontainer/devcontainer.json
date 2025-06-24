@@ -1,8 +1,7 @@
 {
     "name": "cts",
     "dockerComposeFile": [
-        "../docker-compose.yml",
-        "./docker-compose.extend.yml"
+        "../docker-compose.yml"
     ],
     "service": "devcontainer",
     "customizations": {
