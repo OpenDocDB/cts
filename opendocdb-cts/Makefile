@@ -1,4 +1,4 @@
-HOST ?= "127.0.0.1"
+HOST ?= 127.0.0.1
 
 all: test build run-fmt lint
 
