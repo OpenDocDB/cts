@@ -1,5 +1,6 @@
 ---
 # This file is used for the development environment.
+
 services:
   devcontainer:
     image: golang:1.24.4
