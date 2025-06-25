@@ -7,12 +7,12 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "golang.go"
+                "golang.go",
+                "editorconfig.editorconfig"
             ]
         }
     },
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
-    "remoteUser": "root",
-    "onCreateCommand": "cd /workspace/opendocdb-cts && make init"
+    "updateContentCommand": "cd /workspace/opendocdb-cts && make init"
 }
