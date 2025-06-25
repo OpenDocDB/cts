@@ -14,5 +14,6 @@
     },
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
-    "updateContentCommand": "cd /workspace/opendocdb-cts && make init"
+    "updateContentCommand": "cd /workspace/opendocdb-cts && make init",
+    "postCreateCommand": "go install github.com/go-delve/delve/cmd/dlv@latest"
 }
