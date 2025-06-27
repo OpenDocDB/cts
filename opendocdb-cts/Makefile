@@ -1,3 +1,5 @@
+HOST ?= 127.0.0.1
+
 all: test build run-fmt lint
 
 init:
@@ -19,11 +21,11 @@ run-fmt:
 	go run . --dir=../cts convert ../cts-mongosh
 
 run-mongodb:
-	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27001/qklck6njgh9o --golden
-	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27001/cts
+	go run . --dir=../cts run --uri=mongodb://${HOST}:27001/qklck6njgh9o --golden
+	go run . --dir=../cts run --uri=mongodb://${HOST}:27001/cts
 
 run-ferretdb:
-	go run . --dir=../cts run --uri=mongodb://127.0.0.1:27002/cts
+	go run . --dir=../cts run --uri=mongodb://${HOST}:27002/cts
 
 run-remote:
 	# CTS_URI environment variable should be set
