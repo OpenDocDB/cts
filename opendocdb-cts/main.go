@@ -140,7 +140,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 			l.InfoContext(ctx, name+": PASSED")
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
 		} else {
-			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
+			l.ErrorContext(ctx, name+": FAILED\n::group::Error\n"+err.Error()+"\n::endgroup::")
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
 			failed++
 		}
