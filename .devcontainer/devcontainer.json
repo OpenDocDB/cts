@@ -15,5 +15,12 @@
     "workspaceFolder": "/workspace",
     "overrideCommand": true,
     "updateContentCommand": "cd /workspace/opendocdb-cts && make init",
-    "postCreateCommand": "go install github.com/go-delve/delve/cmd/dlv@latest"
+    "postCreateCommand": "go install github.com/go-delve/delve/cmd/dlv@latest",
+    // for debugging with delve
+    "capAdd": [
+        "SYS_PTRACE"
+    ],
+    "securityOpt": [
+        "seccomp=unconfined"
+    ]
 }
