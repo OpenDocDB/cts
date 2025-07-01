@@ -141,9 +141,8 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 			l.InfoContext(ctx, name+": PASSED")
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
 		} else {
+			githubactions.Group(name + ": FAILED")
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			githubactions.Group("Error")
-			l.ErrorContext(ctx, err.Error())
 			githubactions.EndGroup()
 
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
