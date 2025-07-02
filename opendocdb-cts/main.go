@@ -27,7 +27,6 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
-	"github.com/sethvargo/go-githubactions"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
@@ -42,6 +41,8 @@ import (
 var cli struct {
 	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
 	Debug bool   `            default:"false" help:"Enable debug logging."`
+
+	GithubActions bool ` default:"false"            help:"Set to true if running in a Github Actions workflow." hidden:""`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
@@ -140,14 +141,17 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
-		} else {
-			githubactions.Group(name + ": FAILED")
-			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			githubactions.EndGroup()
-
-			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
-			failed++
+			continue
 		}
+
+		if cli.GithubActions {
+			l.ErrorContext(ctx, name+": FAILED\n::group::Error\n"+err.Error()+"\n::endgroup::")
+		} else {
+			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
+		}
+
+		results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
+		failed++
 	}
 
 	l.InfoContext(ctx, "\n"+testresult.ResultsTable(results))
