@@ -21,7 +21,8 @@ jobs:
 
     if: github.event_name != 'pull_request' || !contains(github.event.pull_request.labels.*.name, 'not ready')
 
-    permissions: {}
+    permissions:
+      packages: write
 
     steps:
       - name: Checkout code
@@ -37,3 +38,18 @@ jobs:
       - name: Build local Docker image
         working-directory: opendocdb-cts
         run: make docker-local
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        if: github.event_name == 'push'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push the latest Docker image
+        working-directory: opendocdb-cts
+        if: github.event_name == 'push'
+        run: >
+          docker buildx build --builder=opendocdb-cts --platform=linux/amd64,linux/arm64
+          --tag=ghcr.io/opendocdb/cts:latest --push ..

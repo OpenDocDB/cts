@@ -2,6 +2,14 @@
 # This file is used for the development environment.
 
 services:
+  devcontainer:
+    image: golang:1.24.4
+    volumes:
+      - .:/workspace
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      HOST: "host.docker.internal"
   mongodb:
     build:
       context: ./build/deps
