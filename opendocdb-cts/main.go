@@ -42,7 +42,7 @@ var cli struct {
 	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
 	Debug bool   `            default:"false" help:"Enable debug logging."`
 
-	GithubActions bool ` default:"false"            help:"Set to true if running in a Github Actions workflow." hidden:""`
+	GithubActions bool `default:"false" hidden:""`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
