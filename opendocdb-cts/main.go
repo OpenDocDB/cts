@@ -42,6 +42,8 @@ var cli struct {
 	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
 	Debug bool   `            default:"false" help:"Enable debug logging."`
 
+	GithubActions bool `default:"false" env:"GITHUB_ACTIONS" hidden:""`
+
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
 	Convert struct {
@@ -139,11 +141,17 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
+			continue
+		}
+
+		if cli.GithubActions {
+			l.ErrorContext(ctx, name+": FAILED\n::group::Error\n"+err.Error()+"\n::endgroup::")
 		} else {
 			l.ErrorContext(ctx, name+": FAILED\n"+err.Error())
-			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
-			failed++
 		}
+
+		results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
+		failed++
 	}
 
 	l.InfoContext(ctx, "\n"+testresult.ResultsTable(results))
