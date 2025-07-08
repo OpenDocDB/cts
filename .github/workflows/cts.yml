@@ -73,10 +73,14 @@ jobs:
       - name: Run CTS for MongoDB
         working-directory: opendocdb-cts
         run: make run-mongodb
+        env:
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
 
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
         run: make run-ferretdb
+        env:
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
 
       # we don't want it on CI
       - name: Clean test caches
@@ -129,12 +133,9 @@ jobs:
           go-version: ${{ steps.toolchain.outputs.version }}
           cache-dependency-path: opendocdb-cts/go.sum
 
-      - name: Build CTS
-        working-directory: opendocdb-cts
-        run: make build
-
       - name: Run CTS for ${{ matrix.service }}
         working-directory: opendocdb-cts
         run: make run-remote
         env:
           CTS_URI: ${{ secrets[matrix.secret] }}
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
