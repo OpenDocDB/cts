@@ -13,7 +13,7 @@ fmt:
 test: fmt
 	go test -count=1 ./...
 
-build: fmt
+build:
 	go run . --help
 
 run-fmt:
