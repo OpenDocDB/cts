@@ -78,28 +78,38 @@ jobs:
         working-directory: opendocdb-cts
         run: make run-ferretdb
 
+      # TODO https://github.com/OpenDocDB/cts/issues/88
+
+      - name: Run CTS for Azure Cosmos DB vCore
+        if: github.event_name != 'pull_request'
+        continue-on-error: true # TODO https://github.com/OpenDocDB/cts/issues/87
+        working-directory: opendocdb-cts
+        run: make run-remote
+        env:
+          CTS_URI: ${{ secrets.COSMOSDB_VCORE_CTS_URI }}
+
+      - name: Run CTS for Azure Cosmos DB RU
+        if: github.event_name != 'pull_request'
+        continue-on-error: true # TODO https://github.com/OpenDocDB/cts/issues/87
+        working-directory: opendocdb-cts
+        run: make run-remote
+        env:
+          CTS_URI: ${{ secrets.COSMOSDB_RU_CTS_URI }}
+
+      - name: Run CTS for Oracle
+        if: github.event_name != 'pull_request'
+        continue-on-error: true # TODO https://github.com/OpenDocDB/cts/issues/90
+        working-directory: opendocdb-cts
+        run: make run-remote
+        env:
+          CTS_URI: ${{ secrets.ORACLE_CTS_URI }}
+
       - name: Run CTS for Firestore
         if: github.event_name != 'pull_request'
         working-directory: opendocdb-cts
         run: make run-remote
         env:
           CTS_URI: ${{ secrets.FIRESTORE_CTS_URI }}
-
-      # TODO https://github.com/OpenDocDB/cts/issues/87
-      #
-      # - name: Run CTS for Azure Cosmos DB vCore
-      #   if: github.event_name != 'pull_request'
-      #   working-directory: opendocdb-cts
-      #   run: make run-remote
-      #   env:
-      #     CTS_URI: ${{ secrets.COSMOSDB_VCORE_CTS_URI }}
-      #
-      # - name: Run CTS for Azure Cosmos DB RU
-      #   if: github.event_name != 'pull_request'
-      #   working-directory: opendocdb-cts
-      #   run: make run-remote
-      #   env:
-      #     CTS_URI: ${{ secrets.COSMOSDB_RU_CTS_URI }}
 
       # we don't want it on CI
       - name: Clean test caches

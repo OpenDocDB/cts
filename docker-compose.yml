@@ -10,6 +10,7 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       HOST: "host.docker.internal"
+
   mongodb:
     build:
       context: ./build/deps
