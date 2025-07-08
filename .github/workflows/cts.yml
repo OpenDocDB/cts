@@ -106,13 +106,13 @@ jobs:
           # TODO https://github.com/OpenDocDB/cts/issues/88
           # - service: DocumentDB
           - service: Cosmos DB vCore
-            uri: ${{ secrets.COSMOSDB_VCORE_CTS_URI }}
+            secret: COSMOSDB_VCORE_CTS_URI
           - service: Cosmos DB RU
-            uri: ${{ secrets.COSMOSDB_RU_CTS_URI }}
+            secret: COSMOSDB_RU_CTS_URI
           - service: Oracle
-            uri: ${{ secrets.ORACLE_CTS_URI }}
+            secret: ORACLE_CTS_URI
           - service: Firestore
-            uri: ${{ secrets.FIRESTORE_CTS_URI }}
+            secret: FIRESTORE_CTS_URI
 
     steps:
       - name: Checkout code
@@ -137,4 +137,4 @@ jobs:
         working-directory: opendocdb-cts
         run: make run-remote
         env:
-          CTS_URI: ${{ matrix.uri }}
+          CTS_URI: ${{ secrets[matrix.secret] }}
