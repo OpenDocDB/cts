@@ -38,7 +38,7 @@ import (
 
 // Runner executes test suites.
 type Runner struct {
-	uri *url.URL
+	uri string
 	l   *slog.Logger
 	db  string
 }
@@ -54,13 +54,10 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 		return nil, errors.New("MongoDB URI's path can't be empty")
 	}
 
-	db := strings.TrimPrefix(u.Path, "/")
-	u.Path = "/"
-
 	return &Runner{
-		uri: u,
+		uri: uri,
 		l:   l,
-		db:  db,
+		db:  strings.TrimPrefix(u.Path, "/"),
 	}, nil
 }
 
@@ -69,21 +66,21 @@ func New(uri string, l *slog.Logger) (*Runner, error) {
 // Context can be used to cancel the connection attempt.
 // Canceling the context after the connection is established has no effect.
 func (r *Runner) connect(ctx context.Context) (*wireclient.Conn, error) {
-	conn := wireclient.ConnectPing(ctx, r.uri.String(), r.l)
-	if conn == nil {
-		return nil, fmt.Errorf("failed to connect to %s", r.uri.String())
-	}
-
-	username := r.uri.User.Username()
-	password, _ := r.uri.User.Password()
-	if username == "" {
-		return conn, nil
-	}
-
-	err := conn.Login(ctx, username, password, "")
+	cleanURI, credentials, authSource, authMechanism, err := wireclient.Credentials(r.uri)
 	if err != nil {
-		conn.Close()
 		return nil, err
+	}
+
+	conn := wireclient.ConnectPing(ctx, cleanURI, r.l)
+	if conn == nil {
+		return nil, fmt.Errorf("failed to connect to %s", r.uri)
+	}
+
+	if credentials.Username() != "" {
+		if err = conn.Login(ctx, credentials, authSource, authMechanism); err != nil {
+			conn.Close()
+			return nil, err
+		}
 	}
 
 	return conn, nil

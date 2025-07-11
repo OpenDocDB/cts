@@ -247,7 +247,9 @@ func TestConvertFixtures(t *testing.T) { //nolint:revive // exceeds number of li
 				t.Skip(tc.skip)
 			}
 
-			ctx := context.Background()
+			ctx, cancel := context.WithTimeout(t.Context(), 30*time.Second)
+			defer cancel()
+
 			l := slogt.New(t)
 			dbName := strings.ReplaceAll(t.Name(), "/", "-")
 

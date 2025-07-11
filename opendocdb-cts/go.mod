@@ -7,7 +7,7 @@ toolchain go1.24.5
 // replace github.com/FerretDB/wire => ../../wire
 
 require (
-	github.com/FerretDB/wire v0.1.6
+	github.com/FerretDB/wire v0.1.7-0.20250711135220-4c1fd47da8e6
 	github.com/alecthomas/kong v1.12.0
 	github.com/neilotoole/slogt v1.1.0
 	github.com/pmezard/go-difflib v1.0.0
