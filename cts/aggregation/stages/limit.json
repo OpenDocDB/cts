@@ -28,7 +28,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             }
           },

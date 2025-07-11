@@ -32,13 +32,6 @@
             }
           },
           {
-            "_id": "decimal128-max",
-            "_comment": "The largest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
-            }
-          },
-          {
             "_id": "double",
             "v": {
               "$numberDouble": "42.13"

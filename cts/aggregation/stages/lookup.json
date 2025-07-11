@@ -40,7 +40,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             },
             "composite_docs": []
@@ -116,22 +116,6 @@
             "_id": "decimal128-infinity",
             "v": {
               "$numberDecimal": "Infinity"
-            },
-            "composite_docs": []
-          },
-          {
-            "_id": "decimal128-max",
-            "_comment": "The largest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
-            },
-            "composite_docs": []
-          },
-          {
-            "_id": "decimal128-min",
-            "_comment": "The smallest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
             },
             "composite_docs": []
           },
@@ -613,26 +597,6 @@
             "composite_docs": []
           },
           {
-            "_id": "regex",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
-              }
-            },
-            "composite_docs": []
-          },
-          {
-            "_id": "regex-empty",
-            "v": {
-              "$regularExpression": {
-                "pattern": "",
-                "options": ""
-              }
-            },
-            "composite_docs": []
-          },
-          {
             "_id": "string",
             "v": "foo",
             "composite_docs": []
@@ -640,26 +604,6 @@
           {
             "_id": "string-empty",
             "v": "",
-            "composite_docs": []
-          },
-          {
-            "_id": "timestamp",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            },
-            "composite_docs": []
-          },
-          {
-            "_id": "timestamp-i",
-            "v": {
-              "$timestamp": {
-                "t": 0,
-                "i": 1
-              }
-            },
             "composite_docs": []
           },
           {

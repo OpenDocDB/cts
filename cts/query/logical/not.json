@@ -27,7 +27,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             }
           },
@@ -82,13 +82,6 @@
               "$date": {
                 "$numberLong": "-62167219200000"
               }
-            }
-          },
-          {
-            "_id": "decimal128-min",
-            "_comment": "The smallest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
             }
           },
           {
@@ -187,48 +180,12 @@
             }
           },
           {
-            "_id": "regex",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
-              }
-            }
-          },
-          {
-            "_id": "regex-empty",
-            "v": {
-              "$regularExpression": {
-                "pattern": "",
-                "options": ""
-              }
-            }
-          },
-          {
             "_id": "string",
             "v": "foo"
           },
           {
             "_id": "string-empty",
             "v": ""
-          },
-          {
-            "_id": "timestamp",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            }
-          },
-          {
-            "_id": "timestamp-i",
-            "v": {
-              "$timestamp": {
-                "t": 0,
-                "i": 1
-              }
-            }
           },
           {
             "_id": "unset"

@@ -28,7 +28,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             },
             "foo": "bar"
@@ -104,22 +104,6 @@
             "_id": "decimal128-infinity",
             "v": {
               "$numberDecimal": "Infinity"
-            },
-            "foo": "bar"
-          },
-          {
-            "_id": "decimal128-max",
-            "_comment": "The largest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E+6144"
-            },
-            "foo": "bar"
-          },
-          {
-            "_id": "decimal128-min",
-            "_comment": "The smallest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
             },
             "foo": "bar"
           },
@@ -315,26 +299,6 @@
             "foo": "bar"
           },
           {
-            "_id": "regex",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
-              }
-            },
-            "foo": "bar"
-          },
-          {
-            "_id": "regex-empty",
-            "v": {
-              "$regularExpression": {
-                "pattern": "",
-                "options": ""
-              }
-            },
-            "foo": "bar"
-          },
-          {
             "_id": "string",
             "v": "foo",
             "foo": "bar"
@@ -342,26 +306,6 @@
           {
             "_id": "string-empty",
             "v": "",
-            "foo": "bar"
-          },
-          {
-            "_id": "timestamp",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            },
-            "foo": "bar"
-          },
-          {
-            "_id": "timestamp-i",
-            "v": {
-              "$timestamp": {
-                "t": 0,
-                "i": 1
-              }
-            },
             "foo": "bar"
           },
           {

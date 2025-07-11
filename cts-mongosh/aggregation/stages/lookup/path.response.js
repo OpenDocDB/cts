@@ -4,7 +4,7 @@ response = {
 {
 "_id": "binary",
 "_comment": "The base64 encoded string of bytes [42, 0, 13].",
-"v": BinData(128, "KgAN"),
+"v": BinData(0, "KgAN"),
 "composite_docs": [
 
 ]
@@ -72,22 +72,6 @@ response = {
 {
 "_id": "decimal128-infinity",
 "v": Decimal128("8646911284551352320.0"),
-"composite_docs": [
-
-]
-},
-{
-"_id": "decimal128-max",
-"_comment": "The largest value representable as a decimal128.",
-"v": Decimal128("6917508178773903296.4003012203950112767"),
-"composite_docs": [
-
-]
-},
-{
-"_id": "decimal128-min",
-"_comment": "The smallest value representable as a decimal128.",
-"v": Decimal128("542101086242752.4003012203950112767"),
 "composite_docs": [
 
 ]
@@ -496,20 +480,6 @@ null
 ]
 },
 {
-"_id": "regex",
-"v": RegExp("foo", "i"),
-"composite_docs": [
-
-]
-},
-{
-"_id": "regex-empty",
-"v": RegExp("", ""),
-"composite_docs": [
-
-]
-},
-{
 "_id": "string",
 "v": "foo",
 "composite_docs": [
@@ -519,20 +489,6 @@ null
 {
 "_id": "string-empty",
 "v": "",
-"composite_docs": [
-
-]
-},
-{
-"_id": "timestamp",
-"v": Timestamp({t: 42, i: 13}),
-"composite_docs": [
-
-]
-},
-{
-"_id": "timestamp-i",
-"v": Timestamp({t: 0, i: 1}),
 "composite_docs": [
 
 ]

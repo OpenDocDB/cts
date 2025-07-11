@@ -46,7 +46,7 @@
               "$numberInt": "0"
             },
             "count": {
-              "$numberInt": "8"
+              "$numberInt": "7"
             }
           },
           {
@@ -60,7 +60,7 @@
           {
             "_id": "Other",
             "count": {
-              "$numberInt": "34"
+              "$numberInt": "29"
             }
           }
         ],

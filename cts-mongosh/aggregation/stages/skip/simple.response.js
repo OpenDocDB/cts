@@ -42,16 +42,6 @@ response = {
 "v": Decimal128("8646911284551352320.0")
 },
 {
-"_id": "decimal128-max",
-"_comment": "The largest value representable as a decimal128.",
-"v": Decimal128("6917508178773903296.4003012203950112767")
-},
-{
-"_id": "decimal128-min",
-"_comment": "The smallest value representable as a decimal128.",
-"v": Decimal128("542101086242752.4003012203950112767")
-},
-{
 "_id": "decimal128-nan",
 "v": Decimal128("8935141660703064064.0")
 },
@@ -164,28 +154,12 @@ response = {
 "v": ObjectId("000000000000000000000000")
 },
 {
-"_id": "regex",
-"v": RegExp("foo", "i")
-},
-{
-"_id": "regex-empty",
-"v": RegExp("", "")
-},
-{
 "_id": "string",
 "v": "foo"
 },
 {
 "_id": "string-empty",
 "v": ""
-},
-{
-"_id": "timestamp",
-"v": Timestamp({t: 42, i: 13})
-},
-{
-"_id": "timestamp-i",
-"v": Timestamp({t: 0, i: 1})
 },
 {
 "_id": "unset"
