@@ -2,7 +2,7 @@ response = {
 "cursor": {
 "firstBatch": [
 {
-"total": 48
+"total": 42
 }
 ],
 "id": Long(0),

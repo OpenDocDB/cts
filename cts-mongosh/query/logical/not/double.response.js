@@ -4,7 +4,7 @@ response = {
 {
 "_id": "binary",
 "_comment": "The base64 encoded string of bytes [42, 0, 13].",
-"v": BinData(128, "KgAN")
+"v": BinData(0, "KgAN")
 },
 {
 "_id": "binary-empty",
@@ -37,11 +37,6 @@ response = {
 "_id": "datetime-min",
 "_comment": "The equivalent of 0000-01-01T00:00:00Z.",
 "v": ISODate("0000-01-01T00:00:00Z")
-},
-{
-"_id": "decimal128-min",
-"_comment": "The smallest value representable as a decimal128.",
-"v": Decimal128("542101086242752.4003012203950112767")
 },
 {
 "_id": "decimal128-nan",
@@ -109,28 +104,12 @@ response = {
 "v": ObjectId("000000000000000000000000")
 },
 {
-"_id": "regex",
-"v": RegExp("foo", "i")
-},
-{
-"_id": "regex-empty",
-"v": RegExp("", "")
-},
-{
 "_id": "string",
 "v": "foo"
 },
 {
 "_id": "string-empty",
 "v": ""
-},
-{
-"_id": "timestamp",
-"v": Timestamp({t: 42, i: 13})
-},
-{
-"_id": "timestamp-i",
-"v": Timestamp({t: 0, i: 1})
 },
 {
 "_id": "unset"

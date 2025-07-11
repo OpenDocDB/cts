@@ -6,11 +6,6 @@ response = {
 "v": Decimal128("3475653012423180288.4213")
 },
 {
-"_id": "decimal128-min",
-"_comment": "The smallest value representable as a decimal128.",
-"v": Decimal128("542101086242752.4003012203950112767")
-},
-{
 "_id": "decimal128-negative-zero",
 "v": Decimal128("12699587999231377408.0")
 },

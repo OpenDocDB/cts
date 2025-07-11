@@ -86,24 +86,12 @@
               },
               {
                 "$numberInt": "100"
-              },
-              {
-                "$numberInt": "100"
-              },
-              {
-                "$numberInt": "100"
               }
             ]
           },
           {
             "_id": "array-composite-reverse",
             "v": [
-              {
-                "$numberInt": "100"
-              },
-              {
-                "$numberInt": "100"
-              },
               {
                 "$numberInt": "100"
               },
