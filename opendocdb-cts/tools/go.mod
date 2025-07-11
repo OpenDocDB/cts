@@ -2,7 +2,7 @@ module github.com/OpenDocDB/cts/opendocdb-cts/tools
 
 go 1.24
 
-toolchain go1.24.4
+toolchain go1.24.5
 
 tool (
 	github.com/golangci/golangci-lint/cmd/golangci-lint
