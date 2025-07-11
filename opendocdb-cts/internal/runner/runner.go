@@ -80,7 +80,12 @@ func (r *Runner) connect(ctx context.Context) (*wireclient.Conn, error) {
 		return conn, nil
 	}
 
-	err := conn.Login(ctx, username, password, "")
+	// FIXME
+	var db string
+	db = r.db
+	db = "$external"
+
+	err := conn.Login(ctx, username, password, db)
 	if err != nil {
 		conn.Close()
 		return nil, err
