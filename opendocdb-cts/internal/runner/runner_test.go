@@ -18,6 +18,7 @@ import (
 	"context"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/neilotoole/slogt"
 	"github.com/stretchr/testify/assert"
@@ -29,7 +30,8 @@ import (
 func TestRunner(t *testing.T) {
 	t.Parallel()
 
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(t.Context(), 30*time.Second)
+	defer cancel()
 
 	dir := filepath.Join("..", "..", "..", "cts")
 	db := t.Name()
@@ -57,7 +59,8 @@ func TestRunner(t *testing.T) {
 func TestRunnerFail(t *testing.T) {
 	t.Parallel()
 
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(t.Context(), 30*time.Second)
+	defer cancel()
 
 	dir := filepath.Join(".")
 	db := t.Name()

@@ -76,9 +76,11 @@ func (r *Runner) connect(ctx context.Context) (*wireclient.Conn, error) {
 		return nil, fmt.Errorf("failed to connect to %s", r.uri)
 	}
 
-	if err = conn.Login(ctx, credentials, authSource, authMechanism); err != nil {
-		conn.Close()
-		return nil, err
+	if credentials.Username() != "" {
+		if err = conn.Login(ctx, credentials, authSource, authMechanism); err != nil {
+			conn.Close()
+			return nil, err
+		}
 	}
 
 	return conn, nil
