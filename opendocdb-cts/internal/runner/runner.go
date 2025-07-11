@@ -133,12 +133,22 @@ func (r *Runner) Setup(ctx context.Context, fixtures data.Fixtures) error {
 			return err
 		}
 
-		d, err := body.(*wire.OpMsg).DocumentDeep()
+		res, err := body.(*wire.OpMsg).DocumentDeep()
 		if err != nil {
 			return err
 		}
-		if d.Get("ok") != 1.0 {
-			return fmt.Errorf("%s", d.LogMessage())
+
+		var ok bool
+		switch v := res.Get("ok").(type) {
+		case float64:
+			ok = v == 1
+		case int32:
+			ok = v == 1
+		case int64:
+			ok = v == 1
+		}
+		if !ok {
+			return fmt.Errorf("%s fixture insert failed: %s", name, res.LogMessage())
 		}
 	}
 
