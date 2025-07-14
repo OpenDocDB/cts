@@ -172,7 +172,9 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 }
 
 // writeGitHubStepSummary writes the test results to GitHub Actions step summary.
-func writeGitHubStepSummary(action *githubactions.Action, results []testresult.TestSuiteResult, percentage float64, passed, total int) {
+func writeGitHubStepSummary(action *githubactions.Action, results []testresult.TestSuiteResult,
+	percentage float64, passed, total int,
+) {
 	var summary strings.Builder
 
 	summary.WriteString("# OpenDocDB CTS Results\n\n")
