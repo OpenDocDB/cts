@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
+	"github.com/sethvargo/go-githubactions"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
@@ -163,7 +164,25 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	p := float64(total-failed) / float64(total) * 100
 	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
+	if cli.GithubActions {
+		writeGitHubStepSummary(githubactions.New(), results, p, total-failed, total)
+	}
+
 	return nil
+}
+
+// writeGitHubStepSummary writes the test results to GitHub Actions step summary.
+func writeGitHubStepSummary(action *githubactions.Action, results []testresult.TestSuiteResult, percentage float64, passed, total int) {
+	var summary strings.Builder
+
+	summary.WriteString("# OpenDocDB CTS Results\n\n")
+
+	summary.WriteString(fmt.Sprintf("Passed %.1f%% of test suites (%d/%d).\n\n", percentage, passed, total))
+
+	summary.WriteString(testresult.ResultsTable(results))
+	summary.WriteString("\n")
+
+	action.AddStepSummary(summary.String())
 }
 
 func main() {
