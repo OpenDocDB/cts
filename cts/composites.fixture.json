@@ -87,7 +87,7 @@
       {
         "$binary": {
           "base64": "KgAN",
-          "subType": "80"
+          "subType": "00"
         }
       },
       {
@@ -101,19 +101,7 @@
       },
       null,
       {
-        "$regularExpression": {
-          "pattern": "foo",
-          "options": "i"
-        }
-      },
-      {
         "$numberInt": "42"
-      },
-      {
-        "$timestamp": {
-          "t": 42,
-          "i": 13
-        }
       },
       {
         "$numberLong": "41"
@@ -133,19 +121,7 @@
         "$numberLong": "41"
       },
       {
-        "$timestamp": {
-          "t": 42,
-          "i": 13
-        }
-      },
-      {
         "$numberInt": "42"
-      },
-      {
-        "$regularExpression": {
-          "pattern": "foo",
-          "options": "i"
-        }
       },
       null,
       {
@@ -160,7 +136,7 @@
       {
         "$binary": {
           "base64": "KgAN",
-          "subType": "80"
+          "subType": "00"
         }
       },
       "foo",

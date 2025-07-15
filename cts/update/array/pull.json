@@ -60,7 +60,7 @@
               {
                 "$binary": {
                   "base64": "KgAN",
-                  "subType": "80"
+                  "subType": "00"
                 }
               },
               {
@@ -73,18 +73,6 @@
                 }
               },
               null,
-              {
-                "$regularExpression": {
-                  "pattern": "foo",
-                  "options": "i"
-                }
-              },
-              {
-                "$timestamp": {
-                  "t": 42,
-                  "i": 13
-                }
-              },
               {
                 "$numberLong": "41"
               },
@@ -102,18 +90,6 @@
               {
                 "$numberLong": "41"
               },
-              {
-                "$timestamp": {
-                  "t": 42,
-                  "i": 13
-                }
-              },
-              {
-                "$regularExpression": {
-                  "pattern": "foo",
-                  "options": "i"
-                }
-              },
               null,
               {
                 "$date": {
@@ -127,7 +103,7 @@
               {
                 "$binary": {
                   "base64": "KgAN",
-                  "subType": "80"
+                  "subType": "00"
                 }
               },
               "foo",

@@ -22,8 +22,8 @@ env:
   GOTOOLCHAIN: local
 
 jobs:
-  all:
-    name: All
+  local:
+    name: Local
     runs-on: ubuntu-24.04
     timeout-minutes: 10
 
@@ -75,6 +75,7 @@ jobs:
         run: make run-mongodb
         env:
           CTS_GITHUB_JOB_NAME: MongoDB
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
 
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
@@ -105,6 +106,7 @@ jobs:
         env:
           CTS_GITHUB_JOB_NAME: Azure Cosmos DB RU
           CTS_URI: ${{ secrets.COSMOSDB_RU_CTS_URI }}
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
 
       # we don't want it on CI
       - name: Clean test caches
@@ -117,3 +119,49 @@ jobs:
           git status --untracked-files --ignored
           git status
           git diff --exit-code
+
+  cloud:
+    name: ${{ matrix.service }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    if: github.event_name != 'pull_request'
+
+    permissions: {}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # TODO https://github.com/OpenDocDB/cts/issues/88
+          # - service: DocumentDB
+          - service: Cosmos DB vCore
+            secret: COSMOSDB_VCORE_CTS_URI
+          - service: Cosmos DB RU
+            secret: COSMOSDB_RU_CTS_URI
+          - service: Oracle
+            secret: ORACLE_CTS_URI
+          - service: Firestore
+            secret: FIRESTORE_CTS_URI
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # https://github.com/actions/setup-go/issues/457#issuecomment-2480536859
+      - name: Get Go version
+        id: toolchain
+        run: echo "version=$(sed -ne '/^toolchain /s/^toolchain go//p' opendocdb-cts/go.mod)" >> "$GITHUB_OUTPUT"
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ steps.toolchain.outputs.version }}
+          cache-dependency-path: opendocdb-cts/go.sum
+
+      - name: Run CTS for ${{ matrix.service }}
+        working-directory: opendocdb-cts
+        run: make run-remote
+        env:
+          CTS_URI: ${{ secrets[matrix.secret] }}
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}

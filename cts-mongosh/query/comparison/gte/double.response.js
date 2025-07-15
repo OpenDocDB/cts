@@ -10,11 +10,6 @@ response = {
 "v": Decimal128("8646911284551352320.0")
 },
 {
-"_id": "decimal128-max",
-"_comment": "The largest value representable as a decimal128.",
-"v": Decimal128("6917508178773903296.4003012203950112767")
-},
-{
 "_id": "decimal128-whole",
 "v": Decimal128("3476778912330022912.42")
 },

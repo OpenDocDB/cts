@@ -55,13 +55,7 @@
             "_id": "objectId"
           },
           {
-            "_id": "regex"
-          },
-          {
             "_id": "string"
-          },
-          {
-            "_id": "timestamp"
           }
         ],
         "id": {

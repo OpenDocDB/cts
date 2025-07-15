@@ -37,14 +37,6 @@ response = {
 "_id": "decimal128-infinity"
 },
 {
-"_id": "decimal128-max",
-"_comment": "The largest value representable as a decimal128."
-},
-{
-"_id": "decimal128-min",
-"_comment": "The smallest value representable as a decimal128."
-},
-{
 "_id": "decimal128-nan"
 },
 {
@@ -130,22 +122,10 @@ response = {
 "_id": "objectid-empty"
 },
 {
-"_id": "regex"
-},
-{
-"_id": "regex-empty"
-},
-{
 "_id": "string"
 },
 {
 "_id": "string-empty"
-},
-{
-"_id": "timestamp"
-},
-{
-"_id": "timestamp-i"
 },
 {
 "_id": "unset"

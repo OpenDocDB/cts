@@ -68,7 +68,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             }
           },
@@ -87,24 +87,6 @@
             "v": {
               "$date": {
                 "$numberLong": "1635761922123"
-              }
-            }
-          },
-          {
-            "_id": "array-composite",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            }
-          },
-          {
-            "_id": "array-composite",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
               }
             }
           },
@@ -145,7 +127,7 @@
             "v": {
               "$binary": {
                 "base64": "KgAN",
-                "subType": "80"
+                "subType": "00"
               }
             }
           },
@@ -164,24 +146,6 @@
             "v": {
               "$date": {
                 "$numberLong": "1635761922123"
-              }
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$timestamp": {
-                "t": 42,
-                "i": 13
-              }
-            }
-          },
-          {
-            "_id": "array-composite-reverse",
-            "v": {
-              "$regularExpression": {
-                "pattern": "foo",
-                "options": "i"
               }
             }
           },

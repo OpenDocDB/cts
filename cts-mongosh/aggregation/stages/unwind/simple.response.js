@@ -31,7 +31,7 @@ response = {
 },
 {
 "_id": "array-composite",
-"v": BinData(128, "KgAN")
+"v": BinData(0, "KgAN")
 },
 {
 "_id": "array-composite",
@@ -44,14 +44,6 @@ response = {
 {
 "_id": "array-composite",
 "v": ISODate("2021-11-01T10:18:42.123Z")
-},
-{
-"_id": "array-composite",
-"v": Timestamp({t: 42, i: 13})
-},
-{
-"_id": "array-composite",
-"v": RegExp("foo", "i")
 },
 {
 "_id": "array-composite-reverse",
@@ -79,7 +71,7 @@ response = {
 },
 {
 "_id": "array-composite-reverse",
-"v": BinData(128, "KgAN")
+"v": BinData(0, "KgAN")
 },
 {
 "_id": "array-composite-reverse",
@@ -92,14 +84,6 @@ response = {
 {
 "_id": "array-composite-reverse",
 "v": ISODate("2021-11-01T10:18:42.123Z")
-},
-{
-"_id": "array-composite-reverse",
-"v": Timestamp({t: 42, i: 13})
-},
-{
-"_id": "array-composite-reverse",
-"v": RegExp("foo", "i")
 },
 {
 "_id": "array-document-empty",

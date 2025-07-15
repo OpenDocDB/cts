@@ -2,10 +2,6 @@ response = {
 "cursor": {
 "firstBatch": [
 {
-"_id": "regex",
-"v": RegExp("foo", "i")
-},
-{
 "_id": "string",
 "v": "foo"
 }

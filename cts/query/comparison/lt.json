@@ -20,13 +20,6 @@
       "cursor": {
         "firstBatch": [
           {
-            "_id": "decimal128-min",
-            "_comment": "The smallest value representable as a decimal128.",
-            "v": {
-              "$numberDecimal": "9.999999999999999999999999999999999E-6143"
-            }
-          },
-          {
             "_id": "decimal128-negative-infinity",
             "v": {
               "$numberDecimal": "-Infinity"

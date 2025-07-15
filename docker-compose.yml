@@ -3,13 +3,14 @@
 
 services:
   devcontainer:
-    image: golang:1.24.4
+    image: golang:1.24.5
     volumes:
       - .:/workspace
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
       HOST: "host.docker.internal"
+
   mongodb:
     build:
       context: ./build/deps
@@ -19,7 +20,7 @@ services:
       - 27001:27001
     environment:
       # Always UTC+05:45. Set to catch timezone problems.
-      - TZ=Asia/Kathmandu
+      TZ: Asia/Kathmandu
     volumes:
       - ./build/mongodb.conf:/etc/mongodb.conf
       - ./tmp/testscripts:/testscripts
@@ -32,8 +33,8 @@ services:
       - 27002:27017
     environment:
       # Always UTC+05:45. Set to catch timezone problems.
-      - TZ=Asia/Kathmandu
-      - FERRETDB_AUTH=false
-      - POSTGRES_USER=username
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=postgres
+      TZ: Asia/Kathmandu
+      FERRETDB_AUTH: false
+      POSTGRES_USERNAME: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres

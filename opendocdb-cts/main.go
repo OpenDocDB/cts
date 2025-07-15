@@ -130,7 +130,15 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		err = r.Setup(setupCtx, f)
 		setupCancel()
 		if err != nil {
-			return err
+			if cli.GithubActions {
+				l.ErrorContext(ctx, name+": FAILED SETUP\n::group::Error\n"+err.Error()+"\n::endgroup::")
+			} else {
+				l.ErrorContext(ctx, name+": FAILED SETUP\n"+err.Error())
+			}
+
+			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
+			failed++
+			continue
 		}
 
 		if cli.Run.Golden {
@@ -142,6 +150,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		if err == nil {
 			l.InfoContext(ctx, name+": PASSED")
+
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: true})
 			continue
 		}
