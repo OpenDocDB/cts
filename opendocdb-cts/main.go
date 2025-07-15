@@ -170,15 +170,21 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		handlerName := os.Getenv("GITHUB_JOB_NAME")
 
-		if handlerName == "" {
-			str := fmt.Sprintf(
-				"github_job_name: %s, github_job: %s\n\n%v",
-				os.Getenv("GITHUB_JOB_NAME"),
-				os.Getenv("GITHUB_JOB"),
-				os.Environ(),
-			)
-			panic(str)
+		vars := os.Environ()
+		names := make([]string, len(vars))
+
+		for i, v := range vars {
+			names[i] = strings.Split(v, "=")[0]
 		}
+
+		str := fmt.Sprintf(
+			"github_job_name: %s, github_job: %s\n\n%v\n\n",
+			os.Getenv("GITHUB_JOB_NAME"),
+			os.Getenv("GITHUB_JOB"),
+			names,
+		)
+
+		summary.WriteString(str)
 
 		summary.WriteString(fmt.Sprintf("# %s Results\n\n", handlerName))
 
