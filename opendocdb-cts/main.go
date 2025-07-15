@@ -168,7 +168,12 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		var summary strings.Builder
 		action := githubactions.New()
 
-		handlerName := "TODO"
+		handlerName := os.Getenv("GITHUB_JOB_NAME")
+
+		if handlerName == "" {
+			str := fmt.Sprintf("github_job_name: %s, github_job: %s\n\n%v", os.Getenv("GITHUB_JOB_NAME"), os.Getenv("GITHUB_JOB"), os.Environ())
+			panic(str)
+		}
 
 		summary.WriteString(fmt.Sprintf("# %s Results\n\n", handlerName))
 
