@@ -44,7 +44,7 @@ var cli struct {
 	Debug bool   `            default:"false" help:"Enable debug logging."`
 
 	GithubActions bool   `default:"false" env:"GITHUB_ACTIONS" hidden:""`
-	GithubJobName string `default:"" hidden:""`
+	GithubJobName string `default:""                           hidden:""`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
