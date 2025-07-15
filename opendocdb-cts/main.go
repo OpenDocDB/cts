@@ -169,9 +169,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		var summary strings.Builder
 		action := githubactions.New()
 
-		handlerName := os.Getenv("GITHUB_JOB")
-
-		summary.WriteString(fmt.Sprintf("# %s Results\n\n", handlerName))
+		summary.WriteString(fmt.Sprintf("# %s Results\n\n", cli.GithubJobName))
 
 		summary.WriteString(fmt.Sprintf("Passed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
