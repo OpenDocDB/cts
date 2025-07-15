@@ -174,7 +174,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 	p := float64(total-failed) / float64(total) * 100
 	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
 
-	if cli.GithubActions {
+	if cli.GithubActions && !cli.Run.Golden {
 		var summary strings.Builder
 		action := githubactions.New()
 
