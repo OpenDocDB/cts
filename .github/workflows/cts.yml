@@ -82,6 +82,7 @@ jobs:
         run: make run-ferretdb
         env:
           CTS_GITHUB_JOB_NAME: FerretDB
+          CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
 
       # we don't want it on CI
       - name: Clean test caches
