@@ -168,7 +168,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		var summary strings.Builder
 		action := githubactions.New()
 
-		handlerName := os.Getenv("GITHUB_JOB_NAME")
+		handlerName := os.Getenv("GITHUB_JOB")
 
 		summary.WriteString(fmt.Sprintf("# %s Results\n\n", handlerName))
 
