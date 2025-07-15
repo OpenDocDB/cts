@@ -170,20 +170,6 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		handlerName := os.Getenv("GITHUB_JOB_NAME")
 
-		ctx, err := action.Context()
-		if err != nil {
-			return err
-		}
-
-		str := fmt.Sprintf(
-			"github_job_name: %s, github_job: %s\n\n%v\n\n",
-			os.Getenv("GITHUB_JOB_NAME"),
-			os.Getenv("GITHUB_JOB"),
-			ctx,
-		)
-
-		summary.WriteString(str)
-
 		summary.WriteString(fmt.Sprintf("# %s Results\n\n", handlerName))
 
 		summary.WriteString(fmt.Sprintf("Passed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
