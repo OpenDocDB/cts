@@ -73,16 +73,21 @@ jobs:
       - name: Run CTS for MongoDB
         working-directory: opendocdb-cts
         run: make run-mongodb
+        env:
+          CTS_GITHUB_JOB_NAME: MongoDB
 
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
         run: make run-ferretdb
+        env:
+          CTS_GITHUB_JOB_NAME: FerretDB
 
       - name: Run CTS for Firestore
         if: github.event_name != 'pull_request'
         working-directory: opendocdb-cts
         run: make run-remote
         env:
+          CTS_GITHUB_JOB_NAME: Firestore
           CTS_URI: ${{ secrets.FIRESTORE_CTS_URI }}
 
       - name: Run CTS for Azure Cosmos DB vCore
@@ -90,6 +95,7 @@ jobs:
         working-directory: opendocdb-cts
         run: make run-remote
         env:
+          CTS_GITHUB_JOB_NAME: Azure Cosmos DB vCore
           CTS_URI: ${{ secrets.COSMOSDB_VCORE_CTS_URI }}
 
       - name: Run CTS for Azure Cosmos DB RU
@@ -97,6 +103,7 @@ jobs:
         working-directory: opendocdb-cts
         run: make run-remote
         env:
+          CTS_GITHUB_JOB_NAME: Azure Cosmos DB RU
           CTS_URI: ${{ secrets.COSMOSDB_RU_CTS_URI }}
 
       # we don't want it on CI
