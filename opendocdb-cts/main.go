@@ -170,18 +170,16 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		handlerName := os.Getenv("GITHUB_JOB_NAME")
 
-		vars := os.Environ()
-		names := make([]string, len(vars))
-
-		for i, v := range vars {
-			names[i] = strings.Split(v, "=")[0]
+		ctx, err := action.Context()
+		if err != nil {
+			return err
 		}
 
 		str := fmt.Sprintf(
 			"github_job_name: %s, github_job: %s\n\n%v\n\n",
 			os.Getenv("GITHUB_JOB_NAME"),
 			os.Getenv("GITHUB_JOB"),
-			names,
+			ctx,
 		)
 
 		summary.WriteString(str)
