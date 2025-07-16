@@ -108,6 +108,10 @@ func convertCommand() error {
 
 // runCommand implements the "run" command.
 func runCommand(ctx context.Context, l *slog.Logger) error {
+	if cli.GithubActions && cli.GithubJobName == "" {
+		return errors.New("GITHUB_JOB_NAME must be set when GITHUB_ACTIONS is true")
+	}
+
 	r, err := runner.New(cli.Run.URI.String(), l)
 	if err != nil {
 		return err
@@ -176,7 +180,6 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 	if cli.GithubActions && !cli.Run.Golden {
 		var summary strings.Builder
-		action := githubactions.New()
 
 		summary.WriteString(fmt.Sprintf("# %s Results\n\n", cli.GithubJobName))
 
@@ -185,6 +188,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		summary.WriteString(testresult.ResultsTable(results))
 		summary.WriteString("\n")
 
+		action := githubactions.New()
 		action.AddStepSummary(summary.String())
 	}
 
