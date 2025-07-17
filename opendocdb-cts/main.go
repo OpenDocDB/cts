@@ -27,6 +27,7 @@ import (
 	"time"
 
 	"github.com/alecthomas/kong"
+	"github.com/sethvargo/go-githubactions"
 
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/data"
 	"github.com/OpenDocDB/cts/opendocdb-cts/internal/mongosh"
@@ -42,7 +43,8 @@ var cli struct {
 	Dir   string `type:"path" default:"cts"   help:"CTS directory."`
 	Debug bool   `            default:"false" help:"Enable debug logging."`
 
-	GithubActions bool `default:"false" env:"GITHUB_ACTIONS" hidden:""`
+	GithubActions bool   `default:"false" env:"GITHUB_ACTIONS" hidden:""`
+	GithubJobName string `default:""                           hidden:""`
 
 	Fmt struct{} `cmd:"" help:"Reformat CTS files."`
 
@@ -106,6 +108,10 @@ func convertCommand() error {
 
 // runCommand implements the "run" command.
 func runCommand(ctx context.Context, l *slog.Logger) error {
+	if cli.GithubActions && cli.GithubJobName == "" {
+		return errors.New("GITHUB_JOB_NAME must be set when GITHUB_ACTIONS is true")
+	}
+
 	r, err := runner.New(cli.Run.URI.String(), l)
 	if err != nil {
 		return err
@@ -171,6 +177,20 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 	p := float64(total-failed) / float64(total) * 100
 	l.InfoContext(ctx, fmt.Sprintf("\n\nPassed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
+
+	if cli.GithubActions && !cli.Run.Golden {
+		var summary strings.Builder
+
+		summary.WriteString(fmt.Sprintf("# %s Results\n\n", cli.GithubJobName))
+
+		summary.WriteString(fmt.Sprintf("Passed %.1f%% of test suites (%d/%d).\n\n", p, total-failed, total))
+
+		summary.WriteString(testresult.ResultsTable(results))
+		summary.WriteString("\n")
+
+		action := githubactions.New()
+		action.AddStepSummary(summary.String())
+	}
 
 	return nil
 }

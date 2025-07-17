@@ -11,6 +11,7 @@ require (
 	github.com/alecthomas/kong v1.12.0
 	github.com/neilotoole/slogt v1.1.0
 	github.com/pmezard/go-difflib v1.0.0
+	github.com/sethvargo/go-githubactions v1.3.1
 	github.com/stretchr/testify v1.10.0
 )
 

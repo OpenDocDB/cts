@@ -75,12 +75,14 @@ jobs:
         run: make run-mongodb
         env:
           CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
+          CTS_GITHUB_JOB_NAME: MongoDB
 
       - name: Run CTS for FerretDB
         working-directory: opendocdb-cts
         run: make run-ferretdb
         env:
           CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
+          CTS_GITHUB_JOB_NAME: FerretDB
 
       # we don't want it on CI
       - name: Clean test caches
@@ -137,5 +139,6 @@ jobs:
         working-directory: opendocdb-cts
         run: make run-remote
         env:
-          CTS_URI: ${{ secrets[matrix.secret] }}
           CTS_DEBUG: ${{ runner.debug == '1' && 'true' || 'false' }}
+          CTS_GITHUB_JOB_NAME: ${{ matrix.service }}
+          CTS_URI: ${{ secrets[matrix.secret] }}
