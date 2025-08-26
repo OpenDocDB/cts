@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Start environment
         working-directory: opendocdb-cts
@@ -122,7 +122,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # https://github.com/actions/setup-go/issues/457#issuecomment-2480536859
       - name: Get Go version
