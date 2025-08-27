@@ -55,8 +55,9 @@ var cli struct {
 	} `cmd:"" help:"Convert CTS files."`
 
 	Run struct {
-		URI    *url.URL `default:"mongodb://127.0.0.1:27017/cts" help:"Database URI."`
-		Golden bool     `                                        help:"Update CTS files instead if failing."`
+		URI      *url.URL `default:"mongodb://127.0.0.1:27017/cts" help:"Database URI."`
+		Golden   bool     `                                        help:"Update CTS files instead if failing."`
+		Continue bool     `                                        help:"Continue on setup failures."`
 	} `cmd:"" help:"Run CTS."`
 }
 
@@ -126,6 +127,7 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 		return err
 	}
 
+	var setupFailed bool
 	failed, total := 0, len(tss)
 	results := make([]testresult.TestSuiteResult, 0, total)
 
@@ -138,6 +140,12 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 				l.ErrorContext(ctx, name+": FAILED SETUP\n::group::Error\n"+err.Error()+"\n::endgroup::")
 			} else {
 				l.ErrorContext(ctx, name+": FAILED SETUP\n"+err.Error())
+			}
+
+			setupFailed = true
+
+			if !cli.Run.Continue {
+				return err
 			}
 
 			results = append(results, testresult.TestSuiteResult{Name: name, Passed: false})
@@ -190,6 +198,10 @@ func runCommand(ctx context.Context, l *slog.Logger) error {
 
 		action := githubactions.New()
 		action.AddStepSummary(summary.String())
+	}
+
+	if setupFailed {
+		return errors.New("some test suites had setup failures")
 	}
 
 	return nil
